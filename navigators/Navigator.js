@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import {MainContext} from '../contexts/MainContext';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   getFocusedRouteNameFromRoute,
@@ -13,25 +14,41 @@ import Profile from '../views/Profile.js';
 import Login from '../views/Login.js';
 import Icon from 'react-native-vector-icons/Feather';
 import Details from './../views/Details';
+import Colours from './../utils/Colours';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const HeaderOptions = ({route}) => {
+  const {loaded} = useContext(MainContext);
+
+  if (!loaded) {
+    return null;
+  }
   return {
     headerTitle: getFocusedRouteNameFromRoute(route),
     headerStyle: {
-      backgroundColor: '#55AAAA',
-      height: 50,
+      backgroundColor: Colours.primaryBlue,
+      height: 80,
     },
     headerTintColor: 'white',
     headerTitleStyle: {
-      fontWeight: 'bold',
+      fontSize: 24,
+      fontFamily: 'ProximaSoftMedium',
+      alignSelf: 'center',
+    },
+    headerTitleContainerStyle: {
+      left: 0, // THIS RIGHT HERE
     },
   };
 };
 
 const TabScreen = () => {
+  const {loaded} = useContext(MainContext);
+
+  if (!loaded) {
+    return null;
+  }
   const screenOptions = ({route}) => ({
     tabBarIcon: function tabIcons({focused, color}) {
       let iconName;
@@ -44,7 +61,7 @@ const TabScreen = () => {
         iconName = focused ? 'search' : 'search';
       }
 
-      return <Icon name={iconName} size={30} color={color} />;
+      return <Icon name={iconName} size={26} color={color} />;
     },
   });
 
@@ -52,8 +69,16 @@ const TabScreen = () => {
     <Tab.Navigator
       screenOptions={screenOptions}
       tabBarOptions={{
-        activeTintColor: '#55AAAA',
-        inactiveTintColor: 'gray',
+        activeTintColor: Colours.accentOrange,
+        inactiveTintColor: Colours.textLight,
+        labelStyle: {
+          fontFamily: 'ProximaSoftMedium',
+          fontSize: 14,
+        },
+        tabStyle: {
+          backgroundColor: Colours.primaryBlue,
+          paddingTop: 10,
+        },
       }}
     >
       <Tab.Screen name="Home" component={Home} />
@@ -63,7 +88,7 @@ const TabScreen = () => {
   );
 };
 const StackScreen = () => {
-  const [isLoggedIn] = useState(true);
+  const {isLoggedIn} = useContext(MainContext);
   return (
     <Stack.Navigator>
       {isLoggedIn ? (

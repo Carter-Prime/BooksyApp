@@ -1,14 +1,23 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import {MainContext} from '../contexts/MainContext';
+import AppLoading from 'expo-app-loading';
 import {StyleSheet, Text, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 
 const Details = ({route}) => {
   const {customText} = route.params;
+  const {loaded} = useContext(MainContext);
+
+  if (!loaded) {
+    console.log('loaded: ', loaded);
+    return <AppLoading onError={console.warn} />;
+  }
+
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="black" barStyle="light-content" />
-      <Text>{customText}</Text>
+      <StatusBar backgroundColor="black" style="light" />
+      <Text style={styles.text}>{customText}</Text>
     </View>
   );
 };
@@ -19,6 +28,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  text: {
+    fontFamily: 'ProximaSoftRegular',
   },
 });
 

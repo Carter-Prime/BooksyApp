@@ -1,27 +1,22 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
-import {useFonts} from 'expo-font';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
+import {MainContext} from '../contexts/MainContext';
+import AppLoading from 'expo-app-loading';
 
 const Home = ({navigation}) => {
-  const [loaded] = useFonts({
-    McLarenRegular: require('../assets/fonts/McLaren-Regular.ttf'),
-    ProximaSoftMedium: require('../assets/fonts/ProximaSoft-Medium.ttf'),
-    ProximaSoftRegular: require('../assets/fonts/ProximaSoft-Regular.ttf'),
-  });
+  const {loaded} = useContext(MainContext);
 
   if (!loaded) {
-    console.log(loaded);
-    return null;
+    console.log('loaded: ', loaded);
+    return <AppLoading onError={console.warn} />;
   }
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="blue" barStyle="light-content" />
-      <Text style={styles.text}>
-        Open up App.js to start working on your app! Booksy
-      </Text>
+      <StatusBar backgroundColor="black" style="light" />
+      <Text style={styles.text}>Home Tab Booksy</Text>
       <Button
         title="Details"
         onPress={() => {
