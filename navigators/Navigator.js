@@ -37,7 +37,7 @@ const HeaderOptions = ({route}) => {
     headerTintColor: 'white',
     headerTitleStyle: {
       fontSize: 24,
-      fontFamily: 'McLarenRegular',
+      fontFamily: 'ProximaSoftMedium',
       alignSelf: 'center',
     },
     headerTitleContainerStyle: {
@@ -71,6 +71,7 @@ const TabScreen = () => {
         inactiveTintColor: Colours.textLight,
         labelStyle: {
           fontSize: 14,
+          fontFamily: 'ProximaSoftMedium',
         },
         tabStyle: {
           backgroundColor: Colours.primaryBlue,

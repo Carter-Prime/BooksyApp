@@ -1,11 +1,16 @@
 import React, {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AppLoading from 'expo-app-loading';
-import {StyleSheet, Text, ImageBackground, View} from 'react-native';
+import {StyleSheet, Text, ImageBackground, View, Button} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import TitleOutline from '../assets/svg/TitleOutline';
 
 const Login = () => {
+  const {loaded, setIsLoggedIn} = useContext(MainContext);
+
+  if (!loaded) {
+    return <AppLoading onError={console.warn} />;
+  }
   return (
     <ImageBackground
       style={styles.container}
@@ -17,6 +22,12 @@ const Login = () => {
       </View>
 
       <Text style={styles.text}>Login Page</Text>
+      <Button
+        title="Login"
+        onPress={() => {
+          setIsLoggedIn(true);
+        }}
+      />
     </ImageBackground>
   );
 };
@@ -33,7 +44,7 @@ const styles = StyleSheet.create({
     top: 40,
   },
   text: {
-    fontFamily: 'McLarenRegular',
+    fontFamily: 'ProximaSoftMedium',
     fontSize: 30,
     color: 'white',
   },
