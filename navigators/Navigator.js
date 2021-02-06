@@ -89,6 +89,7 @@ const TabScreen = () => {
 };
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
+  console.log('isLoggedIn', isLoggedIn);
   return (
     <Stack.Navigator>
       {isLoggedIn ? (
