@@ -8,6 +8,7 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import PropTypes from 'prop-types';
 import {Feather} from '@expo/vector-icons';
+import AppLoading from 'expo-app-loading';
 
 import Home from '../views/Home.js';
 import Search from '../views/Search.js';
@@ -20,6 +21,13 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const HeaderOptions = ({route}) => {
+  const {loaded} = useContext(MainContext);
+
+  if (!loaded) {
+    console.log('loaded: ', loaded);
+    return <AppLoading onError={console.warn} />;
+  }
+
   return {
     headerTitle: getFocusedRouteNameFromRoute(route),
     headerStyle: {
@@ -29,6 +37,7 @@ const HeaderOptions = ({route}) => {
     headerTintColor: 'white',
     headerTitleStyle: {
       fontSize: 24,
+      fontFamily: 'McLarenRegular',
       alignSelf: 'center',
     },
     headerTitleContainerStyle: {
@@ -77,6 +86,7 @@ const TabScreen = () => {
 };
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
+  console.log('isLoggedIn', isLoggedIn);
   return (
     <Stack.Navigator>
       {isLoggedIn ? (

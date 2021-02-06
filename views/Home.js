@@ -16,6 +16,7 @@ const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="black" style="light" />
+
       <Text style={styles.text}>Home Tab Booksy</Text>
       <Button
         title="Details"
@@ -32,7 +33,7 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'grey',
     alignItems: 'center',
     justifyContent: 'center',
   },

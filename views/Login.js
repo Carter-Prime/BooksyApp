@@ -1,9 +1,9 @@
-import React from 'react';
-
+import React, {useContext} from 'react';
+import {MainContext} from '../contexts/MainContext';
+import AppLoading from 'expo-app-loading';
 import {StyleSheet, Text, ImageBackground, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import TitleOutline from '../assets/svg/TitleOutline';
-import Colours from './../utils/Colours';
 
 const Login = () => {
   return (
@@ -13,8 +13,9 @@ const Login = () => {
     >
       <StatusBar backgroundColor="black" style="light" />
       <View style={styles.titleContainer}>
-        <TitleOutline width={350} height={120} />
+        <TitleOutline width="350" height="120" />
       </View>
+
       <Text style={styles.text}>Login Page</Text>
     </ImageBackground>
   );
@@ -33,8 +34,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'McLarenRegular',
-    color: Colours.textLight,
     fontSize: 30,
+    color: 'white',
   },
 });
 

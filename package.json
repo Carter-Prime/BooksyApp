@@ -23,13 +23,14 @@
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.2",
-    "react-native-svg": "12.1.0",
+    "react-native-svg": "^12.1.0",
     "react-native-svg-transformer": "^0.14.3",
     "react-native-web": "~0.13.12",
     "save": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@expo/metro-config": "^0.1.54",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.19.0",
     "eslint-config-google": "^0.14.0",
