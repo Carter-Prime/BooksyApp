@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
@@ -7,12 +7,12 @@ import {
 } from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import PropTypes from 'prop-types';
+import {Feather} from '@expo/vector-icons';
 
 import Home from '../views/Home.js';
 import Search from '../views/Search.js';
 import Profile from '../views/Profile.js';
 import Login from '../views/Login.js';
-import Icon from 'react-native-vector-icons/Feather';
 import Details from './../views/Details';
 import Colours from './../utils/Colours';
 
@@ -20,11 +20,6 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const HeaderOptions = ({route}) => {
-  const {loaded} = useContext(MainContext);
-
-  if (!loaded) {
-    return null;
-  }
   return {
     headerTitle: getFocusedRouteNameFromRoute(route),
     headerStyle: {
@@ -34,7 +29,6 @@ const HeaderOptions = ({route}) => {
     headerTintColor: 'white',
     headerTitleStyle: {
       fontSize: 24,
-      fontFamily: 'ProximaSoftMedium',
       alignSelf: 'center',
     },
     headerTitleContainerStyle: {
@@ -44,11 +38,6 @@ const HeaderOptions = ({route}) => {
 };
 
 const TabScreen = () => {
-  const {loaded} = useContext(MainContext);
-
-  if (!loaded) {
-    return null;
-  }
   const screenOptions = ({route}) => ({
     tabBarIcon: function tabIcons({focused, color}) {
       let iconName;
@@ -61,7 +50,7 @@ const TabScreen = () => {
         iconName = focused ? 'search' : 'search';
       }
 
-      return <Icon name={iconName} size={26} color={color} />;
+      return <Feather name={iconName} size={26} color={color} />;
     },
   });
 
@@ -72,7 +61,6 @@ const TabScreen = () => {
         activeTintColor: Colours.accentOrange,
         inactiveTintColor: Colours.textLight,
         labelStyle: {
-          fontFamily: 'ProximaSoftMedium',
           fontSize: 14,
         },
         tabStyle: {

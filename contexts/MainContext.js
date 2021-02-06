@@ -5,7 +5,7 @@ import {useFonts} from 'expo-font';
 const MainContext = React.createContext({});
 
 const MainProvider = ({children}) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [loaded, setLoaded] = useFonts({
     McLarenRegular: require('../assets/fonts/McLaren-Regular.ttf'),
     ProximaSoftMedium: require('../assets/fonts/ProximaSoft-Medium.ttf'),

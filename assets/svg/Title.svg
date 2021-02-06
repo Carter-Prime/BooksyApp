@@ -1,0 +1,30 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 355.55 92.72">
+  <defs>
+    <style>
+      .cls-1,.cls-2,.cls-5{isolation:isolate}.cls-2{font-size:80px}.cls-2,.cls-6{fill:#f6f5f3}.cls-2,.cls-5{font-family:ProximaSoft-Medium}.cls-3{letter-spacing:-.01em}.cls-4{letter-spacing:0}.cls-5{font-size:15px}.cls-5,.cls-7{fill:#d4b483}
+    </style>
+  </defs>
+  <g id="Layer_2" data-name="Layer 2">
+    <g id="Layer_4" data-name="Layer 4">
+      <g id="Title_Component" data-name="Title Component">
+        <g id="Booksy" class="cls-1">
+          <text class="cls-2" transform="translate(94.84 66.64)">
+            Boo<tspan class="cls-3" x="142.56" y="0">k</tspan><tspan class="cls-4" x="183.52" y="0">sy</tspan>
+          </text>
+        </g>
+        <g id="Share_the_Old._Discover_the_New" data-name="Share the Old. Discover the New" class="cls-1">
+          <text class="cls-5" transform="translate(98.84 83.64)">
+            Share the Old. Discover the New
+          </text>
+        </g>
+      </g>
+      <g id="Group_240" data-name="Group 240">
+        <path id="Path_40" data-name="Path 40" class="cls-6" d="M13.84 11.64a3.38 3.38 0 00-2.34.94 3.2 3.2 0 00-1 2.32v48.84A3.29 3.29 0 0013.86 67c7.74 0 20.71 1.6 29.67 10.77V26.65a3.18 3.18 0 00-.46-1.65c-7.35-11.58-21.46-13.34-29.23-13.36z"/>
+        <path id="Path_41" data-name="Path 41" class="cls-6" d="M80.71 63.74V14.9a3.21 3.21 0 00-1-2.32 3.36 3.36 0 00-2.33-.94c-7.76 0-21.87 1.78-29.22 13.36a3 3 0 00-.46 1.65v51.11C56.66 68.59 69.64 67 77.38 67a3.29 3.29 0 003.33-3.26z"/>
+        <path id="Path_42" data-name="Path 42" class="cls-7" d="M88.27 11.67h-2.46v52.55c0 5.89-3.88 10.69-8.64 10.7-6.69 0-17.71 1.64-25.52 10.79 13.51-4.1 27.74-1.43 35.86.85a2.9 2.9 0 002.87-.81 4.57 4.57 0 001.27-3.27V15.86c0-2.31-1.52-4.19-3.38-4.19z"/>
+        <path id="Path_43" data-name="Path 43" class="cls-7" d="M5.84 64.19V11.64H3.39C1.52 11.64 0 13.52 0 15.83v66.62a4.61 4.61 0 001.27 3.27 2.91 2.91 0 002.88.81c8.11-2.29 22.35-5 35.85-.85-7.81-9.15-18.83-10.77-25.52-10.79-4.76-.01-8.64-4.81-8.64-10.7z"/>
+      </g>
+    </g>
+  </g>
+</svg>

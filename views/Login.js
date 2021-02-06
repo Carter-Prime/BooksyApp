@@ -1,22 +1,27 @@
-import React, {useContext} from 'react';
-import {MainContext} from '../contexts/MainContext';
-import AppLoading from 'expo-app-loading';
-import {StyleSheet, Text, ImageBackground} from 'react-native';
+import React from 'react';
+
+import {StyleSheet, Text, ImageBackground, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
+import TitleOutline from '../assets/svg/TitleOutline';
+import Colours from './../utils/Colours';
+import {useFonts} from 'expo-font';
 
 const Login = () => {
-  const {loaded} = useContext(MainContext);
+  const {loaded} = useFonts({
+    McLarenRegular: require('../assets/fonts/McLaren-Regular.ttf'),
+    ProximaSoftMedium: require('../assets/fonts/ProximaSoft-Medium.ttf'),
+    ProximaSoftRegular: require('../assets/fonts/ProximaSoft-Regular.ttf'),
+  });
 
-  if (!loaded) {
-    console.log('loaded: ', loaded);
-    return <AppLoading onError={console.warn} />;
-  }
   return (
     <ImageBackground
       style={styles.container}
-      source={require('../assets/images/loginBackground.png')}
+      source={require('../assets/images/loginBackgroundMain.png')}
     >
       <StatusBar backgroundColor="black" style="light" />
+      <View style={styles.titleContainer}>
+        <TitleOutline width={350} height={120} />
+      </View>
       <Text style={styles.text}>Login Page</Text>
     </ImageBackground>
   );
@@ -29,8 +34,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  titleContainer: {
+    position: 'absolute',
+    top: 40,
+  },
   text: {
-    fontFamily: 'ProximaSoftMedium',
+    fontFamily: 'McLarenRegular',
+    color: Colours.textLight,
+    fontSize: 30,
   },
 });
 
