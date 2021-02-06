@@ -34,7 +34,7 @@ const HeaderOptions = ({route}) => {
     headerTintColor: 'white',
     headerTitleStyle: {
       fontSize: 24,
-      fontFamily: 'ProximaSoftMedium',
+      fontFamily: 'McLarenRegular',
       alignSelf: 'center',
     },
     headerTitleContainerStyle: {

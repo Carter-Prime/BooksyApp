@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontFamily: 'ProximaSoftRegular',
+    fontFamily: 'McLarenRegular',
+    fontSize: 30,
   },
 });
 
