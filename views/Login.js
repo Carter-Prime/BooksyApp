@@ -4,15 +4,8 @@ import {StyleSheet, Text, ImageBackground, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import TitleOutline from '../assets/svg/TitleOutline';
 import Colours from './../utils/Colours';
-import {useFonts} from 'expo-font';
 
 const Login = () => {
-  const {loaded} = useFonts({
-    McLarenRegular: require('../assets/fonts/McLaren-Regular.ttf'),
-    ProximaSoftMedium: require('../assets/fonts/ProximaSoft-Medium.ttf'),
-    ProximaSoftRegular: require('../assets/fonts/ProximaSoft-Regular.ttf'),
-  });
-
   return (
     <ImageBackground
       style={styles.container}
