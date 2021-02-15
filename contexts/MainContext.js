@@ -6,6 +6,8 @@ const MainContext = React.createContext({});
 
 const MainProvider = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState({});
+  const [update, setUpdate] = useState(0);
   const [loaded, setLoaded] = useFonts({
     McLarenRegular: require('../assets/fonts/McLaren-Regular.ttf'),
     ProximaSoftMedium: require('../assets/fonts/ProximaSoft-Medium.ttf'),
@@ -17,6 +19,10 @@ const MainProvider = ({children}) => {
       value={{
         isLoggedIn,
         setIsLoggedIn,
+        user,
+        setUser,
+        update,
+        setUpdate,
         loaded,
         setLoaded,
       }}

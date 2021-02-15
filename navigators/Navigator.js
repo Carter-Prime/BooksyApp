@@ -10,11 +10,17 @@ import PropTypes from 'prop-types';
 import {Feather} from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 
-import Home from '../views/Home.js';
-import Search from '../views/Search.js';
-import Profile from '../views/Profile.js';
-import Login from '../views/Login.js';
-import Details from './../views/Details';
+import {
+  ChangePassword,
+  Details,
+  EditPost,
+  EditProfile,
+  Home,
+  Login,
+  Profile,
+  Search,
+  SearchResult,
+} from '../views/index';
 import Colours from './../utils/Colours';
 
 const Tab = createBottomTabNavigator();
@@ -41,7 +47,7 @@ const HeaderOptions = ({route}) => {
       alignSelf: 'center',
     },
     headerTitleContainerStyle: {
-      left: 0, // THIS RIGHT HERE
+      left: 0,
     },
   };
 };
@@ -87,7 +93,6 @@ const TabScreen = () => {
 };
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
-  console.log('isLoggedIn', isLoggedIn);
   return (
     <Stack.Navigator>
       {isLoggedIn ? (
@@ -101,6 +106,36 @@ const StackScreen = () => {
           <Stack.Screen
             name="Details"
             component={Details}
+            options={HeaderOptions}
+          />
+
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+            options={HeaderOptions}
+          />
+
+          <Stack.Screen
+            name="Change Password"
+            component={ChangePassword}
+            options={HeaderOptions}
+          />
+
+          <Stack.Screen
+            name="Edit Post"
+            component={EditPost}
+            options={HeaderOptions}
+          />
+
+          <Stack.Screen
+            name="EditProfile"
+            component={EditProfile}
+            options={HeaderOptions}
+          />
+
+          <Stack.Screen
+            name="SearchResult"
+            component={SearchResult}
             options={HeaderOptions}
           />
         </>

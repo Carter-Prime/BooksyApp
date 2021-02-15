@@ -11,6 +11,7 @@ const Login = () => {
   if (!loaded) {
     return <AppLoading onError={console.warn} />;
   }
+
   return (
     <ImageBackground
       style={styles.container}
