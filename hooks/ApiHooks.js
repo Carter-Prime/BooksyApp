@@ -255,7 +255,7 @@ const useMedia = () => {
       const searchResult = await doFetch(baseUrl + 'media/search/', options);
       return searchResult;
     } catch (error) {
-      throw new Error('getFIleById error: ' + error.message);
+      throw new Error('searchMediaFiles error: ' + error.message);
     }
   };
 
@@ -272,16 +272,283 @@ const useMedia = () => {
 };
 
 // Comment endpoints from API
-const useComment = () => {};
+const useComment = () => {
+  const postComment = async (comment) => {
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(comment),
+    };
+    try {
+      const response = await doFetch(baseUrl + 'comments', options);
+      return response;
+    } catch (error) {
+      throw new Error('postComment error: ' + error.message);
+    }
+  };
+
+  const deleteComment = async (commentId, token) => {
+    const options = {
+      method: 'DELETE',
+      headers: {'x-access-token': token},
+    };
+    try {
+      const response = await doFetch(
+        baseUrl + 'comments/' + commentId,
+        options
+      );
+      return response;
+    } catch (error) {
+      throw new Error('deleteComment error: ' + error.message);
+    }
+  };
+
+  // Request a list of comments of a specific file.
+  const getCommentsByFileId = async (fileId) => {
+    const options = {
+      method: 'GET',
+    };
+    try {
+      const listOfComments = await doFetch(
+        baseUrl + 'comments/file/' + fileId,
+        options
+      );
+      return listOfComments;
+    } catch (error) {
+      throw new Error('getCommentsByFileId error: ' + error.message);
+    }
+  };
+
+  // Request a list of comments posted by authenticated user.
+  const getCommentsOfCurrentUser = async (token) => {
+    const options = {
+      method: 'GET',
+      headers: {'x-access-token': token},
+    };
+    try {
+      const listOfComments = await doFetch(baseUrl + 'comments', options);
+      return listOfComments;
+    } catch (error) {
+      throw new Error('getCommentsByFileId error: ' + error.message);
+    }
+  };
+  return {
+    postComment,
+    deleteComment,
+    getCommentsByFileId,
+    getCommentsOfCurrentUser,
+  };
+};
 
 // Favourite endpoints from API
-const useFavourite = () => {};
+const useFavourite = () => {
+  // Request a list of favourite entries of specific file.
+  const getListOfFavouritesByFileId = async (fileId) => {
+    const options = {
+      method: 'GET',
+    };
+    try {
+      const response = await doFetch(baseUrl + 'favourites' + fileId, options);
+      return response;
+    } catch (error) {
+      throw new Error('getListOfFavouritesByFileId error: ' + error.message);
+    }
+  };
+
+  // Request a list of favourite files added by authenticated user.
+  const getListOfFavouritesByCurrentUser = async (token) => {
+    const options = {
+      method: 'GET',
+      headers: {'x-access-token': token},
+    };
+    try {
+      const listOfFavourites = await doFetch(baseUrl + 'favourites', options);
+      return listOfFavourites;
+    } catch (error) {
+      throw new Error(
+        'getListOfFavouritesByCurrentUser error: ' + error.message
+      );
+    }
+  };
+
+  const postFavourite = async (fileId) => {
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(fileId),
+    };
+    try {
+      const response = await doFetch(baseUrl + 'favourites', options);
+      return response;
+    } catch (error) {
+      throw new Error('postFavourite error: ' + error.message);
+    }
+  };
+
+  const deleteFavourite = async (fileId, token) => {
+    const options = {
+      method: 'DELETE',
+      headers: {'x-access-token': token},
+    };
+    try {
+      const response = await doFetch(baseUrl + 'comments/' + fileId, options);
+      return response;
+    } catch (error) {
+      throw new Error('deleteFavourite error: ' + error.message);
+    }
+  };
+
+  return {
+    getListOfFavouritesByFileId,
+    getListOfFavouritesByCurrentUser,
+    postFavourite,
+    deleteFavourite,
+  };
+};
 
 // Rating endpoints from API
-const useRating = () => {};
+const useRating = () => {
+  const postRating = async (rating, token) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify(rating),
+    };
+    try {
+      const response = await doFetch(baseUrl + 'ratings', options);
+      return response;
+    } catch (error) {
+      throw new Error('postRating error: ' + error.message);
+    }
+  };
+  const deleteRating = async (token, fileId) => {
+    const options = {
+      method: 'DELETE',
+      headers: {'x-access-token': token},
+    };
+    try {
+      const response = await doFetch(
+        baseUrl + 'ratings/file/' + fileId,
+        options
+      );
+      return response;
+    } catch (error) {
+      throw new Error('deleteRating error: ' + error.message);
+    }
+  };
 
-// Tag endpoints from APi
-const useTag = () => {};
+  // Request a list of ratings of a specific file.
+  const getListOfRatingsByFileId = async (fileId) => {
+    const options = {
+      method: 'GET',
+    };
+    try {
+      const response = await doFetch(
+        baseUrl + 'ratings/file/' + fileId,
+        options
+      );
+      return response;
+    } catch (error) {
+      throw new Error('getListOfRatingsByFileId error: ' + error.message);
+    }
+  };
+
+  // Request a list of files rated by the authenticated user.
+  const getListOfRatingsByCurrentUser = async (token) => {
+    const options = {
+      method: 'GET',
+      headers: {'x-access-token': token},
+    };
+    try {
+      const listOfRatings = await doFetch(baseUrl + 'ratings', options);
+      return listOfRatings;
+    } catch (error) {
+      throw new Error('getListOfRatingsByCurrentUser error: ' + error.message);
+    }
+  };
+
+  return {
+    postRating,
+    deleteRating,
+    getListOfRatingsByFileId,
+    getListOfRatingsByCurrentUser,
+  };
+};
+
+// Tag endpoints from API
+const useTag = () => {
+  const deleteTag = async (token, tagId) => {
+    const options = {
+      method: 'DELETE',
+      headers: {'x-access-token': token},
+    };
+    try {
+      const response = await doFetch(baseUrl + 'comments/' + tagId, options);
+      return response;
+    } catch (error) {
+      throw new Error('deleteTag error: ' + error.message);
+    }
+  };
+
+  const postTag = async (tag, token) => {
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'x-access-token': token},
+      body: JSON.stringify(tag),
+    };
+    try {
+      const result = await doFetch(baseUrl + 'tags', options);
+      return result;
+    } catch (error) {
+      throw new Error('postTag error: ' + error.message);
+    }
+  };
+
+  const getFilesByTag = async (tag) => {
+    try {
+      const tagList = await doFetch(baseUrl + 'tags/' + tag);
+      return tagList;
+    } catch (error) {
+      throw new Error('getFilesByTag error: ' + error.message);
+    }
+  };
+
+  const getListOfTagsByCurrentUser = async (token) => {
+    const options = {
+      method: 'GET',
+      headers: {'x-access-token': token},
+    };
+    try {
+      const listOfTags = await doFetch(baseUrl + 'tags', options);
+      return listOfTags;
+    } catch (error) {
+      throw new Error('getListOfTagsByCurrentUser error: ' + error.message);
+    }
+  };
+
+  const getListOfTagsByFileId = async (fileId) => {
+    const options = {
+      method: 'GET',
+    };
+    try {
+      const listOfTags = await doFetch(baseUrl + 'tags/' + fileId, options);
+      return listOfTags;
+    } catch (error) {
+      throw new Error('getListOfTagsByFileId error: ' + error.message);
+    }
+  };
+
+  return {
+    getFilesByTag,
+    postTag,
+    deleteTag,
+    getListOfTagsByCurrentUser,
+    getListOfTagsByFileId,
+  };
+};
 
 export {
   useAuthentication,
