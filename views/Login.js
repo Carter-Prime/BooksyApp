@@ -6,38 +6,47 @@ import {StatusBar} from 'expo-status-bar';
 import TitleSvg from '../assets/svg/TitleSvg';
 import LoginSelector from '../components/LoginSelector';
 import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 import Colours from './../utils/Colours';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Login = () => {
-  const {loaded, setIsLoggedIn} = useContext(MainContext);
+  const {loaded, signInScreen} = useContext(MainContext);
+  console.log(signInScreen);
 
   if (!loaded) {
     return <AppLoading onError={console.warn} />;
   }
 
   return (
-    <ImageBackground
-      style={styles.container}
-      source={require('../assets/images/loginBackgroundMain.png')}
-    >
-      <StatusBar backgroundColor="black" style="light" />
-      <View style={styles.titleContainer}>
-        <TitleSvg width="340" height="120" />
-      </View>
-      <View style={styles.loginSelector}>
-        <LoginSelector />
-        <LoginForm />
-      </View>
-    </ImageBackground>
+    <SafeAreaView style={styles.view}>
+      <ImageBackground
+        style={styles.container}
+        source={require('../assets/images/loginBackgroundMain.png')}
+      >
+        <StatusBar backgroundColor="black" style="light" />
+
+        <View style={styles.titleContainer}>
+          <TitleSvg width="340" height="120" />
+        </View>
+        <View style={styles.loginSelector}>
+          <LoginSelector />
+          {signInScreen ? <LoginForm /> : <RegisterForm />}
+        </View>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff4',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   titleContainer: {
     position: 'absolute',
@@ -50,8 +59,8 @@ const styles = StyleSheet.create({
   },
   loginSelector: {
     width: '100%',
-    marginBottom: 20,
     backgroundColor: Colours.transparentDark,
+    marginTop: 200,
   },
 });
 

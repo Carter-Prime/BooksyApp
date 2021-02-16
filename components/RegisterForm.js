@@ -1,12 +1,15 @@
 import React from 'react';
-import {Alert, View} from 'react-native';
+import {StyleSheet, Alert, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
-import {useLogin, useUser} from './hooks/ApiHooks';
-import useSignUpForm from './hooks/RegisterHooks';
+import {useAuthentication, useUser} from '../hooks/ApiHooks';
+import useSignUpForm from '../hooks/RegisterHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {Input, Button} from 'react-native-elements';
+import InputTextBox from '../components/InputTextBox';
+import CustomButton from '../components/CustomButton';
+import {Feather} from 'react-native-vector-icons';
+import Colours from './../utils/Colours';
 
 const RegisterForm = ({navigation}) => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -19,7 +22,7 @@ const RegisterForm = ({navigation}) => {
     validateOnSend,
   } = useSignUpForm();
   const {postRegister} = useUser();
-  const {postLogin} = useLogin();
+  const {postLogin} = useAuthentication();
 
   const doRegister = async () => {
     if (!validateOnSend()) {
@@ -45,9 +48,8 @@ const RegisterForm = ({navigation}) => {
   };
 
   return (
-    <View>
-      <Input
-        autoCapitalize="none"
+    <ScrollView contentContainerStyle={styles.contentContainer}>
+      <InputTextBox
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
         onEndEditing={(event) => {
@@ -55,9 +57,9 @@ const RegisterForm = ({navigation}) => {
           handleInputEnd('username', event.nativeEvent.text);
         }}
         errorMessage={registerErrors.username}
+        leftIcon={<Feather name="user" size={24} color={Colours.textDark} />}
       />
-      <Input
-        autoCapitalize="none"
+      <InputTextBox
         placeholder="password"
         onChangeText={(txt) => handleInputChange('password', txt)}
         onEndEditing={(event) =>
@@ -65,9 +67,9 @@ const RegisterForm = ({navigation}) => {
         }
         secureTextEntry={true}
         errorMessage={registerErrors.password}
+        leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
       />
-      <Input
-        autoCapitalize="none"
+      <InputTextBox
         placeholder="confirm password"
         onChangeText={(txt) => handleInputChange('confirmPassword', txt)}
         onEndEditing={(event) =>
@@ -75,27 +77,28 @@ const RegisterForm = ({navigation}) => {
         }
         secureTextEntry={true}
         errorMessage={registerErrors.confirmPassword}
+        leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
       />
-      <Input
-        autoCapitalize="none"
+      <InputTextBox
         placeholder="email"
         onChangeText={(txt) => handleInputChange('email', txt)}
         onEndEditing={(event) =>
           handleInputEnd('email', event.nativeEvent.text)
         }
         errorMessage={registerErrors.email}
+        leftIcon={<Feather name="mail" size={24} color={Colours.textDark} />}
       />
-      <Input
-        autoCapitalize="none"
+      <InputTextBox
         placeholder="full name"
         onChangeText={(txt) => handleInputChange('full_name', txt)}
         onEndEditing={(event) =>
           handleInputEnd('full_name', event.nativeEvent.text)
         }
         errorMessage={registerErrors.full_name}
+        leftIcon={<Feather name="users" size={24} color={Colours.textDark} />}
       />
-      <Button title="Register!" onPress={doRegister} />
-    </View>
+      <CustomButton title="Register!" onPress={doRegister} />
+    </ScrollView>
   );
 };
 
@@ -104,3 +107,9 @@ RegisterForm.propTypes = {
 };
 
 export default RegisterForm;
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    paddingBottom: 60,
+  },
+});

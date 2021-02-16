@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {validator} from '../../utils/validator';
+import {validator} from '../utils/validator';
 
 const constraints = {
   title: {

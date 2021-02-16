@@ -1,6 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {View, Alert, StyleSheet} from 'react-native';
-import {Button} from 'react-native-elements';
+import {ScrollView, Alert, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,7 +8,6 @@ import useLoginForm from '../hooks/LoginHooks';
 import InputTextBox from '../components/InputTextBox';
 import CustomButton from '../components/CustomButton';
 import {Feather} from 'react-native-vector-icons';
-
 import Colours from './../utils/Colours';
 
 const LoginForm = ({navigation}) => {
@@ -35,7 +33,7 @@ const LoginForm = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.contentContainer}>
       <InputTextBox
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
@@ -50,7 +48,7 @@ const LoginForm = ({navigation}) => {
         leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
       />
       <CustomButton title="Login" onPress={doLogin} loading={loading} />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -61,8 +59,7 @@ LoginForm.propTypes = {
 export default LoginForm;
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    paddingBottom: 20,
+  contentContainer: {
+    paddingBottom: 60,
   },
 });

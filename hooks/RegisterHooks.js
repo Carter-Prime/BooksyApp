@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useUser} from '../hooks/ApiHooks';
-import {validator} from '../../utils/validator';
+import {validator} from '../utils/validator';
 
 const constraints = {
   username: {
