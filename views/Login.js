@@ -1,10 +1,12 @@
 import React, {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AppLoading from 'expo-app-loading';
-import {StyleSheet, ImageBackground, View, Button} from 'react-native';
+import {StyleSheet, ImageBackground, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
-import TitleOutline from '../assets/svg/TitleOutline';
+import TitleSvg from '../assets/svg/TitleSvg';
 import LoginSelector from '../components/LoginSelector';
+import LoginForm from '../components/LoginForm';
+import Colours from './../utils/Colours';
 
 const Login = () => {
   const {loaded, setIsLoggedIn} = useContext(MainContext);
@@ -20,18 +22,12 @@ const Login = () => {
     >
       <StatusBar backgroundColor="black" style="light" />
       <View style={styles.titleContainer}>
-        <TitleOutline width="350" height="120" />
+        <TitleSvg width="340" height="120" />
       </View>
       <View style={styles.loginSelector}>
         <LoginSelector />
+        <LoginForm />
       </View>
-
-      <Button
-        title="Login"
-        onPress={() => {
-          setIsLoggedIn(true);
-        }}
-      />
     </ImageBackground>
   );
 };
@@ -53,9 +49,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   loginSelector: {
-    flex: 0.1,
     width: '100%',
-    marginBottom: 40,
+    marginBottom: 20,
+    backgroundColor: Colours.transparentDark,
   },
 });
 

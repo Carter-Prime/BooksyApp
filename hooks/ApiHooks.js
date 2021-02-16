@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {appIdentifier, baseUrl} from '../utils/variables';
+import {appIdentifier, baseUrl} from '../utils/Variable';
 
 // General function for fetching (options default value is empty object)
 const doFetch = async (url, options = {}) => {
