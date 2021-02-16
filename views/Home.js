@@ -4,6 +4,7 @@ import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import AppLoading from 'expo-app-loading';
+import Colours from './../utils/Colours';
 
 const Home = ({navigation}) => {
   const {loaded} = useContext(MainContext);
@@ -33,12 +34,12 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'grey',
+    backgroundColor: Colours.secondaryNeutral,
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    fontFamily: 'McLarenRegular',
+    fontFamily: 'ProximaSoftMedium',
     fontSize: 30,
   },
 });

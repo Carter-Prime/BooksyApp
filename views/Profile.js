@@ -4,9 +4,10 @@ import AppLoading from 'expo-app-loading';
 import {StyleSheet, Text, View, Button} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
+import Colours from './../utils/Colours';
 
 const Profile = ({navigation}) => {
-  const {loaded} = useContext(MainContext);
+  const {loaded, setIsLoggedIn} = useContext(MainContext);
 
   if (!loaded) {
     console.log('loaded: ', loaded);
@@ -25,6 +26,12 @@ const Profile = ({navigation}) => {
           });
         }}
       />
+      <Button
+        title="Logout"
+        onPress={() => {
+          setIsLoggedIn(false);
+        }}
+      />
     </View>
   );
 };
@@ -32,12 +39,13 @@ const Profile = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colours.secondaryNeutral,
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    fontFamily: 'McLarenRegular',
+    fontFamily: 'ProximaSoftMedium',
+    fontSize: 30,
   },
 });
 

@@ -4,6 +4,7 @@ import AppLoading from 'expo-app-loading';
 import {StyleSheet, Text, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
+import Colours from './../utils/Colours';
 
 const Details = ({route}) => {
   const {customText} = route.params;
@@ -25,12 +26,13 @@ const Details = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colours.secondaryNeutral,
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
     fontFamily: 'ProximaSoftRegular',
+    fontSize: 30,
   },
 });
 

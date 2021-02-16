@@ -4,6 +4,7 @@ import AppLoading from 'expo-app-loading';
 import {StyleSheet, Text, View, Button} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
+import Colours from './../utils/Colours';
 
 const Search = ({navigation}) => {
   const {loaded} = useContext(MainContext);
@@ -16,12 +17,12 @@ const Search = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="black" style="light" />
-      <Text style={styles.text}>Profile Tab</Text>
+      <Text style={styles.text}>Search Tab</Text>
       <Button
         title="Details"
         onPress={() => {
           navigation.navigate('Details', {
-            customText: 'Details from Seach tag',
+            customText: 'Details from Search tag',
           });
         }}
       />
@@ -32,12 +33,13 @@ const Search = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colours.secondaryNeutral,
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    fontFamily: 'McLarenRegular',
+    fontFamily: 'ProximaSoftMedium',
+    fontSize: 30,
   },
 });
 
