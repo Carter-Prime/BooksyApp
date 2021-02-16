@@ -1,9 +1,10 @@
 import React, {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AppLoading from 'expo-app-loading';
-import {StyleSheet, Text, ImageBackground, View, Button} from 'react-native';
+import {StyleSheet, ImageBackground, View, Button} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import TitleOutline from '../assets/svg/TitleOutline';
+import LoginSelector from '../components/LoginSelector';
 
 const Login = () => {
   const {loaded, setIsLoggedIn} = useContext(MainContext);
@@ -21,8 +22,10 @@ const Login = () => {
       <View style={styles.titleContainer}>
         <TitleOutline width="350" height="120" />
       </View>
+      <View style={styles.loginSelector}>
+        <LoginSelector />
+      </View>
 
-      <Text style={styles.text}>Login Page</Text>
       <Button
         title="Login"
         onPress={() => {
@@ -48,6 +51,11 @@ const styles = StyleSheet.create({
     fontFamily: 'ProximaSoftMedium',
     fontSize: 30,
     color: 'white',
+  },
+  loginSelector: {
+    flex: 0.1,
+    width: '100%',
+    marginBottom: 40,
   },
 });
 

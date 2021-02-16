@@ -8,6 +8,7 @@ const MainProvider = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
   const [update, setUpdate] = useState(0);
+  const [signInScreen, setSignInScreen] = useState(false);
   const [loaded, setLoaded] = useFonts({
     McLarenRegular: require('../assets/fonts/McLaren-Regular.ttf'),
     ProximaSoftMedium: require('../assets/fonts/ProximaSoft-Medium.ttf'),
@@ -25,6 +26,8 @@ const MainProvider = ({children}) => {
         setUpdate,
         loaded,
         setLoaded,
+        signInScreen,
+        setSignInScreen,
       }}
     >
       {children}
