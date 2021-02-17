@@ -1,15 +1,36 @@
-import React, {useContext} from 'react';
-import {MainContext} from '../contexts/MainContext';
+import React, {useContext, useEffect} from 'react';
 import AppLoading from 'expo-app-loading';
-import {StyleSheet, ImageBackground, View} from 'react-native';
+import {StyleSheet, ImageBackground} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
-import TitleSvg from '../assets/svg/TitleSvg';
-import LoginSelector from '../components/LoginSelector';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-const Login = () => {
-  const {loaded} = useContext(MainContext);
+import {MainContext} from '../contexts/MainContext';
+import TitleSvg from '../assets/svg/TitleSvg';
+import {useUser} from '../hooks/ApiHooks';
+import LoginSelector from '../components/LoginSelector';
+
+const Login = ({navigation}) => {
+  const {loaded, setIsLoggedIn, setUser} = useContext(MainContext);
+  const {checkCurrentUserToken} = useUser();
+
+  const getToken = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken) {
+      try {
+        const userData = await checkCurrentUserToken(userToken);
+        setUser(userData);
+        setIsLoggedIn(true);
+        navigation.navigate('Home');
+      } catch (error) {
+        console.log('token check failed', error.message);
+      }
+    }
+  };
+  useEffect(() => {
+    getToken();
+  }, []);
 
   if (!loaded) {
     return <AppLoading onError={console.warn} />;
@@ -17,18 +38,13 @@ const Login = () => {
 
   return (
     <SafeAreaView style={styles.view}>
+      <StatusBar backgroundColor="black" style="light" />
       <ImageBackground
         style={styles.container}
         source={require('../assets/images/loginBackgroundDark.png')}
       >
-        <StatusBar backgroundColor="black" style="light" />
-
-        <View style={styles.titleContainer}>
-          <TitleSvg width="340" height="120" />
-        </View>
-        <View style={styles.formView}>
-          <LoginSelector />
-        </View>
+        <TitleSvg width="340" height="120" style={styles.titleContainer} />
+        <LoginSelector />
       </ImageBackground>
     </SafeAreaView>
   );
@@ -40,20 +56,22 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff4',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   titleContainer: {
-    position: 'absolute',
-    top: 40,
+    marginTop: 30,
+    marginBottom: 10,
   },
   text: {
     fontFamily: 'ProximaSoftMedium',
     fontSize: 30,
     color: 'white',
   },
-  formView: {},
 });
+
+Login.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default Login;

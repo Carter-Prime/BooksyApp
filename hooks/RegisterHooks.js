@@ -36,7 +36,7 @@ const constraints = {
 
 const useSignUpForm = (callback) => {
   const [registerErrors, setRegisterErrors] = useState({});
-  const {checkIsUserAvailable} = useUser();
+  const {checkIsUsernameAvailable} = useUser();
 
   const [inputs, setInputs] = useState({
     username: '',
@@ -83,7 +83,7 @@ const useSignUpForm = (callback) => {
 
   const checkUserAvailable = async (event) => {
     try {
-      const result = await checkIsUserAvailable(event.nativeEvent.text);
+      const result = await checkIsUsernameAvailable(event.nativeEvent.text);
       if (!result) {
         setRegisterErrors((registerErrors) => {
           return {

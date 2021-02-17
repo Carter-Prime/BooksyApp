@@ -5,9 +5,15 @@ import {StyleSheet, Text, View, Button} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile = ({navigation}) => {
   const {loaded, setIsLoggedIn} = useContext(MainContext);
+
+  const logout = async () => {
+    setIsLoggedIn(false);
+    await AsyncStorage.clear();
+  };
 
   if (!loaded) {
     console.log('loaded: ', loaded);
@@ -29,7 +35,7 @@ const Profile = ({navigation}) => {
       <Button
         title="Logout"
         onPress={() => {
-          setIsLoggedIn(false);
+          logout();
         }}
       />
     </View>
