@@ -33,7 +33,7 @@ const LoginForm = ({navigation}) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.contentContainer}>
+    <ScrollView contentContainerStyle={styles.view}>
       <InputTextBox
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
@@ -59,7 +59,14 @@ LoginForm.propTypes = {
 export default LoginForm;
 
 const styles = StyleSheet.create({
-  contentContainer: {
+  view: {
+    width: '100%',
+    justifyContent: 'space-between',
     paddingBottom: 60,
+    // backgroundColor: Colours.transparentDark,
+    padding: 10,
+  },
+  text: {
+    fontSize: 20,
   },
 });

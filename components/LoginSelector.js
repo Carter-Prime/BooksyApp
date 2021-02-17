@@ -1,5 +1,4 @@
-import React, {useContext} from 'react';
-import {MainContext} from '../contexts/MainContext';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,15 +7,25 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
   withSpring,
+  useSharedValue,
+  useAnimatedStyle,
 } from 'react-native-reanimated';
+import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
+import {useTransition, animated} from 'react-spring';
 
 const LoginSelector = () => {
   const offset = useSharedValue(0);
   const windowWidth = Dimensions.get('window').width;
-  const {setSignInScreen} = useContext(MainContext);
+  const [screen, setScreen] = useState(false);
+
+  const AnimatedView = animated(View);
+  const transitions = useTransition(screen, null, {
+    from: {position: 'absolute', translateX: -500},
+    enter: {position: 'absolute', translateX: 0},
+    leave: {position: 'absolute', translateX: -500},
+  });
 
   const customSpringStyles = useAnimatedStyle(() => {
     return {
@@ -33,28 +42,40 @@ const LoginSelector = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.sliderContainer}>
+      <View style={styles.btnContainer}>
         <TouchableOpacity
           onPress={() => {
-            setSignInScreen(true);
-
+            setScreen(false);
             offset.value = withSpring(0);
-            console.log('SignIn pressed. Offset is: ', offset.value);
           }}
+          style={styles.btns}
         >
           <Text style={styles.text}>Sign In</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setSignInScreen(false);
-            offset.value = withSpring(windowWidth / 2 - 30);
-            console.log('Register pressed. Offset is: ', offset.value);
+            setScreen(true);
+            offset.value = withSpring(windowWidth / 2 - 20);
           }}
+          style={styles.btns}
         >
           <Text style={styles.text}>Register</Text>
         </TouchableOpacity>
-        <Animated.View style={[styles.barHighlight, customSpringStyles]} />
-        <View style={styles.bar}></View>
+        <Animated.View style={[styles.box1, customSpringStyles]} />
+        <View style={styles.box}></View>
+      </View>
+      <View style={styles.formContainer}>
+        {transitions.map(({item, key, props}) =>
+          item ? (
+            <AnimatedView native key={key} style={[styles.form, props]}>
+              <RegisterForm />
+            </AnimatedView>
+          ) : (
+            <AnimatedView native key={key} style={[styles.form, props]}>
+              <LoginForm />
+            </AnimatedView>
+          )
+        )}
       </View>
     </View>
   );
@@ -64,34 +85,50 @@ export default LoginSelector;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    flex: 1,
+    width: '100%',
+    paddingTop: 200,
+    justifyContent: 'flex-start',
   },
-  sliderContainer: {
-    position: 'relative',
+  btnContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    paddingBottom: 20,
+    width: '100%',
+    // backgroundColor: Colours.transparentDark,
+    padding: 10,
+  },
+  formContainer: {
+    flex: 0.5,
+    flexDirection: 'row',
+
     width: '100%',
   },
   text: {
-    fontFamily: 'ProximaSoftMedium',
     fontSize: 20,
     color: 'white',
-    marginBottom: 5,
   },
-  bar: {
+  box: {
     position: 'absolute',
-    bottom: 0,
     left: 20,
+    bottom: 10,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     width: '90%',
     height: 2,
   },
-  barHighlight: {
+  box1: {
     position: 'absolute',
-    bottom: 0,
     left: 20,
+    bottom: 10,
     backgroundColor: 'white',
     width: '45%',
     height: 2,
+  },
+  form: {
+    width: '100%',
+  },
+  btns: {
+    flex: 1,
+    alignItems: 'center',
   },
 });

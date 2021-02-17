@@ -2,6 +2,7 @@ import React from 'react';
 import Navigator from './navigators/Navigator';
 import {MainProvider} from './contexts/MainContext';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+console.disableYellowBox = true;
 
 const App = () => {
   return (

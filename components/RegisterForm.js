@@ -48,7 +48,7 @@ const RegisterForm = ({navigation}) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.contentContainer}>
+    <ScrollView contentContainerStyle={styles.view}>
       <InputTextBox
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
@@ -58,6 +58,15 @@ const RegisterForm = ({navigation}) => {
         }}
         errorMessage={registerErrors.username}
         leftIcon={<Feather name="user" size={24} color={Colours.textDark} />}
+      />
+      <InputTextBox
+        placeholder="email"
+        onChangeText={(txt) => handleInputChange('email', txt)}
+        onEndEditing={(event) =>
+          handleInputEnd('email', event.nativeEvent.text)
+        }
+        errorMessage={registerErrors.email}
+        leftIcon={<Feather name="mail" size={24} color={Colours.textDark} />}
       />
       <InputTextBox
         placeholder="password"
@@ -79,24 +88,6 @@ const RegisterForm = ({navigation}) => {
         errorMessage={registerErrors.confirmPassword}
         leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
       />
-      <InputTextBox
-        placeholder="email"
-        onChangeText={(txt) => handleInputChange('email', txt)}
-        onEndEditing={(event) =>
-          handleInputEnd('email', event.nativeEvent.text)
-        }
-        errorMessage={registerErrors.email}
-        leftIcon={<Feather name="mail" size={24} color={Colours.textDark} />}
-      />
-      <InputTextBox
-        placeholder="full name"
-        onChangeText={(txt) => handleInputChange('full_name', txt)}
-        onEndEditing={(event) =>
-          handleInputEnd('full_name', event.nativeEvent.text)
-        }
-        errorMessage={registerErrors.full_name}
-        leftIcon={<Feather name="users" size={24} color={Colours.textDark} />}
-      />
       <CustomButton title="Register!" onPress={doRegister} />
     </ScrollView>
   );
@@ -109,7 +100,14 @@ RegisterForm.propTypes = {
 export default RegisterForm;
 
 const styles = StyleSheet.create({
-  contentContainer: {
+  view: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'space-between',
     paddingBottom: 60,
+    padding: 10,
+  },
+  text: {
+    fontSize: 20,
   },
 });
