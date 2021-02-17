@@ -8,7 +8,6 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import PropTypes from 'prop-types';
 import {Feather} from '@expo/vector-icons';
-import AppLoading from 'expo-app-loading';
 
 import {
   ChangePassword,
@@ -27,13 +26,6 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const HeaderOptions = ({route}) => {
-  const {loaded} = useContext(MainContext);
-
-  if (!loaded) {
-    console.log('loaded: ', loaded);
-    return <AppLoading onError={console.warn} />;
-  }
-
   return {
     headerTitle: getFocusedRouteNameFromRoute(route),
     headerStyle: {

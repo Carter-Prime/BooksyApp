@@ -32,23 +32,16 @@ const constraints = {
       message: 'is not valid',
     },
   },
-  full_name: {
-    length: {
-      minimum: 5,
-      message: 'min length is 5 characters',
-    },
-  },
 };
 
 const useSignUpForm = (callback) => {
   const [registerErrors, setRegisterErrors] = useState({});
-  const {checkIsUserAvailable} = useUser();
+  const {checkIsUsernameAvailable} = useUser();
 
   const [inputs, setInputs] = useState({
     username: '',
     password: '',
     email: '',
-    full_name: '',
   });
 
   const handleInputChange = (name, text) => {
@@ -61,7 +54,6 @@ const useSignUpForm = (callback) => {
   };
 
   const handleInputEnd = (name, text) => {
-    console.log('input end text', text);
     if (text === '') {
       text = null;
     }
@@ -91,7 +83,7 @@ const useSignUpForm = (callback) => {
 
   const checkUserAvailable = async (event) => {
     try {
-      const result = await checkIsUserAvailable(event.nativeEvent.text);
+      const result = await checkIsUsernameAvailable(event.nativeEvent.text);
       if (!result) {
         setRegisterErrors((registerErrors) => {
           return {
@@ -117,7 +109,6 @@ const useSignUpForm = (callback) => {
       constraints
     );
     const emailError = validator('email', inputs.email, constraints);
-    const fullNameError = validator('full_name', inputs.full_name, constraints);
 
     setRegisterErrors((registerErrors) => {
       return {
@@ -126,7 +117,6 @@ const useSignUpForm = (callback) => {
         password: passwordError,
         confirmPassword: confirmError,
         email: emailError,
-        full_name: fullNameError,
       };
     });
 
@@ -134,8 +124,7 @@ const useSignUpForm = (callback) => {
       usernameError !== null ||
       passwordError !== null ||
       confirmError !== null ||
-      emailError !== null ||
-      fullNameError !== null
+      emailError !== null
     ) {
       return false;
     } else {

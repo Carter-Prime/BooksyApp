@@ -1,15 +1,15 @@
-import React from 'react';
-import {StyleSheet, Alert, ScrollView} from 'react-native';
+import React, {useContext} from 'react';
+import {StyleSheet, Alert, View} from 'react-native';
 import PropTypes from 'prop-types';
-import {useAuthentication, useUser} from '../hooks/ApiHooks';
-import useSignUpForm from '../hooks/RegisterHooks';
+import {Feather} from 'react-native-vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useContext} from 'react';
+
 import {MainContext} from '../contexts/MainContext';
 import InputTextBox from '../components/InputTextBox';
 import CustomButton from '../components/CustomButton';
-import {Feather} from 'react-native-vector-icons';
 import Colours from './../utils/Colours';
+import {useAuthentication, useUser} from '../hooks/ApiHooks';
+import useSignUpForm from '../hooks/RegisterHooks';
 
 const RegisterForm = ({navigation}) => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -21,7 +21,7 @@ const RegisterForm = ({navigation}) => {
     registerErrors,
     validateOnSend,
   } = useSignUpForm();
-  const {postRegister} = useUser();
+  const {registerNewUser} = useUser();
   const {postLogin} = useAuthentication();
 
   const doRegister = async () => {
@@ -33,14 +33,13 @@ const RegisterForm = ({navigation}) => {
     delete inputs.confirmPassword;
 
     try {
-      const result = await postRegister(inputs);
+      const result = await registerNewUser(inputs);
       console.log('doRegister ok', result.message);
       Alert.alert(result.message);
-      // do automatic login after registering
       const userData = await postLogin(inputs);
       await AsyncStorage.setItem('userToken', userData.token);
-      setIsLoggedIn(true);
       setUser(userData.user);
+      setIsLoggedIn(true);
     } catch (error) {
       console.log('registration error', error);
       Alert.alert(error.message);
@@ -48,7 +47,7 @@ const RegisterForm = ({navigation}) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.contentContainer}>
+    <View style={styles.view}>
       <InputTextBox
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
@@ -58,6 +57,15 @@ const RegisterForm = ({navigation}) => {
         }}
         errorMessage={registerErrors.username}
         leftIcon={<Feather name="user" size={24} color={Colours.textDark} />}
+      />
+      <InputTextBox
+        placeholder="email"
+        onChangeText={(txt) => handleInputChange('email', txt)}
+        onEndEditing={(event) =>
+          handleInputEnd('email', event.nativeEvent.text)
+        }
+        errorMessage={registerErrors.email}
+        leftIcon={<Feather name="mail" size={24} color={Colours.textDark} />}
       />
       <InputTextBox
         placeholder="password"
@@ -79,26 +87,8 @@ const RegisterForm = ({navigation}) => {
         errorMessage={registerErrors.confirmPassword}
         leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
       />
-      <InputTextBox
-        placeholder="email"
-        onChangeText={(txt) => handleInputChange('email', txt)}
-        onEndEditing={(event) =>
-          handleInputEnd('email', event.nativeEvent.text)
-        }
-        errorMessage={registerErrors.email}
-        leftIcon={<Feather name="mail" size={24} color={Colours.textDark} />}
-      />
-      <InputTextBox
-        placeholder="full name"
-        onChangeText={(txt) => handleInputChange('full_name', txt)}
-        onEndEditing={(event) =>
-          handleInputEnd('full_name', event.nativeEvent.text)
-        }
-        errorMessage={registerErrors.full_name}
-        leftIcon={<Feather name="users" size={24} color={Colours.textDark} />}
-      />
-      <CustomButton title="Register!" onPress={doRegister} />
-    </ScrollView>
+      <CustomButton title="Register" onPress={doRegister} />
+    </View>
   );
 };
 
@@ -109,7 +99,11 @@ RegisterForm.propTypes = {
 export default RegisterForm;
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    paddingBottom: 60,
+  view: {
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  text: {
+    fontSize: 20,
   },
 });
