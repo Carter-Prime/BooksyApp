@@ -7,8 +7,6 @@ const useLoginForm = (callback) => {
   });
 
   const handleInputChange = (name, text) => {
-    // console.log(name, text);
-    // console.log('inputs state', inputs);
     setInputs((inputs) => {
       return {
         ...inputs,

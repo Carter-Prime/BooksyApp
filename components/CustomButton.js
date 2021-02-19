@@ -2,15 +2,16 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements';
 import Colours from './../utils/Colours';
+import PropTypes from 'prop-types';
 
-const CustomButton = ({...otherProps}) => {
+const CustomButton = ({extraStyle, ...otherProps}) => {
   return (
     <Button
       {...otherProps}
       raised
       titleStyle={styles.titleStyle}
       buttonStyle={styles.buttonStyle}
-      containerStyle={styles.containerStyle}
+      containerStyle={[styles.containerStyle, extraStyle]}
     />
   );
 };
@@ -28,8 +29,12 @@ const styles = StyleSheet.create({
     color: Colours.textDark,
   },
   containerStyle: {
-    width: '85%',
-    marginLeft: 30,
-    marginRight: 30,
+    width: '90%',
+    marginLeft: 20,
+    marginTop: 20,
   },
 });
+
+CustomButton.propTypes = {
+  extraStyle: PropTypes.object,
+};

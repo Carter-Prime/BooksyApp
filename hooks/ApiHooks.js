@@ -73,7 +73,7 @@ const useUser = () => {
     }
   };
 
-  const getUser = async (id, token) => {
+  const getUserById = async (id, token) => {
     try {
       const options = {
         method: 'GET',
@@ -86,7 +86,7 @@ const useUser = () => {
     }
   };
 
-  const getUsersList = async (id, token) => {
+  const getUsersList = async (token) => {
     try {
       const options = {
         method: 'GET',
@@ -133,7 +133,7 @@ const useUser = () => {
     registerNewUser,
     checkCurrentUserToken,
     checkIsUsernameAvailable,
-    getUser,
+    getUserById,
     getUsersList,
     deleteUser,
     modifyUser,

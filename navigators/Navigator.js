@@ -30,16 +30,19 @@ const HeaderOptions = ({route}) => {
     headerTitle: getFocusedRouteNameFromRoute(route),
     headerStyle: {
       backgroundColor: Colours.primaryBlue,
-      height: 80,
+      height: 70,
     },
     headerTintColor: 'white',
     headerTitleStyle: {
       fontSize: 24,
-      fontFamily: 'ProximaSoftMedium',
+      fontFamily: 'ProximaSoftRegular',
       alignSelf: 'center',
     },
     headerTitleContainerStyle: {
       left: 0,
+    },
+    headerRightContainerStyle: {
+      right: 10,
     },
   };
 };
@@ -69,7 +72,7 @@ const TabScreen = () => {
         inactiveTintColor: Colours.textLight,
         labelStyle: {
           fontSize: 14,
-          fontFamily: 'ProximaSoftMedium',
+          fontFamily: 'ProximaSoftRegular',
         },
         tabStyle: {
           backgroundColor: Colours.primaryBlue,

@@ -61,7 +61,7 @@ const LoginSelector = () => {
         <TouchableOpacity
           onPress={() => {
             setScreen(false);
-            offset.value = withSpring(windowWidth / 2 - 30);
+            offset.value = withSpring(windowWidth / 2 - 20);
           }}
           style={styles.btns}
         >
@@ -103,18 +103,18 @@ const styles = StyleSheet.create({
   },
   box: {
     position: 'absolute',
-    left: 30,
+    left: 20,
     bottom: 10,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    width: '89%',
+    width: '95%',
     height: 2,
   },
   box1: {
     position: 'absolute',
-    left: 30,
+    left: 20,
     bottom: 10,
     backgroundColor: 'white',
-    width: '45%',
+    width: '48%',
     height: 2,
   },
   form: {

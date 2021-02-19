@@ -21,9 +21,9 @@ export default InputTextBox;
 
 const styles = StyleSheet.create({
   containerStyle: {
-    marginLeft: 20,
+    marginLeft: 10,
     marginRight: 20,
-    width: '90%',
+    width: '95%',
   },
   inputStyle: {
     fontFamily: 'ProximaSoftRegular',

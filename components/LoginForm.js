@@ -18,13 +18,12 @@ const LoginForm = ({navigation}) => {
 
   const doLogin = async () => {
     try {
-      console.log(inputs);
       const userData = await postLogin(inputs);
       setUser(userData.user);
       await AsyncStorage.setItem('userToken', userData.token);
       await setIsLoggedIn(true);
     } catch (error) {
-      console.error('postLogin error', error.message);
+      console.log(error.message);
       Alert.alert('Invalid username or password');
     }
   };
