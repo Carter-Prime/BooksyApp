@@ -20,6 +20,10 @@ const RegisterForm = ({navigation}) => {
     checkUserAvailable,
     registerErrors,
     validateOnSend,
+    isUsernameAvailable,
+    isEmailAvailable,
+    isPasswordAvailable,
+    doPasswordMatch,
   } = useSignUpForm();
   const {registerNewUser} = useUser();
   const {postLogin} = useAuthentication();
@@ -46,6 +50,29 @@ const RegisterForm = ({navigation}) => {
     }
   };
 
+  const checkIcon = () => {
+    if (isUsernameAvailable) {
+      return <Feather name="check" size={24} color="green" />;
+    }
+  };
+
+  const checkIconEmail = () => {
+    if (isEmailAvailable) {
+      return <Feather name="check" size={24} color="green" />;
+    }
+  };
+
+  const checkIconPassword = () => {
+    if (isPasswordAvailable) {
+      return <Feather name="check" size={24} color="green" />;
+    }
+  };
+  const checkIconConfirmPassword = () => {
+    if (doPasswordMatch) {
+      return <Feather name="check" size={24} color="green" />;
+    }
+  };
+
   return (
     <View style={styles.view}>
       <InputTextBox
@@ -57,15 +84,17 @@ const RegisterForm = ({navigation}) => {
         }}
         errorMessage={registerErrors.username}
         leftIcon={<Feather name="user" size={24} color={Colours.textDark} />}
+        rightIcon={checkIcon}
       />
       <InputTextBox
         placeholder="email"
         onChangeText={(txt) => handleInputChange('email', txt)}
-        onEndEditing={(event) =>
-          handleInputEnd('email', event.nativeEvent.text)
-        }
+        onEndEditing={(event) => {
+          handleInputEnd('email', event.nativeEvent.text);
+        }}
         errorMessage={registerErrors.email}
         leftIcon={<Feather name="mail" size={24} color={Colours.textDark} />}
+        rightIcon={checkIconEmail}
       />
       <InputTextBox
         placeholder="password"
@@ -76,6 +105,7 @@ const RegisterForm = ({navigation}) => {
         secureTextEntry={true}
         errorMessage={registerErrors.password}
         leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
+        rightIcon={checkIconPassword}
       />
       <InputTextBox
         placeholder="confirm password"
@@ -86,6 +116,7 @@ const RegisterForm = ({navigation}) => {
         secureTextEntry={true}
         errorMessage={registerErrors.confirmPassword}
         leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
+        rightIcon={checkIconConfirmPassword}
       />
       <CustomButton title="Register" onPress={doRegister} />
     </View>

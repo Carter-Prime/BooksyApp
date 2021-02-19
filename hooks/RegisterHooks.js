@@ -37,6 +37,10 @@ const constraints = {
 const useSignUpForm = (callback) => {
   const [registerErrors, setRegisterErrors] = useState({});
   const {checkIsUsernameAvailable} = useUser();
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
+  const [isEmailAvailable, setIsEmailAvailable] = useState(false);
+  const [isPasswordAvailable, setIsPasswordAvailable] = useState(false);
+  const [doPasswordMatch, setDoPasswordMatch] = useState(false);
 
   const [inputs, setInputs] = useState({
     username: '',
@@ -67,10 +71,30 @@ const useSignUpForm = (callback) => {
         },
         constraints
       );
-      // console.log('checking confirm pw', error);
     } else {
       error = validator(name, text, constraints);
-      // console.log('checking something else', error);
+    }
+
+    // if (name == 'email') {
+    //   if (error == null) {
+    //     setIsEmailAvailable(true);
+    //   } else {
+    //     setIsEmailAvailable(false);
+    //   }
+    // }
+
+    switch (name) {
+      case 'email':
+        error == null ? setIsEmailAvailable(true) : setIsEmailAvailable(false);
+        break;
+      case 'password':
+        error == null
+          ? setIsPasswordAvailable(true)
+          : setIsPasswordAvailable(false);
+        break;
+      case 'confirmPassword':
+        error == null ? setDoPasswordMatch(true) : setDoPasswordMatch(false);
+        break;
     }
 
     setRegisterErrors((registerErrors) => {
@@ -82,18 +106,24 @@ const useSignUpForm = (callback) => {
   };
 
   const checkUserAvailable = async (event) => {
+    if (event.nativeEvent.text === '') {
+      return;
+    }
     try {
       const result = await checkIsUsernameAvailable(event.nativeEvent.text);
       if (!result) {
+        setIsUsernameAvailable(false);
         setRegisterErrors((registerErrors) => {
           return {
             ...registerErrors,
             username: 'Username already exists',
           };
         });
+      } else {
+        setIsUsernameAvailable(true);
       }
     } catch (error) {
-      console.error('reg checkUserAvailable', error);
+      console.error('reg checkUserAvailable', error.message);
     }
   };
 
@@ -139,6 +169,10 @@ const useSignUpForm = (callback) => {
     checkUserAvailable,
     registerErrors,
     validateOnSend,
+    isUsernameAvailable,
+    isEmailAvailable,
+    isPasswordAvailable,
+    doPasswordMatch,
   };
 };
 
