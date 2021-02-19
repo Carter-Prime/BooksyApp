@@ -14,7 +14,7 @@ import InputTextBox from '../components/InputTextBox';
 import useEditForm from '../hooks/ModifyHooks';
 import {useUser} from '../hooks/ApiHooks';
 import {Feather} from 'react-native-vector-icons';
-import EditHeader from './../components/EditHeader';
+import EditHeader from '../components/SectionHeader';
 
 const EditProfile = ({navigation}) => {
   const {update, setUpdate, user} = useContext(MainContext);

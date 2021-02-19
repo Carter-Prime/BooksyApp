@@ -1,24 +1,36 @@
 import React from 'react';
 
 import {StyleSheet, View, Text} from 'react-native';
-import {Divider} from 'react-native-elements';
+import {Divider, Icon} from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 import Colours from '../utils/Colours';
+import EditProfile from '../views/EditProfile';
 
-const EditHeader = ({navigation, content, ...props}) => {
+const AccountInfoHeader = ({navigation, content, toggleIcon, ...props}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text} {...props}>
         {content}
       </Text>
-
+      {toggleIcon && (
+        <Icon
+          type="feather"
+          name="edit"
+          size={34}
+          containerStyle={styles.editIcon}
+          color={Colours.primaryBlue}
+          onPress={() => {
+            navigation.navigate(EditProfile);
+          }}
+        />
+      )}
       <Divider style={styles.divider} />
     </View>
   );
 };
 
-export default EditHeader;
+export default AccountInfoHeader;
 
 const styles = StyleSheet.create({
   container: {
@@ -47,7 +59,8 @@ const styles = StyleSheet.create({
   },
 });
 
-EditHeader.propTypes = {
+AccountInfoHeader.propTypes = {
   content: PropTypes.string,
+  toggleIcon: PropTypes.bool,
   navigation: PropTypes.object,
 };

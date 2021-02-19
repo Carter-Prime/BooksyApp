@@ -8,12 +8,13 @@ import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import SectionHeader from '../components/SectionHeader';
+import AccountInfoHeader from '../components/AccountInfoHeader';
 import AccountInfoCard from '../components/AccountInfoCard';
 import CustomButton from '../components/CustomButton';
 import AccountStatisticCard from '../components/AccountStatisticCard';
 import {uploadsUrl} from '../utils/Variable';
 import {useTag, useUser} from '../hooks/ApiHooks';
+import SectionHeader from './../components/AccountInfoHeader';
 
 const Profile = ({navigation}) => {
   const {loaded, setIsLoggedIn, user, setUser, update} = useContext(
@@ -77,7 +78,7 @@ const Profile = ({navigation}) => {
         }}
       ></Avatar>
 
-      <SectionHeader
+      <AccountInfoHeader
         content="Account Information"
         toggleIcon
         navigation={navigation}

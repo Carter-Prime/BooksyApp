@@ -1,30 +1,18 @@
 import React from 'react';
 
 import {StyleSheet, View, Text} from 'react-native';
-import {Divider, Icon} from 'react-native-elements';
+import {Divider} from 'react-native-elements';
 import PropTypes from 'prop-types';
 
-import Colours from './../utils/Colours';
-import EditProfile from './../views/EditProfile';
+import Colours from '../utils/Colours';
 
-const SectionHeader = ({navigation, content, toggleIcon, ...props}) => {
+const SectionHeader = ({navigation, content, ...props}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text} {...props}>
         {content}
       </Text>
-      {toggleIcon && (
-        <Icon
-          type="feather"
-          name="edit"
-          size={34}
-          containerStyle={styles.editIcon}
-          color={Colours.primaryBlue}
-          onPress={() => {
-            navigation.navigate(EditProfile);
-          }}
-        />
-      )}
+
       <Divider style={styles.divider} />
     </View>
   );
@@ -61,6 +49,5 @@ const styles = StyleSheet.create({
 
 SectionHeader.propTypes = {
   content: PropTypes.string,
-  toggleIcon: PropTypes.bool,
   navigation: PropTypes.object,
 };
