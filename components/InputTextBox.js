@@ -13,6 +13,7 @@ const InputTextBox = ({...otherProps}) => {
       inputContainerStyle={styles.inputContainerStyle}
       placeholderTextColor={Colours.placeholderText}
       leftIconContainerStyle={styles.leftIconContainerStyle}
+      rightIconContainerStyle={styles.rightIconContainerStyle}
     />
   );
 };
@@ -22,12 +23,13 @@ export default InputTextBox;
 const styles = StyleSheet.create({
   containerStyle: {
     marginLeft: 10,
-    marginRight: 20,
+    marginRight: 10,
     width: '95%',
   },
   inputStyle: {
     fontFamily: 'ProximaSoftRegular',
     paddingLeft: 10,
+    padding: 4,
   },
   inputContainerStyle: {
     backgroundColor: Colours.transparentLight,
@@ -37,6 +39,12 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginVertical: 0,
     marginLeft: 5,
+    paddingVertical: 1,
+  },
+  rightIconContainerStyle: {
+    marginTop: 0,
+    marginVertical: 0,
+    marginRight: 5,
     paddingVertical: 1,
   },
 });

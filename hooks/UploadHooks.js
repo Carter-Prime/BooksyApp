@@ -20,12 +20,27 @@ const constraints = {
       message: 'min length is 5 characters',
     },
   },
+  tags: {
+    presence: {
+      message: 'cannot be empty',
+    },
+    length: {
+      minimum: 5,
+      message: 'min length is 5 characters',
+    },
+    format: {
+      pattern: '[a-z0-9]+',
+      flags: 'i',
+      message: 'can only contain a-z and 0-9',
+    },
+  },
 };
 
 const useUploadForm = (callback) => {
   const [inputs, setInputs] = useState({
     title: '',
     description: '',
+    tags: '',
   });
   const [uploadErrors, setUploadErrors] = useState({});
 
@@ -51,6 +66,7 @@ const useUploadForm = (callback) => {
     setInputs({
       title: '',
       description: '',
+      tags: '',
     });
     setUploadErrors({});
   };

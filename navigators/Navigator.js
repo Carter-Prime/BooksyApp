@@ -19,6 +19,7 @@ import {
   Profile,
   Search,
   SearchResult,
+  Upload,
 } from '../views/index';
 import Colours from './../utils/Colours';
 
@@ -52,12 +53,27 @@ const TabScreen = () => {
     tabBarIcon: function tabIcons({focused, color}) {
       let iconName;
 
-      if (route.name === 'Home') {
-        iconName = focused ? 'home' : 'home';
-      } else if (route.name === 'Profile') {
-        iconName = focused ? 'user' : 'user';
-      } else if (route.name === 'Search') {
-        iconName = focused ? 'search' : 'search';
+      // if (route.name === 'Home') {
+      //   iconName = focused ? 'home' : 'home';
+      // } else if (route.name === 'Profile') {
+      //   iconName = focused ? 'user' : 'user';
+      // } else if (route.name === 'Search') {
+      //   iconName = focused ? 'search' : 'search';
+      // }
+
+      switch (route.name) {
+        case 'Home':
+          iconName = focused ? 'home' : 'home';
+          break;
+        case 'Profile':
+          iconName = focused ? 'user' : 'user';
+          break;
+        case 'Search':
+          iconName = focused ? 'search' : 'search';
+          break;
+        case 'Upload':
+          iconName = focused ? 'upload' : 'upload';
+          break;
       }
 
       return <Feather name={iconName} size={26} color={color} />;
@@ -83,6 +99,7 @@ const TabScreen = () => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Upload" component={Upload} />
     </Tab.Navigator>
   );
 };

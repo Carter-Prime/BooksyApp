@@ -23,6 +23,7 @@ export default SectionHeader;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    marginTop: -20,
   },
   text: {
     fontFamily: 'ProximaSoftRegular',

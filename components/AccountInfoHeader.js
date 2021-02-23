@@ -17,9 +17,9 @@ const AccountInfoHeader = ({navigation, content, toggleIcon, ...props}) => {
         <Icon
           type="feather"
           name="edit"
-          size={34}
+          size={24}
           containerStyle={styles.editIcon}
-          color={Colours.primaryBlue}
+          color="black"
           onPress={() => {
             navigation.navigate(EditProfile);
           }}
@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
   editIcon: {
     position: 'absolute',
     right: 20,
-    bottom: 2,
-    borderRadius: 10,
-    padding: 5,
-    color: Colours.primaryBlue,
-    backgroundColor: Colours.secondaryNeutral,
+    bottom: 3,
+    borderRadius: 50,
+    padding: 7,
+    color: 'black',
+    backgroundColor: Colours.accentOrange,
   },
 });
 
