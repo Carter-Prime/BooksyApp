@@ -15,6 +15,8 @@ import useEditForm from '../hooks/ModifyHooks';
 import {useUser} from '../hooks/ApiHooks';
 import {Feather} from 'react-native-vector-icons';
 import EditHeader from '../components/SectionHeader';
+import RoundButton from './../components/RoundButton';
+import UploadAvatar from '../views/UploadAvatar';
 
 const EditProfile = ({navigation}) => {
   const {update, setUpdate, user} = useContext(MainContext);
@@ -50,7 +52,7 @@ const EditProfile = ({navigation}) => {
       email: user.email,
       full_name: user.full_name,
     });
-  }, []);
+  }, [update]);
 
   const doUpdate = async () => {
     if (!validateOnSend()) {
@@ -81,7 +83,7 @@ const EditProfile = ({navigation}) => {
     setInputs({
       username: user.username,
       email: user.email,
-      full_name: user.full_name,
+      full_name: user.full_name.full_name,
     });
   };
 
@@ -99,6 +101,11 @@ const EditProfile = ({navigation}) => {
           borderColor: Colours.accentOrange,
         }}
       ></Avatar>
+      <RoundButton
+        icon={<Feather name="edit" size={24} color={Colours.textDark} />}
+        onPress={() => navigation.navigate(UploadAvatar)}
+        extraStyle={styles.editAvatarBtn}
+      />
 
       <EditHeader content="Edit Details" />
       <View style={styles.inputContainer}>
@@ -182,6 +189,11 @@ const styles = StyleSheet.create({
   btn: {
     width: '91%',
     marginRight: 20,
+  },
+  editAvatarBtn: {
+    position: 'absolute',
+    right: 55,
+    top: 240,
   },
 });
 

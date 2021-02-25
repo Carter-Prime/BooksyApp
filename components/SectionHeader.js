@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 
 import Colours from '../utils/Colours';
 
-const SectionHeader = ({navigation, content, ...props}) => {
+const SectionHeader = ({navigation, content, containerStyle, ...props}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <Text style={styles.text} {...props}>
         {content}
       </Text>
@@ -23,7 +23,7 @@ export default SectionHeader;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: -20,
+    marginTop: 10,
   },
   text: {
     fontFamily: 'ProximaSoftRegular',
@@ -51,4 +51,5 @@ const styles = StyleSheet.create({
 SectionHeader.propTypes = {
   content: PropTypes.string,
   navigation: PropTypes.object,
+  containerStyle: PropTypes.object,
 };

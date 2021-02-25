@@ -5,61 +5,36 @@ import {
   Platform,
   StyleSheet,
   View,
+  Text,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Image} from 'react-native-elements';
-import useUploadForm from '../hooks/UploadHooks';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Feather} from 'react-native-vector-icons';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import {appIdentifier} from '../utils/Variable';
-import {Video} from 'expo-av';
 import CustomButton from './../components/CustomButton';
-import InputTextBox from './../components/InputTextBox';
 import Colours from './../utils/Colours';
 import SectionHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
-import TagCheckboxSelector from '../components/TagCheckboxSelector';
 
-const Upload = ({navigation}) => {
+const UploadAvatar = ({navigation}) => {
   const [image, setImage] = useState(null);
   const [filetype, setFiletype] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const {uploadFile} = useMedia();
   const {postTag} = useTag();
-  const {update, setUpdate, tagState, setTagState} = useContext(MainContext);
+  const {update, setUpdate, user} = useContext(MainContext);
   const placeholderImage = require('../assets/images/imagePlaceholder2.jpg');
-
-  const {handleInputChange, inputs, uploadErrors, reset} = useUploadForm();
-
-  const createAddTags = () => {
-    const tagArray = tagState
-      .filter((element) => element.value === true)
-      .map((element) => element.tag);
-    tagArray.push(inputs.tags);
-    return tagArray;
-  };
-
-  const resetCheckBox = () => {
-    const tagArray = tagState
-      .filter((element) => element.value === true || element.value === false)
-      .map((element) => element);
-    for (let i = 0; i < tagArray.length; i++) {
-      if (tagArray[i].value == true) {
-        tagArray[i].value = false;
-      }
-    }
-    setTagState(tagArray);
-  };
 
   const doUpload = async () => {
     const formData = new FormData();
     // add text to formData
-    formData.append('title', inputs.title);
-    formData.append('description', inputs.description);
+    formData.append('title', 'Avatar_' + user.user_id);
+    formData.append('description', 'Avatar Image');
     // add image to formData
     const filename = image.split('/').pop();
     const match = /\.(\w+)$/.exec(filename);
@@ -75,7 +50,7 @@ const Upload = ({navigation}) => {
 
       const userToken = await AsyncStorage.getItem('userToken');
       const resp = await uploadFile(formData, userToken);
-      console.log(resp);
+      console.log('upload response', resp);
       await postTag(
         {
           file_id: resp.file_id,
@@ -83,17 +58,14 @@ const Upload = ({navigation}) => {
         },
         userToken
       );
-      const tagList = createAddTags();
 
-      for (let i = 0; i < tagList.length; i++) {
-        await postTag(
-          {
-            file_id: resp.file_id,
-            tag: tagList[i],
-          },
-          userToken
-        );
-      }
+      await postTag(
+        {
+          file_id: resp.file_id,
+          tag: 'Avatar_' + user.user_id,
+        },
+        userToken
+      );
 
       Alert.alert(
         'Upload',
@@ -104,7 +76,7 @@ const Upload = ({navigation}) => {
             onPress: () => {
               setUpdate(update + 1);
               doReset();
-              navigation.navigate('Home');
+              navigation.navigate('EditProfile');
             },
           },
         ],
@@ -153,29 +125,15 @@ const Upload = ({navigation}) => {
 
   const doReset = () => {
     setImage(null);
-    reset();
-    resetCheckBox();
   };
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-      <SectionHeader content="Post Details" />
+      <SectionHeader content="Change Avatar Picture" />
       {!image && (
         <Image source={placeholderImage} style={styles.placeholderImage} />
       )}
-      {image && (
-        <>
-          {filetype === 'image' ? (
-            <Image source={{uri: image}} style={styles.placeholderImage} />
-          ) : (
-            <Video
-              source={{uri: image}}
-              style={styles.placeholderImage}
-              useNativeControls={true}
-            />
-          )}
-        </>
-      )}
+      {image && <Image source={{uri: image}} style={styles.placeholderImage} />}
       <View style={styles.btnContainer}>
         <RoundButton
           icon={<Feather name="folder" size={24} color={Colours.textDark} />}
@@ -187,39 +145,17 @@ const Upload = ({navigation}) => {
           onPress={() => pickImage(false)}
         />
       </View>
+      {filetype === 'video' && (
+        <Text style={styles.errorText}>Error upload must be an image file</Text>
+      )}
 
-      <InputTextBox
-        placeholder="title"
-        value={inputs.title}
-        onChangeText={(txt) => handleInputChange('title', txt)}
-        errorMessage={uploadErrors.title}
-      />
-      <InputTextBox
-        placeholder="description"
-        value={inputs.description}
-        onChangeText={(txt) => handleInputChange('description', txt)}
-        errorMessage={uploadErrors.description}
-      />
-
-      <InputTextBox
-        placeholder="tag"
-        value={inputs.tags}
-        onChangeText={(txt) => handleInputChange('tags', txt)}
-        errorMessage={uploadErrors.tags}
-      />
-      <TagCheckboxSelector />
       {isUploading && <ActivityIndicator size="large" color="#0000ff" />}
       <View style={styles.submitBtnContainer}>
         <CustomButton title="Reset" onPress={doReset} extraStyle={styles.btn} />
         <CustomButton
           title="Upload file"
           onPress={doUpload}
-          disabled={
-            uploadErrors.title !== null ||
-            uploadErrors.description !== null ||
-            uploadErrors.tags !== null ||
-            image === null
-          }
+          disabled={filetype !== 'image'}
           extraStyle={styles.btn}
         />
       </View>
@@ -248,6 +184,7 @@ const styles = StyleSheet.create({
     flex: 0.5,
     marginRight: 20,
     marginTop: 0,
+    height: 44,
   },
   btnContainer: {
     width: '95%',
@@ -261,6 +198,7 @@ const styles = StyleSheet.create({
   },
   submitBtnContainer: {
     width: '100%',
+    height: 0,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -273,10 +211,16 @@ const styles = StyleSheet.create({
     bottom: 30,
     right: 30,
   },
+  errorText: {
+    fontFamily: 'ProximaSoftMedium',
+    color: 'red',
+    marginBottom: 20,
+    fontSize: 18,
+  },
 });
 
-Upload.propTypes = {
+UploadAvatar.propTypes = {
   navigation: PropTypes.object,
 };
 
-export default Upload;
+export default UploadAvatar;

@@ -8,7 +8,7 @@ const doFetch = async (url, options = {}) => {
   if (json.error) {
     throw new Error(json.message + ': ' + json.error);
   } else if (!response.ok) {
-    throw new Error('doFetch failed');
+    throw new Error('doFetch failed', response.message);
   } else {
     return json;
   }
@@ -113,6 +113,7 @@ const useUser = () => {
   };
 
   const modifyUser = async (inputs, token) => {
+    console.log(inputs);
     const options = {
       method: 'PUT',
       headers: {
@@ -226,7 +227,7 @@ const useMedia = () => {
       );
       return listOfCurrentUsersFiles;
     } catch (error) {
-      throw new Error('getFIleById error: ' + error.message);
+      throw new Error('getListOfFilesOfCurrentUser error: ' + error.message);
     }
   };
 

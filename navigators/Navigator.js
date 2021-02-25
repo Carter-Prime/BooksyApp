@@ -20,6 +20,7 @@ import {
   Search,
   SearchResult,
   Upload,
+  UploadAvatar,
 } from '../views/index';
 import Colours from './../utils/Colours';
 
@@ -52,14 +53,6 @@ const TabScreen = () => {
   const screenOptions = ({route}) => ({
     tabBarIcon: function tabIcons({focused, color}) {
       let iconName;
-
-      // if (route.name === 'Home') {
-      //   iconName = focused ? 'home' : 'home';
-      // } else if (route.name === 'Profile') {
-      //   iconName = focused ? 'user' : 'user';
-      // } else if (route.name === 'Search') {
-      //   iconName = focused ? 'search' : 'search';
-      // }
 
       switch (route.name) {
         case 'Home':
@@ -148,6 +141,11 @@ const StackScreen = () => {
           <Stack.Screen
             name="SearchResult"
             component={SearchResult}
+            options={HeaderOptions}
+          />
+          <Stack.Screen
+            name="UploadAvatar"
+            component={UploadAvatar}
             options={HeaderOptions}
           />
         </>

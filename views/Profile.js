@@ -15,6 +15,8 @@ import AccountStatisticCard from '../components/AccountStatisticCard';
 import {uploadsUrl} from '../utils/Variable';
 import {useTag, useUser} from '../hooks/ApiHooks';
 import SectionHeader from './../components/AccountInfoHeader';
+import List from '../components/List';
+import {useLoadMedia} from '../hooks/LoadMediaHooks';
 
 const Profile = ({navigation}) => {
   const {loaded, setIsLoggedIn, user, setUser, update} = useContext(
@@ -23,6 +25,7 @@ const Profile = ({navigation}) => {
   const {getFilesByTag} = useTag();
   const {checkCurrentUserToken} = useUser();
   const [avatar, setAvatar] = useState('http://placekitten.com/640');
+  const {currentUserPostArray} = useLoadMedia();
 
   const logout = async () => {
     setIsLoggedIn(false);
@@ -46,7 +49,7 @@ const Profile = ({navigation}) => {
       }
     };
     fetchAvatar();
-  }, []);
+  }, [update]);
 
   useEffect(() => {
     const updateUserData = async () => {
@@ -86,7 +89,12 @@ const Profile = ({navigation}) => {
       <AccountInfoCard accountInfo={user} />
       <SectionHeader content="Account Statistics" />
       <AccountStatisticCard />
-      <SectionHeader content="Current Posts" />
+      <SectionHeader content="My Posts" />
+      <List
+        navigation={navigation}
+        loadData={currentUserPostArray.reverse()}
+        horizontal
+      />
       <SectionHeader content="Books Swapped" />
 
       <CustomButton
