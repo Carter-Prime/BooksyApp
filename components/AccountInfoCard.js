@@ -25,11 +25,6 @@ const AccountInfoCard = ({accountInfo, ...props}) => {
         <Text style={[styles.text, styles.info]}>{accountInfo.email}</Text>
       </View>
       <Card.Divider style={styles.divider} />
-      <View style={styles.cardSection}>
-        <Text style={[styles.text, styles.labels]}>Favourite Book:</Text>
-        <Text style={[styles.text, styles.info]}>placeholder</Text>
-      </View>
-      <Card.Divider style={styles.divider} />
     </Card>
   );
 };

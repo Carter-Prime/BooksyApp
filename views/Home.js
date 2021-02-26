@@ -12,7 +12,7 @@ import ListVertical from './../components/ListVertical';
 
 const Home = ({navigation}) => {
   const {loaded} = useContext(MainContext);
-  const {currentUserFavouritePostArray} = useLoadMedia();
+  const {currentUserFavouritePostArray, latestPostsArray} = useLoadMedia();
 
   if (!loaded) {
     return <AppLoading onError={console.warn} />;
@@ -23,13 +23,15 @@ const Home = ({navigation}) => {
       <StatusBar backgroundColor="black" style="light" />
       <SectionHeader content="Favourite Posts" />
       <List
+        navigation={navigation}
         loadData={currentUserFavouritePostArray}
         horizontal
-        style={{height: '30%', marginTop: 10}}
+        style={{height: 200, marginTop: 10}}
       />
-      <SectionHeader content="Latest Posts" containerStyle={{marginTop: -20}} />
+      <SectionHeader content="Latest Posts" />
       <ListVertical
-        loadData={currentUserFavouritePostArray}
+        navigation={navigation}
+        loadData={latestPostsArray}
         style={{height: '70%', marginTop: 10}}
       />
     </View>
@@ -50,6 +52,9 @@ const styles = StyleSheet.create({
   lastestPostContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  sectionContainer: {
+    marginTop: 10,
   },
 });
 

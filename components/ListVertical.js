@@ -25,7 +25,7 @@ ListVertical.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 140,
+    paddingBottom: 155,
     justifyContent: 'center',
     alignItems: 'center',
   },

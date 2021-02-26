@@ -1,17 +1,19 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/Variable';
 import {Image, ListItem as RNEListItem} from 'react-native-elements';
 import Colours from './../utils/Colours';
+import {BlurView} from 'expo-blur';
 
 const ListItem = ({navigation, singleMedia}) => {
   return (
     <RNEListItem
       containerStyle={styles.itemContainer}
+      underlayColor={Colours.transparentLight}
       bottomDivider
       onPress={() => {
-        // navigation.navigate('Details', {file: singleMedia});
+        navigation.navigate('Details', {file: singleMedia});
       }}
     >
       <Image
@@ -19,33 +21,38 @@ const ListItem = ({navigation, singleMedia}) => {
         source={{uri: uploadsUrl + singleMedia.thumbnails.w160}}
       ></Image>
 
-      <RNEListItem.Title style={styles.title}>
-        {singleMedia.title}
-      </RNEListItem.Title>
+      <BlurView intensity={20} tint="dark" style={styles.titleContainer}>
+        <Text style={styles.title}>{singleMedia.title}</Text>
+      </BlurView>
     </RNEListItem>
   );
 };
 const styles = StyleSheet.create({
   itemContainer: {
     padding: 0,
-    width: 160,
+    width: 180,
     margin: 2,
+    borderRadius: 3,
   },
   image: {
-    width: 160,
-    height: 160,
+    width: 180,
+    height: 165,
+    borderRadius: 3,
   },
   title: {
     width: '100%',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
     paddingHorizontal: 4,
     paddingVertical: 0,
     fontFamily: 'ProximaSoftMedium',
     color: Colours.textLight,
-    backgroundColor: Colours.transparentDark,
     fontSize: 24,
+    textAlign: 'center',
+  },
+  titleContainer: {
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
 });
 

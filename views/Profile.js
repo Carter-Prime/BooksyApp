@@ -92,7 +92,7 @@ const Profile = ({navigation}) => {
       <SectionHeader content="My Posts" />
       <List
         navigation={navigation}
-        loadData={currentUserPostArray.reverse()}
+        loadData={currentUserPostArray}
         horizontal
       />
       <SectionHeader content="Books Swapped" />
