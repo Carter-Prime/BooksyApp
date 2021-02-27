@@ -11,11 +11,12 @@ const SectionHeader = ({
   content,
   containerStyle,
   dividerStyle,
+  textStyle,
   ...props
 }) => {
   return (
     <View style={[styles.container, containerStyle]}>
-      <Text style={styles.text} {...props}>
+      <Text style={[styles.text, textStyle]} {...props}>
         {content}
       </Text>
 
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: 'ProximaSoftRegular',
     fontSize: 30,
-    color: Colours.primaryBlue,
+    color: Colours.textDark,
     marginLeft: 20,
   },
   divider: {
@@ -58,4 +59,5 @@ SectionHeader.propTypes = {
   navigation: PropTypes.object,
   containerStyle: PropTypes.object,
   dividerStyle: PropTypes.object,
+  textStyle: PropTypes.object,
 };

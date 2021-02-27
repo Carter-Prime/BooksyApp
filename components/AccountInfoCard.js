@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     width: '90%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: Colours.accentOrange,
+    borderColor: Colours.primaryBlue,
+    backgroundColor: Colours.secondaryNeutral,
   },
   cardSection: {
     width: '100%',
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     fontFamily: 'ProximaSoftRegular',
     fontSize: 16,
     width: '100%',
-    color: Colours.primaryBlue,
+    color: Colours.textDark,
     marginLeft: 5,
     marginRight: 5,
     textAlignVertical: 'bottom',
@@ -57,6 +58,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     flexShrink: 1,
     fontFamily: 'ProximaSoftMedium',
+    color: Colours.textDark,
   },
   info: {
     flexGrow: 1.5,

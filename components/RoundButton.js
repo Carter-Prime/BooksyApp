@@ -4,13 +4,13 @@ import {Button} from 'react-native-elements';
 import Colours from './../utils/Colours';
 import PropTypes from 'prop-types';
 
-const RoundButton = ({extraStyle, ...otherProps}) => {
+const RoundButton = ({extraStyle, btnStyle, ...otherProps}) => {
   return (
     <Button
       {...otherProps}
       raised
       titleStyle={styles.titleStyle}
-      buttonStyle={styles.buttonStyle}
+      buttonStyle={[styles.buttonStyle, btnStyle]}
       containerStyle={[styles.containerStyle, extraStyle]}
     />
   );
@@ -41,4 +41,5 @@ const styles = StyleSheet.create({
 
 RoundButton.propTypes = {
   extraStyle: PropTypes.object,
+  btnStyle: PropTypes.object,
 };

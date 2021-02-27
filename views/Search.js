@@ -24,7 +24,7 @@ const Search = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colours.secondaryNeutral,
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -98,7 +98,7 @@ const EditProfile = ({navigation}) => {
         imageProps={{
           borderRadius: 5,
           borderWidth: 3,
-          borderColor: Colours.accentOrange,
+          borderColor: Colours.primaryBlue,
         }}
       ></Avatar>
       <RoundButton
@@ -171,7 +171,7 @@ const EditProfile = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: Colours.secondaryNeutral,
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: 20,
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   editAvatarBtn: {
     position: 'absolute',
-    right: 55,
+    right: 60,
     top: 240,
   },
 });

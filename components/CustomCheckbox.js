@@ -20,7 +20,7 @@ export const CustomCheckbox = ({label, state, updateState}) => {
 const styles = StyleSheet.create({
   container: {
     borderWidth: 0,
-    backgroundColor: Colours.secondaryNeutral,
+    backgroundColor: 'white',
     margin: 2,
     padding: 0,
   },

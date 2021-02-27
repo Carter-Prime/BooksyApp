@@ -1,7 +1,13 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AppLoading from 'expo-app-loading';
-import {StyleSheet, View, ActivityIndicator, Text} from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  Text,
+  View,
+} from 'react-native';
 import {Card, Avatar, ListItem} from 'react-native-elements';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
@@ -9,19 +15,28 @@ import Colours from './../utils/Colours';
 import {uploadsUrl} from '../utils/Variable';
 import SectionHeader from '../components/SectionHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useUser, useTag} from '../hooks/ApiHooks';
+import {useUser, useTag, useComment} from '../hooks/ApiHooks';
 import moment from 'moment';
 import {Video} from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import {Feather} from 'react-native-vector-icons';
+import CommentListItem from './../components/CommentListItem';
+import RoundButton from '../components/RoundButton';
+import {Dimensions} from 'react-native';
+import ModalAddComment from './../components/ModalAddComment';
+import Actionbar from '../components/Actionbar';
 
 const Details = ({route}) => {
   const {file} = route.params;
-  const {loaded} = useContext(MainContext);
+  const {loaded, update} = useContext(MainContext);
   const [videoRef, setVideoRef] = useState(null);
   const [avatar, setAvatar] = useState('http://placekitten.com/100');
   const [owner, setOwner] = useState({username: 'somebody'});
+  const [modalVisible, setModalVisible] = useState(false);
+  const [comments, setComments] = useState([]);
   const {getUserById} = useUser();
   const {getFilesByTag} = useTag();
+  const {getCommentsByFileId} = useComment();
 
   const fetchAvatar = async () => {
     try {
@@ -38,6 +53,15 @@ const Details = ({route}) => {
       const userToken = await AsyncStorage.getItem('userToken');
       const userData = await getUserById(file.user_id, userToken);
       setOwner(userData);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const commentList = await getCommentsByFileId(file.file_id);
+      setComments(commentList.reverse());
     } catch (error) {
       console.error(error.message);
     }
@@ -85,13 +109,17 @@ const Details = ({route}) => {
     }
   };
 
+  const toggleVisibility = () => {
+    setModalVisible(!modalVisible);
+  };
+
   useEffect(() => {
     unlock();
     fetchAvatar();
     fetchOwner();
+    fetchComments();
 
     const orientSub = ScreenOrientation.addOrientationChangeListener((evt) => {
-      console.log('orientation', evt);
       if (evt.orientationInfo.orientation > 2) {
         // show video in fullscreen
         showVideoInFullscreen();
@@ -102,69 +130,179 @@ const Details = ({route}) => {
       ScreenOrientation.removeOrientationChangeListener(orientSub);
       lock();
     };
-  }, [videoRef]);
+  }, [videoRef, update]);
 
   if (!loaded) {
-    console.log('loaded: ', loaded);
     return <AppLoading onError={console.warn} />;
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="black" style="light" />
-      <Card containerStyle={styles.cardContainer}>
-        <SectionHeader content={file.title} dividerStyle={styles.divider} />
-        {file.media_type === 'image' ? (
-          <Card.Image
-            source={{uri: uploadsUrl + file.filename}}
-            style={styles.image}
-            PlaceholderContent={<ActivityIndicator />}
-          />
-        ) : (
-          <Video
-            ref={handleVideoRef}
-            source={{uri: uploadsUrl + file.filename}}
-            style={styles.image}
-            useNativeControls={true}
-            resizeMode="cover"
-            onError={(err) => {
-              console.error('video', err);
-            }}
-            posterSource={{uri: uploadsUrl + file.screenshot}}
-          />
-        )}
-        <Card.Title>{moment(file.time_added).format('LLL')}</Card.Title>
-        <Text style={styles.description}>{file.description}</Text>
-        <ListItem>
-          <Avatar source={{uri: avatar}} />
-          <Text>{owner.username}</Text>
-        </ListItem>
-      </Card>
-    </View>
+    <>
+      <FlatList
+        contentContainerStyle={styles.container}
+        ListHeaderComponent={
+          <View style={{width: Dimensions.get('window').width}}>
+            <StatusBar backgroundColor="black" style="light" />
+            <Card containerStyle={styles.cardContainer}>
+              <SectionHeader
+                content={file.title}
+                dividerStyle={styles.dividerHeader}
+                containerStyle={styles.title}
+                textStyle={styles.titleText}
+              />
+              {file.media_type === 'image' ? (
+                <Card.Image
+                  source={{uri: uploadsUrl + file.filename}}
+                  style={styles.image}
+                  PlaceholderContent={<ActivityIndicator />}
+                />
+              ) : (
+                <Video
+                  ref={handleVideoRef}
+                  source={{uri: uploadsUrl + file.filename}}
+                  style={styles.image}
+                  useNativeControls={true}
+                  resizeMode="cover"
+                  onError={(err) => {
+                    console.error('video', err);
+                  }}
+                  posterSource={{uri: uploadsUrl + file.screenshot}}
+                />
+              )}
+              <Actionbar postData={file} />
+              <View style={[styles.userStats]}>
+                <Avatar
+                  rounded
+                  size="medium"
+                  containerStyle={styles.avatar}
+                  source={{uri: avatar}}
+                />
+                <Text style={styles.username}>{owner.username}</Text>
+                <Text style={styles.time}>
+                  {moment(file.time_added).format('LLL')}
+                </Text>
+              </View>
+
+              <Card.Divider style={styles.divider} />
+              <Text style={styles.descriptionText}>{file.description}</Text>
+            </Card>
+            <SectionHeader
+              content="Comments"
+              dividerStyle={styles.dividerHeader}
+              containerStyle={styles.commentTitle}
+              textStyle={styles.titleText}
+            />
+            <ModalAddComment
+              modalVisible={modalVisible}
+              isVisible={toggleVisibility}
+              fileId={file.file_id}
+            />
+          </View>
+        }
+        data={comments}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => <CommentListItem commentMedia={item} />}
+      />
+      <RoundButton
+        extraStyle={styles.addCommentBtn}
+        btnStyle={styles.addBtn}
+        icon={<Feather name="plus" size={36} color={Colours.textDark} />}
+        onPress={() => {
+          setModalVisible(true);
+        }}
+      />
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: Colours.secondaryNeutral,
+    flexGrow: 1,
+    width: '100%',
+    backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+    paddingBottom: 60,
   },
   cardContainer: {
-    width: '90%',
+    width: '92%',
+    borderRadius: 5,
+    borderColor: Colours.primaryBlue,
+    backgroundColor: Colours.secondaryNeutral,
   },
   text: {
     fontFamily: 'ProximaSoftRegular',
     fontSize: 30,
   },
+  title: {
+    marginTop: -10,
+    marginBottom: 0,
+  },
+  titleText: {
+    marginLeft: 0,
+  },
+  commentTitle: {
+    width: Dimensions.get('window').width * 0.9,
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  avatar: {
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+  },
   image: {
     width: '100%',
     height: 400,
+    borderRadius: 5,
   },
   divider: {
-    marginHorizontal: 0,
+    height: 0.5,
+    backgroundColor: Colours.accentOrange,
+    marginTop: 20,
+  },
+  dividerHeader: {
     marginBottom: 20,
+    marginLeft: 0,
+    marginRight: 0,
+  },
+  time: {
+    position: 'absolute',
+    left: 60,
+    bottom: 5,
+    fontFamily: 'ProximaSoftRegular',
+    fontSize: 16,
+  },
+  username: {
+    position: 'absolute',
+    left: 60,
+    bottom: 25,
+    fontFamily: 'ProximaSoftMedium',
+    fontSize: 20,
+  },
+  userStats: {
+    width: '100%',
+    height: 50,
+    marginTop: 20,
+  },
+  descriptionText: {
+    width: '100%',
+    marginTop: 0,
+    fontFamily: 'ProximaSoftRegular',
+    fontSize: 14,
+  },
+  addCommentBtn: {
+    position: 'absolute',
+    right: 20,
+    bottom: 10,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+  },
+  addBtn: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
   },
 });
 

@@ -4,18 +4,14 @@ import {useMedia, useFavourite} from './ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {baseUrl, appIdentifier} from '../utils/Variable';
 
-// general function for fetching (options default value is empty object)
 const doFetch = async (url, options = {}) => {
   const response = await fetch(url, options);
   const json = await response.json();
   if (json.error) {
-    // if API response contains error message (use Postman to get further details)
     throw new Error(json.message + ': ' + json.error);
   } else if (!response.ok) {
-    // if API response does not contain error message, but there is some other error
     throw new Error('doFetch failed');
   } else {
-    // if all goes well
     return json;
   }
 };
@@ -89,7 +85,7 @@ const useLoadMedia = () => {
         .reverse();
       setLatestPostsArray(newArray);
     } catch (error) {
-      console.error('loadMedia error', error.message);
+      console.error('latestPosts error', error.message);
     }
   };
 

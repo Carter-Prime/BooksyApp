@@ -2,18 +2,23 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Input} from 'react-native-elements';
 import Colours from './../utils/Colours';
+import PropTypes from 'prop-types';
 
-const InputTextBox = ({...otherProps}) => {
+const InputTextBox = ({extraInputContainerStyle, ...otherProps}) => {
   return (
     <Input
       {...otherProps}
       autoCapitalize="none"
       containerStyle={styles.containerStyle}
       inputStyle={styles.inputStyle}
-      inputContainerStyle={styles.inputContainerStyle}
+      inputContainerStyle={[
+        styles.inputContainerStyle,
+        extraInputContainerStyle,
+      ]}
       placeholderTextColor={Colours.placeholderText}
       leftIconContainerStyle={styles.leftIconContainerStyle}
       rightIconContainerStyle={styles.rightIconContainerStyle}
+      multiline={true}
     />
   );
 };
@@ -48,3 +53,7 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
   },
 });
+
+InputTextBox.propTypes = {
+  extraInputContainerStyle: PropTypes.object,
+};

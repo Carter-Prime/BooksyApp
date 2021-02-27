@@ -230,7 +230,7 @@ const Upload = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: Colours.secondaryNeutral,
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: 20,
@@ -241,8 +241,8 @@ const styles = StyleSheet.create({
     height: undefined,
     aspectRatio: 1,
     marginVertical: 20,
-    borderWidth: 3,
-    borderColor: Colours.accentOrange,
+    borderWidth: 2,
+    borderColor: Colours.primaryBlue,
   },
   btn: {
     flex: 0.5,

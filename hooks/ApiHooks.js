@@ -274,10 +274,13 @@ const useMedia = () => {
 
 // Comment endpoints from API
 const useComment = () => {
-  const postComment = async (comment) => {
+  const postComment = async (comment, token) => {
     const options = {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'x-access-token': token,
+        'Content-type': 'application/json',
+      },
       body: JSON.stringify(comment),
     };
     try {
