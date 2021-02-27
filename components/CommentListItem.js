@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     left: 60,
     bottom: 0,
     fontFamily: 'ProximaSoftRegular',
+    color: Colours.primaryBlue,
   },
   username: {
     position: 'absolute',
@@ -140,6 +141,7 @@ const styles = StyleSheet.create({
     bottom: 20,
     fontFamily: 'ProximaSoftMedium',
     fontSize: 16,
+    color: Colours.primaryBlue,
   },
   postDetails: {
     width: '100%',

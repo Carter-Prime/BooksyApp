@@ -19,7 +19,7 @@ const AccountInfoHeader = ({navigation, content, toggleIcon, ...props}) => {
           name="edit"
           size={24}
           containerStyle={styles.editIcon}
-          color="black"
+          color={Colours.primaryBlue}
           onPress={() => {
             navigation.navigate(EditProfile);
           }}

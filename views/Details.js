@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Card, Avatar, ListItem} from 'react-native-elements';
+import {Card, Avatar} from 'react-native-elements';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
@@ -206,7 +206,7 @@ const Details = ({route}) => {
       <RoundButton
         extraStyle={styles.addCommentBtn}
         btnStyle={styles.addBtn}
-        icon={<Feather name="plus" size={36} color={Colours.textDark} />}
+        icon={<Feather name="plus" size={36} color={Colours.primaryBlue} />}
         onPress={() => {
           setModalVisible(true);
         }}
@@ -272,6 +272,7 @@ const styles = StyleSheet.create({
     bottom: 5,
     fontFamily: 'ProximaSoftRegular',
     fontSize: 16,
+    color: Colours.primaryBlue,
   },
   username: {
     position: 'absolute',
@@ -279,6 +280,7 @@ const styles = StyleSheet.create({
     bottom: 25,
     fontFamily: 'ProximaSoftMedium',
     fontSize: 20,
+    color: Colours.primaryBlue,
   },
   userStats: {
     width: '100%',
@@ -289,7 +291,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 0,
     fontFamily: 'ProximaSoftRegular',
-    fontSize: 14,
+    fontSize: 16,
   },
   addCommentBtn: {
     position: 'absolute',

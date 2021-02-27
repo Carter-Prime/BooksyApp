@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import {Divider, Icon} from 'react-native-elements';
-import {Feather} from 'react-native-vector-icons';
 import Colours from './../utils/Colours';
 import PropTypes from 'prop-types';
 
@@ -20,18 +19,17 @@ const Actionbar = ({postData}) => {
           >
             {isFavourite ? (
               <Icon
-                type="font-awesome-5"
-                name="heart"
-                size={24}
+                type="material-community"
+                name="eye-outline"
+                size={30}
                 color={Colours.primaryBlue}
               />
             ) : (
               <Icon
-                type="font-awesome-5"
-                name="heart"
-                size={24}
+                type="material-community"
+                name="eye"
+                size={30}
                 color={Colours.primaryBlue}
-                solid
               />
             )}
           </TouchableOpacity>
@@ -46,18 +44,17 @@ const Actionbar = ({postData}) => {
           >
             {isLiked ? (
               <Icon
-                type="font-awesome-5"
-                name="thumbs-up"
-                size={24}
+                type="material-community"
+                name="thumb-up"
+                size={30}
                 color={Colours.primaryBlue}
               />
             ) : (
               <Icon
-                type="font-awesome-5"
-                name="thumbs-up"
-                size={24}
+                type="material-community"
+                name="thumb-up-outline"
+                size={30}
                 color={Colours.primaryBlue}
-                solid
               />
             )}
           </TouchableOpacity>
@@ -93,7 +90,7 @@ const styles = StyleSheet.create({
   likesText: {
     textAlignVertical: 'center',
     paddingLeft: 10,
-    paddingTop: 3,
+    paddingTop: 5,
     fontFamily: 'ProximaSoftRegular',
     fontSize: 18,
   },

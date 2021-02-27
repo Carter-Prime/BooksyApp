@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     fontFamily: 'ProximaSoftMedium',
     fontSize: 20,
     paddingVertical: 0,
-    color: Colours.textDark,
+    color: Colours.primaryBlue,
   },
   containerStyle: {
     width: '90%',

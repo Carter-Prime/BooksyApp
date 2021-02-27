@@ -36,11 +36,11 @@ const LoginForm = ({navigation}) => {
         leftIcon={<Feather name="mail" size={24} color={Colours.textDark} />}
       />
       <InputTextBox
+        secureTextEntry={true}
         placeholder="password"
         onChangeText={(txt) => {
           handleInputChange('password', txt);
         }}
-        secureTextEntry={true}
         leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
       />
       <CustomButton title="Login" onPress={doLogin} />

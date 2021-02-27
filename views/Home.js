@@ -4,7 +4,6 @@ import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import AppLoading from 'expo-app-loading';
-import Colours from './../utils/Colours';
 import SectionHeader from '../components/SectionHeader';
 import List from '../components/List';
 import {useLoadMedia} from '../hooks/LoadMediaHooks';
@@ -21,7 +20,7 @@ const Home = ({navigation}) => {
   return (
     <View contentContainerStyle={styles.container}>
       <StatusBar backgroundColor="black" style="light" />
-      <SectionHeader content="Favourite Posts" />
+      <SectionHeader content="Watching" />
       <List
         navigation={navigation}
         loadData={currentUserFavouritePostArray}

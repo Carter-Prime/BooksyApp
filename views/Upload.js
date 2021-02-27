@@ -178,12 +178,12 @@ const Upload = ({navigation}) => {
       )}
       <View style={styles.btnContainer}>
         <RoundButton
-          icon={<Feather name="folder" size={24} color={Colours.textDark} />}
+          icon={<Feather name="folder" size={24} color={Colours.primaryBlue} />}
           onPress={() => pickImage(true)}
           extraStyle={{marginRight: 10}}
         />
         <RoundButton
-          icon={<Feather name="camera" size={24} color={Colours.textDark} />}
+          icon={<Feather name="camera" size={24} color={Colours.primaryBlue} />}
           onPress={() => pickImage(false)}
         />
       </View>

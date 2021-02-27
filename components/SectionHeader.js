@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: 'ProximaSoftRegular',
     fontSize: 30,
-    color: Colours.textDark,
+    color: Colours.primaryBlue,
     marginLeft: 20,
   },
   divider: {

@@ -102,7 +102,7 @@ const EditProfile = ({navigation}) => {
         }}
       ></Avatar>
       <RoundButton
-        icon={<Feather name="edit" size={24} color={Colours.textDark} />}
+        icon={<Feather name="edit" size={24} color={Colours.primaryBlue} />}
         onPress={() => navigation.navigate(UploadAvatar)}
         extraStyle={styles.editAvatarBtn}
       />
@@ -118,7 +118,9 @@ const EditProfile = ({navigation}) => {
             handleInputEnd('username', event.nativeEvent.text);
           }}
           errorMessage={editErrors.username}
-          leftIcon={<Feather name="user" size={24} color={Colours.textDark} />}
+          leftIcon={
+            <Feather name="user" size={24} color={Colours.primaryBlue} />
+          }
         />
         <InputTextBox
           value={inputs.email}
@@ -128,14 +130,18 @@ const EditProfile = ({navigation}) => {
             handleInputEnd('email', event.nativeEvent.text)
           }
           errorMessage={editErrors.email}
-          leftIcon={<Feather name="mail" size={24} color={Colours.textDark} />}
+          leftIcon={
+            <Feather name="mail" size={24} color={Colours.primaryBlue} />
+          }
         />
         <InputTextBox
           value={inputs.full_name}
           placeholder="full name"
           onChangeText={(txt) => handleInputChange('full_name', txt)}
           errorMessage={editErrors.full_name}
-          leftIcon={<Feather name="users" size={24} color={Colours.textDark} />}
+          leftIcon={
+            <Feather name="users" size={24} color={Colours.primaryBlue} />
+          }
         />
         <InputTextBox
           value={inputs.password}
@@ -146,7 +152,9 @@ const EditProfile = ({navigation}) => {
           }
           secureTextEntry={true}
           errorMessage={editErrors.password}
-          leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
+          leftIcon={
+            <Feather name="lock" size={24} color={Colours.primaryBlue} />
+          }
         />
         <InputTextBox
           value={inputs.confirmPassword}
@@ -157,7 +165,9 @@ const EditProfile = ({navigation}) => {
           }
           secureTextEntry={true}
           errorMessage={editErrors.confirmPassword}
-          leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
+          leftIcon={
+            <Feather name="lock" size={24} color={Colours.primaryBlue} />
+          }
         />
       </View>
 

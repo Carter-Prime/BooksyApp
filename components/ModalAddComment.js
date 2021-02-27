@@ -52,15 +52,17 @@ const ModalAddComment = ({isVisible, modalVisible, fileId}) => {
             value={inputs.comment}
             onChangeText={(txt) => handleInputChange('comment', txt)}
             errorMessage={uploadErrors.comment}
+            multiline={true}
           />
           <RoundButton
             extraStyle={styles.addCommentBtn}
             btnStyle={styles.addBtn}
+            iconContainerStyle={{transform: {rotate: '90deg'}}}
             icon={
               <Feather
                 name="send"
                 size={24}
-                color={Colours.textDark}
+                color={Colours.primaryBlue}
                 style={styles.rotate}
               />
             }
@@ -111,7 +113,8 @@ const styles = StyleSheet.create({
     borderRadius: 23,
   },
   rotate: {
-    marginTop: 4,
-    marginRight: 4,
+    marginTop: 0,
+    marginRight: 5,
+    transform: [{rotate: '45deg'}],
   },
 });

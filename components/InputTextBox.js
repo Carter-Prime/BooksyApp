@@ -18,7 +18,6 @@ const InputTextBox = ({extraInputContainerStyle, ...otherProps}) => {
       placeholderTextColor={Colours.placeholderText}
       leftIconContainerStyle={styles.leftIconContainerStyle}
       rightIconContainerStyle={styles.rightIconContainerStyle}
-      multiline={true}
     />
   );
 };

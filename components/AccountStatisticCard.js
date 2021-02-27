@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   labels: {
     textAlign: 'left',
     flexShrink: 1,
-    fontFamily: 'ProximaSoftMedium',
+    fontFamily: 'ProximaSoftRegular',
     color: Colours.textDark,
   },
   info: {

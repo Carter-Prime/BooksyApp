@@ -4,7 +4,6 @@ import AppLoading from 'expo-app-loading';
 import {StyleSheet, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
-import Colours from './../utils/Colours';
 
 const Search = ({navigation}) => {
   const {loaded} = useContext(MainContext);
