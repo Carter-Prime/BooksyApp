@@ -6,23 +6,30 @@ import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
 
 const AccountStatisticCard = ({accountStats, ...props}) => {
+  const statsObject = JSON.parse(accountStats);
+  console.log('statsObject ', statsObject);
+
   return (
     <Card containerStyle={styles.card}>
       <View style={styles.cardSection}>
         <Text style={[styles.text, styles.labels]}>Rating:</Text>
-        <Text style={[styles.text, styles.info]}>74% (PH)</Text>
+        <Text style={[styles.text, styles.info]}>{statsObject.rating}</Text>
       </View>
       <Card.Divider style={styles.divider} />
       <View style={styles.cardSection}>
         <Text style={[styles.text, styles.labels]}>Number of Posts: </Text>
-        <Text style={[styles.text, styles.info]}>10 (PH)</Text>
+        <Text style={[styles.text, styles.info]}>
+          {statsObject.numberOfPosts}
+        </Text>
       </View>
       <Card.Divider style={styles.divider} />
       <View style={styles.cardSection}>
         <Text style={[styles.text, styles.labels, {flexGrow: 0.5}]}>
           Swapped:
         </Text>
-        <Text style={[styles.text, styles.info]}> 23 Books (PH)</Text>
+        <Text style={[styles.text, styles.info]}>
+          {statsObject.booksSwapped}
+        </Text>
       </View>
       <Card.Divider style={styles.divider} />
     </Card>
@@ -73,5 +80,5 @@ const styles = StyleSheet.create({
 });
 
 AccountStatisticCard.propTypes = {
-  accountStats: PropTypes.object,
+  accountStats: PropTypes.string,
 };

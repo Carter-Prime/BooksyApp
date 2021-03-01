@@ -41,8 +41,23 @@ const RegisterForm = ({navigation}) => {
 
     delete inputs.confirmPassword;
 
+    const additionalUserData = {
+      fullName: '',
+      favouriteBook: '',
+      booksSwapped: 0,
+      rating: '100%',
+      numberOfPosts: 0,
+    };
+
+    const registerData = {
+      username: inputs.username,
+      email: inputs.email,
+      password: inputs.password,
+      full_name: JSON.stringify(additionalUserData),
+    };
+
     try {
-      const result = await registerNewUser(inputs);
+      const result = await registerNewUser(registerData);
       console.log('doRegister ok', result.message);
       Alert.alert(result.message);
       const userData = await postLogin(inputs);

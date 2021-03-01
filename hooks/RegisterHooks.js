@@ -9,7 +9,14 @@ const constraints = {
     },
     length: {
       minimum: 3,
+      maximum: 100,
+      tooLong: 'max length is 100 characters',
       message: 'min length is 3 characters',
+    },
+    format: {
+      pattern: '[a-z0-9]+',
+      flags: 'i',
+      message: 'can only contain a-z and 0-9',
     },
   },
   password: {

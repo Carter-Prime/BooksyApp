@@ -8,7 +8,14 @@ const constraints = {
     },
     length: {
       minimum: 3,
+      maximum: 20,
+      tooLong: 'max length is 20 characters',
       message: 'min length is 3 characters',
+    },
+    format: {
+      pattern: '[a-z0-9]+',
+      flags: 'i',
+      message: 'can only contain a-z and 0-9',
     },
   },
   description: {
@@ -17,7 +24,14 @@ const constraints = {
     },
     length: {
       minimum: 5,
+      maximum: 255,
+      tooLong: 'max length is 255 characters',
       message: 'min length is 5 characters',
+    },
+    format: {
+      pattern: '[a-zA-Z0-9,!".?@#h]+',
+      flags: 'i',
+      message: 'can only contain a-z and 0-9',
     },
   },
   tags: {
@@ -25,11 +39,13 @@ const constraints = {
       message: 'cannot be empty',
     },
     length: {
-      minimum: 5,
-      message: 'min length is 5 characters',
+      minimum: 2,
+      maximum: 20,
+      tooLong: 'max length is 20 characters',
+      message: 'min length is 2 characters',
     },
     format: {
-      pattern: '[a-z0-9]+',
+      pattern: '[a-zA-Z0-9]+',
       flags: 'i',
       message: 'can only contain a-z and 0-9',
     },

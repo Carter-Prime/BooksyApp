@@ -113,15 +113,17 @@ const useUser = () => {
   };
 
   const modifyUser = async (inputs, token) => {
-    console.log(inputs);
+    console.log(JSON.stringify(inputs));
     const options = {
       method: 'PUT',
-      headers: {'x-access-token': token},
-      data: inputs,
-      url: baseUrl + 'users',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify(inputs),
     };
     try {
-      const response = await axios(options);
+      const response = await doFetch(baseUrl + 'users', options);
       return response;
     } catch (e) {
       throw new Error(e.message);

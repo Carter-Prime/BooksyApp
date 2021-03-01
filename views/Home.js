@@ -25,10 +25,11 @@ const Home = ({navigation}) => {
         navigation={navigation}
         loadData={currentUserFavouritePostArray}
         horizontal
-        style={{height: 200, marginTop: 10}}
+        style={styles.horizontalListContainer}
       />
       <SectionHeader content="Latest Posts" />
       <ListVertical
+        numColumns={2}
         navigation={navigation}
         loadData={latestPostsArray}
         style={{height: '70%', marginTop: 10}}
@@ -54,6 +55,13 @@ const styles = StyleSheet.create({
   },
   sectionContainer: {
     marginTop: 10,
+  },
+  horizontalListContainer: {
+    height: 210,
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    paddingBottom: 10,
   },
 });
 

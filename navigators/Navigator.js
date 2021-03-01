@@ -45,7 +45,7 @@ const HeaderOptions = ({route, navigation}) => {
     headerTitle: getFocusedRouteNameFromRoute(route),
     headerStyle: {
       backgroundColor: Colours.primaryBlue,
-      height: 70,
+      height: 80,
     },
     headerTintColor: 'white',
     headerTitleStyle: {
@@ -157,6 +157,11 @@ const TabScreen = () => {
         tabStyle: {
           backgroundColor: Colours.primaryBlue,
           paddingTop: 10,
+          paddingBottom: 5,
+          marginTop: 0,
+        },
+        style: {
+          height: 55,
         },
       }}
     >

@@ -88,7 +88,7 @@ const Profile = ({navigation}) => {
       />
       <AccountInfoCard accountInfo={user} />
       <SectionHeader content="Account Statistics" />
-      <AccountStatisticCard />
+      <AccountStatisticCard accountStats={user.full_name} />
       <SectionHeader content="My Posts" />
       <List
         navigation={navigation}

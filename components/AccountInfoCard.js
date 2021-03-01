@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
 
 const AccountInfoCard = ({accountInfo, ...props}) => {
+  const additionalUserData = JSON.parse(accountInfo.full_name);
   return (
     <Card containerStyle={styles.card}>
       <View style={styles.cardSection}>
@@ -15,7 +16,9 @@ const AccountInfoCard = ({accountInfo, ...props}) => {
       <Card.Divider style={styles.divider} />
       <View style={styles.cardSection}>
         <Text style={[styles.text, styles.labels]}>Name:</Text>
-        <Text style={[styles.text, styles.info]}>{accountInfo.full_name}</Text>
+        <Text style={[styles.text, styles.info]}>
+          {additionalUserData.fullName}
+        </Text>
       </View>
       <Card.Divider style={styles.divider} />
       <View style={styles.cardSection}>
@@ -23,6 +26,15 @@ const AccountInfoCard = ({accountInfo, ...props}) => {
           Email:
         </Text>
         <Text style={[styles.text, styles.info]}>{accountInfo.email}</Text>
+      </View>
+      <Card.Divider style={styles.divider} />
+      <View style={styles.cardSection}>
+        <Text style={[styles.text, styles.labels, {flexGrow: 0.5}]}>
+          Favourite Book:
+        </Text>
+        <Text style={[styles.text, styles.info]}>
+          {additionalUserData.favouriteBook}
+        </Text>
       </View>
       <Card.Divider style={styles.divider} />
     </Card>

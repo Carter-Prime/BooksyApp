@@ -1,7 +1,7 @@
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
-import LargeListItem from './LargeListItem';
+import ListItem from './ListItem';
 import PropTypes from 'prop-types';
 
 const ListVertical = ({navigation, loadData, ...props}) => {
@@ -12,7 +12,7 @@ const ListVertical = ({navigation, loadData, ...props}) => {
       data={loadData}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) => (
-        <LargeListItem navigation={navigation} singleMedia={item} />
+        <ListItem navigation={navigation} singleMedia={item} />
       )}
     />
   );
@@ -26,8 +26,9 @@ ListVertical.propTypes = {
 const styles = StyleSheet.create({
   container: {
     paddingBottom: 155,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginLeft: 20,
   },
 });
 

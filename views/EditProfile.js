@@ -19,6 +19,7 @@ import {
   Mail as MailIcon,
   Lock as LockIcon,
   Users as UsersIcon,
+  Book as BookIcon,
 } from 'react-native-feather';
 import EditHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
@@ -53,10 +54,12 @@ const EditProfile = ({navigation}) => {
       }
     };
     fetchAvatar();
+    const userData = JSON.parse(user.full_name);
     setInputs({
       username: user.username,
       email: user.email,
-      full_name: user.full_name,
+      fullName: userData.fullName,
+      favouriteBook: userData.favouriteBook,
     });
   }, [update]);
 
@@ -68,22 +71,21 @@ const EditProfile = ({navigation}) => {
 
     delete inputs.confirmPassword;
 
-    const formData = new FormData();
-
-    const moreData = {
-      fullName: inputs.full_name,
-      favouriteBook: 'Harry Potter',
+    const additionalUserData = {
+      fullName: inputs.fullName,
+      favouriteBook: inputs.favouriteBook,
     };
 
-    formData.append('username', inputs.username);
-    formData.append('email', inputs.email);
-    formData.append('full_name', JSON.stringify(moreData));
+    const uploadData = {
+      username: inputs.username,
+      email: inputs.email,
+      full_name: JSON.stringify(additionalUserData),
+    };
 
     try {
       setIsUploading(true);
-      console.log(JSON.stringify(moreData));
       const userToken = await AsyncStorage.getItem('userToken');
-      const resp = await modifyUser(formData, userToken);
+      const resp = await modifyUser(uploadData, userToken);
       console.log('update response', resp);
       setUpdate(update + 1);
       Alert.alert('Account Updated', resp.message + ' Successfully');
@@ -149,11 +151,21 @@ const EditProfile = ({navigation}) => {
           leftIcon={<MailIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
         />
         <InputTextBox
-          value={inputs.full_name}
+          value={inputs.fullName}
           placeholder="full name"
-          onChangeText={(txt) => handleInputChange('full_name', txt)}
-          errorMessage={editErrors.full_name}
+          onChangeText={(txt) => handleInputChange('fullName', txt)}
+          errorMessage={editErrors.fullName}
           leftIcon={<UsersIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
+        />
+        <InputTextBox
+          value={inputs.favouriteBook}
+          placeholder="favourite book"
+          onChangeText={(txt) => handleInputChange('favouriteBook', txt)}
+          onEndEditing={(event) =>
+            handleInputEnd('favouriteBook', event.nativeEvent.text)
+          }
+          errorMessage={editErrors.favouriteBook}
+          leftIcon={<BookIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
         />
         <InputTextBox
           value={inputs.password}
