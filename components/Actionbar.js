@@ -1,13 +1,77 @@
-import React, {useState} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import {Divider} from 'react-native-elements';
 import {Eye, ThumbsUp} from 'react-native-feather';
 import Colours from './../utils/Colours';
 import PropTypes from 'prop-types';
+import {useFavourite, useRating} from '../hooks/ApiHooks';
+import {MainContext} from '../contexts/MainContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Actionbar = ({postData}) => {
   const [isLiked, setIsLiked] = useState(false);
-  const [isFavourite, setIsFavourite] = useState(false);
+  const {
+    postFavourite,
+    getListOfFavouritesByCurrentUser,
+    deleteFavourite,
+  } = useFavourite();
+  const {postRating} = useRating();
+  const [isWatching, setIsWatching] = useState(false);
+  const {update, setUpdate} = useContext(MainContext);
+
+  const addWatching = async () => {
+    if (isWatching) {
+      return null;
+    }
+    const userToken = await AsyncStorage.getItem('userToken');
+    const data = {
+      file_id: postData.file_id,
+    };
+
+    try {
+      await postFavourite(data, userToken);
+      setIsWatching(true);
+      setUpdate(update + 1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeWatching = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+
+    try {
+      await deleteFavourite(postData.file_id, userToken);
+      setIsWatching(false);
+      setUpdate(update + 1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getWatching = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+
+    try {
+      const listOfWatching = await getListOfFavouritesByCurrentUser(userToken);
+
+      const newArray = await listOfWatching.filter((item) => {
+        if (item.file_id == postData.file_id) {
+          return item;
+        }
+      });
+      if (newArray.length > 0) {
+        setIsWatching(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getWatching();
+  }, []);
+
   return (
     <>
       <View style={styles.container}>
@@ -15,15 +79,19 @@ const Actionbar = ({postData}) => {
           <TouchableOpacity
             style={styles.iconContainerLeft}
             onPress={() => {
-              setIsFavourite(!isFavourite);
+              if (isWatching) {
+                removeWatching();
+              } else {
+                addWatching();
+              }
             }}
           >
-            {isFavourite ? (
+            {isWatching ? (
               <Eye
                 width={28}
                 height={28}
                 stroke={Colours.primaryBlue}
-                fill="none"
+                fill={Colours.accentOrange}
                 strokeWidth={1.5}
               />
             ) : (
@@ -31,7 +99,7 @@ const Actionbar = ({postData}) => {
                 width={28}
                 height={28}
                 stroke={Colours.primaryBlue}
-                fill={Colours.accentOrange}
+                fill="none"
                 strokeWidth={1.5}
               />
             )}

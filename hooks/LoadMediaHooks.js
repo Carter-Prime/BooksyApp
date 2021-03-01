@@ -55,12 +55,13 @@ const useLoadMedia = () => {
     const userToken = await AsyncStorage.getItem('userToken');
     try {
       const response = await getListOfFavouritesByCurrentUser(userToken);
-      const media = await Promise.all(
+      let media = await Promise.all(
         response.map(async (item) => {
           const fileJson = await doFetch(baseUrl + 'media/' + item.file_id);
           return fileJson;
         })
       );
+      media = media.reverse();
       setcurrentUserFavouritePostArray(media);
     } catch (error) {
       console.log('data error: ', error.message);

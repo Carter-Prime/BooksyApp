@@ -7,7 +7,6 @@ import Colours from './../utils/Colours';
 
 const AccountStatisticCard = ({accountStats, ...props}) => {
   const statsObject = JSON.parse(accountStats);
-  console.log('statsObject ', statsObject);
 
   return (
     <Card containerStyle={styles.card}>
