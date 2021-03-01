@@ -19,7 +19,7 @@ import {useUser, useTag, useComment} from '../hooks/ApiHooks';
 import moment from 'moment';
 import {Video} from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import {Feather} from 'react-native-vector-icons';
+import {Plus} from 'react-native-feather';
 import CommentListItem from './../components/CommentListItem';
 import RoundButton from '../components/RoundButton';
 import {Dimensions} from 'react-native';
@@ -206,7 +206,14 @@ const Details = ({route}) => {
       <RoundButton
         extraStyle={styles.addCommentBtn}
         btnStyle={styles.addBtn}
-        icon={<Feather name="plus" size={36} color={Colours.primaryBlue} />}
+        icon={
+          <Plus
+            width={40}
+            height={40}
+            strokeWidth={1.5}
+            color={Colours.primaryBlue}
+          />
+        }
         onPress={() => {
           setModalVisible(true);
         }}

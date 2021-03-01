@@ -1,7 +1,12 @@
 import React, {useContext} from 'react';
 import {StyleSheet, Alert, View} from 'react-native';
 import PropTypes from 'prop-types';
-import {Feather} from 'react-native-vector-icons';
+import {
+  User as UserIcon,
+  Mail as MailIcon,
+  Lock as LockIcon,
+  Check as CheckIcon,
+} from 'react-native-feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {MainContext} from '../contexts/MainContext';
@@ -52,24 +57,24 @@ const RegisterForm = ({navigation}) => {
 
   const checkIcon = () => {
     if (isUsernameAvailable) {
-      return <Feather name="check" size={24} color="green" />;
+      return <CheckIcon strokeWidth={1.5} size={24} color="green" />;
     }
   };
 
   const checkIconEmail = () => {
     if (isEmailAvailable) {
-      return <Feather name="check" size={24} color="green" />;
+      return <CheckIcon strokeWidth={1.5} size={24} color="green" />;
     }
   };
 
   const checkIconPassword = () => {
     if (isPasswordAvailable) {
-      return <Feather name="check" size={24} color="green" />;
+      return <CheckIcon strokeWidth={1.5} size={24} color="green" />;
     }
   };
   const checkIconConfirmPassword = () => {
     if (doPasswordMatch) {
-      return <Feather name="check" size={24} color="green" />;
+      return <CheckIcon strokeWidth={1.5} size={24} color="green" />;
     }
   };
 
@@ -83,7 +88,9 @@ const RegisterForm = ({navigation}) => {
           handleInputEnd('username', event.nativeEvent.text);
         }}
         errorMessage={registerErrors.username}
-        leftIcon={<Feather name="user" size={24} color={Colours.textDark} />}
+        leftIcon={
+          <UserIcon strokeWidth={1.5} size={24} color={Colours.textDark} />
+        }
         rightIcon={checkIcon}
       />
       <InputTextBox
@@ -93,7 +100,9 @@ const RegisterForm = ({navigation}) => {
           handleInputEnd('email', event.nativeEvent.text);
         }}
         errorMessage={registerErrors.email}
-        leftIcon={<Feather name="mail" size={24} color={Colours.textDark} />}
+        leftIcon={
+          <MailIcon strokeWidth={1.5} size={24} color={Colours.textDark} />
+        }
         rightIcon={checkIconEmail}
       />
       <InputTextBox
@@ -104,7 +113,9 @@ const RegisterForm = ({navigation}) => {
         }
         secureTextEntry={true}
         errorMessage={registerErrors.password}
-        leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
+        leftIcon={
+          <LockIcon strokeWidth={1.5} size={24} color={Colours.textDark} />
+        }
         rightIcon={checkIconPassword}
       />
       <InputTextBox
@@ -115,7 +126,9 @@ const RegisterForm = ({navigation}) => {
         }
         secureTextEntry={true}
         errorMessage={registerErrors.confirmPassword}
-        leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
+        leftIcon={
+          <LockIcon strokeWidth={1.5} size={24} color={Colours.textDark} />
+        }
         rightIcon={checkIconConfirmPassword}
       />
       <CustomButton title="Register" onPress={doRegister} />

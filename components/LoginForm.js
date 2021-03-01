@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {View, Alert, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
-import {Feather} from 'react-native-vector-icons';
+import {Mail as MailIcon, Lock as LockIcon} from 'react-native-feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useAuthentication} from '../hooks/ApiHooks';
@@ -33,7 +33,7 @@ const LoginForm = ({navigation}) => {
       <InputTextBox
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
-        leftIcon={<Feather name="mail" size={24} color={Colours.textDark} />}
+        leftIcon={<MailIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
       />
       <InputTextBox
         secureTextEntry={true}
@@ -41,7 +41,7 @@ const LoginForm = ({navigation}) => {
         onChangeText={(txt) => {
           handleInputChange('password', txt);
         }}
-        leftIcon={<Feather name="lock" size={24} color={Colours.textDark} />}
+        leftIcon={<LockIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
       />
       <CustomButton title="Login" onPress={doLogin} />
     </View>

@@ -1,4 +1,3 @@
-export {default as ChangePassword} from './ChangePassword';
 export {default as Details} from './Details';
 export {default as EditPost} from './EditPost';
 export {default as EditProfile} from './EditProfile';

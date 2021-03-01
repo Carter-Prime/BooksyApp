@@ -116,14 +116,12 @@ const useUser = () => {
     console.log(inputs);
     const options = {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': token,
-      },
-      body: JSON.stringify(inputs),
+      headers: {'x-access-token': token},
+      data: inputs,
+      url: baseUrl + 'users',
     };
     try {
-      const response = await doFetch(baseUrl + 'users', options);
+      const response = await axios(options);
       return response;
     } catch (e) {
       throw new Error(e.message);

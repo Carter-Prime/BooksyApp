@@ -12,7 +12,6 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Image} from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Feather} from 'react-native-vector-icons';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import {appIdentifier} from '../utils/Variable';
@@ -20,6 +19,7 @@ import CustomButton from './../components/CustomButton';
 import Colours from './../utils/Colours';
 import SectionHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
+import {Folder as FolderIcon, Camera as CameraIcon} from 'react-native-feather';
 
 const UploadAvatar = ({navigation}) => {
   const [image, setImage] = useState(null);
@@ -136,12 +136,12 @@ const UploadAvatar = ({navigation}) => {
       {image && <Image source={{uri: image}} style={styles.placeholderImage} />}
       <View style={styles.btnContainer}>
         <RoundButton
-          icon={<Feather name="folder" size={24} color={Colours.textDark} />}
+          icon={<FolderIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
           onPress={() => pickImage(true)}
           extraStyle={{marginRight: 10}}
         />
         <RoundButton
-          icon={<Feather name="camera" size={24} color={Colours.textDark} />}
+          icon={<CameraIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
           onPress={() => pickImage(false)}
         />
       </View>

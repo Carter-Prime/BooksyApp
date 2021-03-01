@@ -13,7 +13,13 @@ import {useTag} from '../hooks/ApiHooks';
 import InputTextBox from '../components/InputTextBox';
 import useEditForm from '../hooks/ModifyHooks';
 import {useUser} from '../hooks/ApiHooks';
-import {Feather} from 'react-native-vector-icons';
+import {
+  Edit as EditIcon,
+  User as UserIcon,
+  Mail as MailIcon,
+  Lock as LockIcon,
+  Users as UsersIcon,
+} from 'react-native-feather';
 import EditHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
 import UploadAvatar from '../views/UploadAvatar';
@@ -62,10 +68,22 @@ const EditProfile = ({navigation}) => {
 
     delete inputs.confirmPassword;
 
+    const formData = new FormData();
+
+    const moreData = {
+      fullName: inputs.full_name,
+      favouriteBook: 'Harry Potter',
+    };
+
+    formData.append('username', inputs.username);
+    formData.append('email', inputs.email);
+    formData.append('full_name', JSON.stringify(moreData));
+
     try {
       setIsUploading(true);
+      console.log(JSON.stringify(moreData));
       const userToken = await AsyncStorage.getItem('userToken');
-      const resp = await modifyUser(inputs, userToken);
+      const resp = await modifyUser(formData, userToken);
       console.log('update response', resp);
       setUpdate(update + 1);
       Alert.alert('Account Updated', resp.message + ' Successfully');
@@ -102,7 +120,7 @@ const EditProfile = ({navigation}) => {
         }}
       ></Avatar>
       <RoundButton
-        icon={<Feather name="edit" size={24} color={Colours.primaryBlue} />}
+        icon={<EditIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
         onPress={() => navigation.navigate(UploadAvatar)}
         extraStyle={styles.editAvatarBtn}
       />
@@ -118,9 +136,7 @@ const EditProfile = ({navigation}) => {
             handleInputEnd('username', event.nativeEvent.text);
           }}
           errorMessage={editErrors.username}
-          leftIcon={
-            <Feather name="user" size={24} color={Colours.primaryBlue} />
-          }
+          leftIcon={<UserIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
         />
         <InputTextBox
           value={inputs.email}
@@ -130,18 +146,14 @@ const EditProfile = ({navigation}) => {
             handleInputEnd('email', event.nativeEvent.text)
           }
           errorMessage={editErrors.email}
-          leftIcon={
-            <Feather name="mail" size={24} color={Colours.primaryBlue} />
-          }
+          leftIcon={<MailIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
         />
         <InputTextBox
           value={inputs.full_name}
           placeholder="full name"
           onChangeText={(txt) => handleInputChange('full_name', txt)}
           errorMessage={editErrors.full_name}
-          leftIcon={
-            <Feather name="users" size={24} color={Colours.primaryBlue} />
-          }
+          leftIcon={<UsersIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
         />
         <InputTextBox
           value={inputs.password}
@@ -152,9 +164,7 @@ const EditProfile = ({navigation}) => {
           }
           secureTextEntry={true}
           errorMessage={editErrors.password}
-          leftIcon={
-            <Feather name="lock" size={24} color={Colours.primaryBlue} />
-          }
+          leftIcon={<LockIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
         />
         <InputTextBox
           value={inputs.confirmPassword}
@@ -165,9 +175,7 @@ const EditProfile = ({navigation}) => {
           }
           secureTextEntry={true}
           errorMessage={editErrors.confirmPassword}
-          leftIcon={
-            <Feather name="lock" size={24} color={Colours.primaryBlue} />
-          }
+          leftIcon={<LockIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
         />
       </View>
 

@@ -45,8 +45,6 @@ const useUploadForm = (callback) => {
   const [uploadErrors, setUploadErrors] = useState({});
 
   const handleInputChange = (name, text) => {
-    // console.log(name, text);
-    // console.log('inputs state', inputs);
     setInputs((inputs) => {
       return {
         ...inputs,

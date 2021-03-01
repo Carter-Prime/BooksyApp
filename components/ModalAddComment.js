@@ -6,6 +6,7 @@ import InputTextBox from './InputTextBox';
 import Colours from './../utils/Colours';
 import RoundButton from './RoundButton';
 import {Feather} from 'react-native-vector-icons';
+import {Send} from 'react-native-feather';
 import {MainContext} from '../contexts/MainContext';
 import {useComment} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -59,9 +60,8 @@ const ModalAddComment = ({isVisible, modalVisible, fileId}) => {
             btnStyle={styles.addBtn}
             iconContainerStyle={{transform: {rotate: '90deg'}}}
             icon={
-              <Feather
-                name="send"
-                size={24}
+              <Send
+                strokeWidth={1.5}
                 color={Colours.primaryBlue}
                 style={styles.rotate}
               />

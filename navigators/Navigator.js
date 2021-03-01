@@ -7,10 +7,14 @@ import {
 } from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import PropTypes from 'prop-types';
-import {Feather} from '@expo/vector-icons';
-
 import {
-  ChangePassword,
+  Home as HomeIcon,
+  Search as SearchIcon,
+  User as UserIcon,
+  Upload as UploadIcon,
+  ArrowLeft,
+} from 'react-native-feather';
+import {
   Details,
   EditPost,
   EditProfile,
@@ -27,7 +31,16 @@ import Colours from './../utils/Colours';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const HeaderOptions = ({route}) => {
+const backImage = () => (
+  <ArrowLeft
+    strokeWidth={1.5}
+    width={32}
+    height={32}
+    color={Colours.textLight}
+  />
+);
+
+const HeaderOptions = ({route, navigation}) => {
   return {
     headerTitle: getFocusedRouteNameFromRoute(route),
     headerStyle: {
@@ -46,30 +59,88 @@ const HeaderOptions = ({route}) => {
     headerRightContainerStyle: {
       right: 10,
     },
+    headerBackImage: backImage,
   };
 };
 
 const TabScreen = () => {
   const screenOptions = ({route}) => ({
     tabBarIcon: function tabIcons({focused, color}) {
-      let iconName;
-
       switch (route.name) {
         case 'Home':
-          iconName = focused ? 'home' : 'home';
-          break;
-        case 'Profile':
-          iconName = focused ? 'user' : 'user';
-          break;
-        case 'Search':
-          iconName = focused ? 'search' : 'search';
-          break;
-        case 'Upload':
-          iconName = focused ? 'upload' : 'upload';
-          break;
-      }
+          return focused ? (
+            <HomeIcon
+              width={28}
+              height={28}
+              stroke={color}
+              fill="none"
+              strokeWidth={1}
+            />
+          ) : (
+            <HomeIcon
+              width={28}
+              height={28}
+              stroke={color}
+              fill="none"
+              strokeWidth={1}
+            />
+          );
 
-      return <Feather name={iconName} size={26} color={color} />;
+        case 'Profile':
+          return focused ? (
+            <UserIcon
+              width={28}
+              height={28}
+              stroke={color}
+              fill="none"
+              strokeWidth={1}
+            />
+          ) : (
+            <UserIcon
+              width={28}
+              height={28}
+              stroke={color}
+              fill="none"
+              strokeWidth={1}
+            />
+          );
+        case 'Search':
+          return focused ? (
+            <SearchIcon
+              width={28}
+              height={28}
+              stroke={color}
+              fill="none"
+              strokeWidth={1}
+            />
+          ) : (
+            <SearchIcon
+              width={28}
+              height={28}
+              stroke={color}
+              fill="none"
+              strokeWidth={1}
+            />
+          );
+        case 'Upload':
+          return focused ? (
+            <UploadIcon
+              width={28}
+              height={28}
+              stroke={color}
+              fill="none"
+              strokeWidth={1}
+            />
+          ) : (
+            <UploadIcon
+              width={28}
+              height={28}
+              stroke={color}
+              fill="none"
+              strokeWidth={1}
+            />
+          );
+      }
     },
   });
 
@@ -117,12 +188,6 @@ const StackScreen = () => {
           <Stack.Screen
             name="Profile"
             component={Profile}
-            options={HeaderOptions}
-          />
-
-          <Stack.Screen
-            name="Change Password"
-            component={ChangePassword}
             options={HeaderOptions}
           />
 

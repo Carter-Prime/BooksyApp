@@ -12,7 +12,7 @@ import {Image} from 'react-native-elements';
 import useUploadForm from '../hooks/UploadHooks';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Feather} from 'react-native-vector-icons';
+import {Folder as FolderIcon, Camera as CameraIcon} from 'react-native-feather';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import {appIdentifier} from '../utils/Variable';
@@ -178,12 +178,12 @@ const Upload = ({navigation}) => {
       )}
       <View style={styles.btnContainer}>
         <RoundButton
-          icon={<Feather name="folder" size={24} color={Colours.primaryBlue} />}
+          icon={<FolderIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
           onPress={() => pickImage(true)}
           extraStyle={{marginRight: 10}}
         />
         <RoundButton
-          icon={<Feather name="camera" size={24} color={Colours.primaryBlue} />}
+          icon={<CameraIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
           onPress={() => pickImage(false)}
         />
       </View>

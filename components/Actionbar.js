@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
-import {Divider, Icon} from 'react-native-elements';
+import {Divider} from 'react-native-elements';
+import {Eye, ThumbsUp} from 'react-native-feather';
 import Colours from './../utils/Colours';
 import PropTypes from 'prop-types';
 
@@ -18,18 +19,20 @@ const Actionbar = ({postData}) => {
             }}
           >
             {isFavourite ? (
-              <Icon
-                type="material-community"
-                name="eye-outline"
-                size={30}
-                color={Colours.primaryBlue}
+              <Eye
+                width={28}
+                height={28}
+                stroke={Colours.primaryBlue}
+                fill="none"
+                strokeWidth={1.5}
               />
             ) : (
-              <Icon
-                type="material-community"
-                name="eye"
-                size={30}
-                color={Colours.primaryBlue}
+              <Eye
+                width={28}
+                height={28}
+                stroke={Colours.primaryBlue}
+                fill={Colours.accentOrange}
+                strokeWidth={1.5}
               />
             )}
           </TouchableOpacity>
@@ -43,18 +46,20 @@ const Actionbar = ({postData}) => {
             }}
           >
             {isLiked ? (
-              <Icon
-                type="material-community"
-                name="thumb-up"
-                size={30}
-                color={Colours.primaryBlue}
+              <ThumbsUp
+                width={28}
+                height={28}
+                stroke={Colours.primaryBlue}
+                fill="none"
+                strokeWidth={1.5}
               />
             ) : (
-              <Icon
-                type="material-community"
-                name="thumb-up-outline"
-                size={30}
-                color={Colours.primaryBlue}
+              <ThumbsUp
+                width={28}
+                height={28}
+                stroke={Colours.primaryBlue}
+                fill={Colours.accentOrange}
+                strokeWidth={1.5}
               />
             )}
           </TouchableOpacity>
@@ -93,6 +98,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     fontFamily: 'ProximaSoftRegular',
     fontSize: 18,
+    color: Colours.primaryBlue,
   },
 });
 

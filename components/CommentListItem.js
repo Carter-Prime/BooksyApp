@@ -9,7 +9,7 @@ import moment from 'moment';
 import {uploadsUrl} from '../utils/Variable';
 import {Dimensions} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
-import {Feather} from 'react-native-vector-icons';
+import {Trash2} from 'react-native-feather';
 
 const CommentListItem = ({commentMedia}) => {
   const {getUserById} = useUser();
@@ -86,7 +86,7 @@ const CommentListItem = ({commentMedia}) => {
               style={styles.icon}
               onPress={() => deleteUserComment()}
             >
-              <Feather name="trash-2" size={24} color={Colours.primaryBlue} />
+              <Trash2 strokeWidth={1.5} color={Colours.primaryBlue} />
             </TouchableOpacity>
           )}
         </View>
