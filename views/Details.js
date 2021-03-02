@@ -26,6 +26,8 @@ import {Dimensions} from 'react-native';
 import ModalAddComment from './../components/ModalAddComment';
 import Actionbar from '../components/Actionbar';
 
+const windowWidth = Dimensions.get('window').width;
+
 const Details = ({route}) => {
   const {file} = route.params;
   const {loaded, update} = useContext(MainContext);
@@ -249,7 +251,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
   },
   commentTitle: {
-    width: Dimensions.get('window').width * 0.9,
+    width: windowWidth * 0.9,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -271,7 +273,8 @@ const styles = StyleSheet.create({
   dividerHeader: {
     marginBottom: 20,
     marginLeft: 0,
-    marginRight: 0,
+    overflow: 'hidden',
+    width: windowWidth * 0.84,
   },
   time: {
     position: 'absolute',

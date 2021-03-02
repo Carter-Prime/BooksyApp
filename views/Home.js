@@ -45,7 +45,7 @@ const Home = ({navigation}) => {
         numColumns={2}
         navigation={navigation}
         loadData={latestPostsArray}
-        style={{height: '70%', marginTop: 10}}
+        style={{height: '70%', marginTop: 10, marginRight: 10}}
       />
     </View>
   );
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   horizontalListContainer: {
     height: 210,
     marginTop: 10,
-    marginLeft: 20,
+    marginLeft: 10,
     marginRight: 20,
     paddingBottom: 10,
   },

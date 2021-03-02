@@ -38,13 +38,14 @@ const styles = StyleSheet.create({
     fontFamily: 'ProximaSoftRegular',
     fontSize: 24,
     color: Colours.primaryBlue,
-    marginLeft: 20,
+    marginLeft: 10,
   },
   divider: {
     width: windowWidth * 0.9,
     backgroundColor: Colours.accentOrange,
     marginHorizontal: 20,
     height: 1.5,
+    marginLeft: 10,
   },
   editIcon: {
     position: 'absolute',

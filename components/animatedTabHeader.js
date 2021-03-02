@@ -4,6 +4,7 @@ import {StatusBar} from 'expo-status-bar';
 import LottieView from 'lottie-react-native';
 import {MainContext} from '../contexts/MainContext';
 import {Dimensions} from 'react-native';
+import Colours from './../utils/Colours';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -58,7 +59,6 @@ const AnimatedTabHeader = () => {
           <TouchableOpacity
             onPress={() => {
               setIsWatchingVisible(true);
-              console.log('pressed');
             }}
           >
             <Text style={styles.text}>Watching</Text>
@@ -66,7 +66,6 @@ const AnimatedTabHeader = () => {
           <TouchableOpacity
             onPress={() => {
               setIsWatchingVisible(false);
-              console.log('pressed');
             }}
           >
             <Text style={styles.text}>My Posts</Text>
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
   componentContainer: {},
   animationContainer: {
     width: windowWidth * 0.91,
-    marginLeft: 20,
+    marginLeft: 10,
     overflow: 'hidden',
   },
   animation: {
@@ -96,7 +95,7 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.7,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginLeft: 50,
+    marginLeft: 40,
     position: 'absolute',
     top: 10,
   },
@@ -104,6 +103,7 @@ const styles = StyleSheet.create({
     fontFamily: 'ProximaSoftRegular',
     fontSize: 24,
     marginRight: 50,
+    color: Colours.primaryBlue,
   },
 });
 
