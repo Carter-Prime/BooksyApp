@@ -1,22 +1,19 @@
-import React, {useContext, useRef, useEffect, useState} from 'react';
+import React, {useRef, useEffect, useContext} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
-import {MainContext} from '../contexts/MainContext';
-import AppLoading from 'expo-app-loading';
 import {StatusBar} from 'expo-status-bar';
-import PropTypes from 'prop-types';
 import LottieView from 'lottie-react-native';
+import {MainContext} from '../contexts/MainContext';
 import {Dimensions} from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
 
-const Search = ({navigation}) => {
-  const {loaded} = useContext(MainContext);
+const AnimatedTabHeader = () => {
   const tabAnimation1 = require('../assets/lottie/WatchingNoText.json');
   const tabAnimation2 = require('../assets/lottie/MyPostNoText.json');
 
   const watchingAnimation = useRef();
   const myPostAnimation = useRef();
-  const [isVisible, setIsVisible] = useState(true);
+  const {isWatchingVisible, setIsWatchingVisible} = useContext(MainContext);
 
   const playWatchingAnimation = () => {
     watchingAnimation.current.play(0, 149);
@@ -27,20 +24,15 @@ const Search = ({navigation}) => {
   };
 
   useEffect(() => {
-    isVisible ? playWatchingAnimation() : playMyPostAnimation();
-  }, [isVisible]);
-
-  if (!loaded) {
-    console.log('loaded: ', loaded);
-    return <AppLoading onError={console.warn} />;
-  }
+    isWatchingVisible ? playWatchingAnimation() : playMyPostAnimation();
+  }, [isWatchingVisible]);
 
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="black" style="light" />
-      <View>
+      <View style={styles.componentContainer}>
         <View style={styles.animationContainer}>
-          {isVisible ? (
+          {isWatchingVisible ? (
             <LottieView
               ref={watchingAnimation}
               source={tabAnimation1}
@@ -48,6 +40,7 @@ const Search = ({navigation}) => {
               autoPlay={false}
               progress={0}
               style={styles.animation}
+              speed={1.5}
             />
           ) : (
             <LottieView
@@ -56,21 +49,24 @@ const Search = ({navigation}) => {
               loop={false}
               autoPlay={false}
               progress={0}
-              style={styles.animation}
+              style={[styles.animation, {marginLeft: 0}]}
+              speed={1.5}
             />
           )}
         </View>
         <View style={styles.textContainer}>
           <TouchableOpacity
             onPress={() => {
-              setIsVisible(true);
+              setIsWatchingVisible(true);
+              console.log('pressed');
             }}
           >
             <Text style={styles.text}>Watching</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              setIsVisible(false);
+              setIsWatchingVisible(false);
+              console.log('pressed');
             }}
           >
             <Text style={styles.text}>My Posts</Text>
@@ -83,14 +79,14 @@ const Search = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'white',
     alignItems: 'flex-start',
     justifyContent: 'center',
   },
+  componentContainer: {},
   animationContainer: {
-    marginLeft: 0,
-    borderWidth: 2,
+    width: windowWidth * 0.91,
+    marginLeft: 20,
+    overflow: 'hidden',
   },
   animation: {
     width: windowWidth * 1.1,
@@ -111,8 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-Search.propTypes = {
-  navigation: PropTypes.object,
-};
-
-export default Search;
+export default AnimatedTabHeader;

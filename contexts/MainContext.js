@@ -30,6 +30,7 @@ const MainProvider = ({children}) => {
     {tag: 'Biography', value: false},
     {tag: 'Autobiography', value: false},
   ]);
+  const [isWatchingVisible, setIsWatchingVisible] = useState(true);
 
   return (
     <MainContext.Provider
@@ -46,6 +47,8 @@ const MainProvider = ({children}) => {
         setSignInScreen,
         tagState,
         setTagState,
+        isWatchingVisible,
+        setIsWatchingVisible,
       }}
     >
       {children}

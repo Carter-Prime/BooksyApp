@@ -15,7 +15,7 @@ const Actionbar = ({postData}) => {
     getListOfFavouritesByCurrentUser,
     deleteFavourite,
   } = useFavourite();
-  const {postRating} = useRating();
+  const {postRating, deleteRating, getListOfRatingsByFileId} = useRating();
   const [isWatching, setIsWatching] = useState(false);
   const {update, setUpdate} = useContext(MainContext);
 
@@ -29,7 +29,7 @@ const Actionbar = ({postData}) => {
     };
 
     try {
-      await postFavourite(data, userToken);
+      postFavourite(data, userToken);
       setIsWatching(true);
       setUpdate(update + 1);
     } catch (error) {
@@ -41,7 +41,7 @@ const Actionbar = ({postData}) => {
     const userToken = await AsyncStorage.getItem('userToken');
 
     try {
-      await deleteFavourite(postData.file_id, userToken);
+      deleteFavourite(postData.file_id, userToken);
       setIsWatching(false);
       setUpdate(update + 1);
     } catch (error) {

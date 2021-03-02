@@ -89,14 +89,12 @@ const Profile = ({navigation}) => {
       <AccountInfoCard accountInfo={user} />
       <SectionHeader content="Account Statistics" />
       <AccountStatisticCard accountStats={user.full_name} />
-      <SectionHeader content="My Posts" />
+      <SectionHeader content="Books Swapped" />
       <List
         navigation={navigation}
         loadData={currentUserPostArray}
         horizontal
       />
-      <SectionHeader content="Books Swapped" />
-
       <CustomButton
         extraStyle={styles.logoutBtn}
         title="Logout"

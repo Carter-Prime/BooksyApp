@@ -8,10 +8,16 @@ import SectionHeader from '../components/SectionHeader';
 import List from '../components/List';
 import {useLoadMedia} from '../hooks/LoadMediaHooks';
 import ListVertical from './../components/ListVertical';
+import AnimatedTabHeader from './../components/animatedTabHeader';
 
 const Home = ({navigation}) => {
   const {loaded} = useContext(MainContext);
-  const {currentUserFavouritePostArray, latestPostsArray} = useLoadMedia();
+  const {
+    currentUserFavouritePostArray,
+    latestPostsArray,
+    currentUserPostArray,
+  } = useLoadMedia();
+  const {isWatchingVisible} = useContext(MainContext);
 
   if (!loaded) {
     return <AppLoading onError={console.warn} />;
@@ -20,10 +26,17 @@ const Home = ({navigation}) => {
   return (
     <View contentContainerStyle={styles.container}>
       <StatusBar backgroundColor="black" style="light" />
-      <SectionHeader content="Watching" />
+      <View style={{marginBottom: -10, marginTop: 10}}>
+        <AnimatedTabHeader />
+      </View>
+
       <List
         navigation={navigation}
-        loadData={currentUserFavouritePostArray}
+        loadData={
+          isWatchingVisible
+            ? currentUserFavouritePostArray
+            : currentUserPostArray
+        }
         horizontal
         style={styles.horizontalListContainer}
       />

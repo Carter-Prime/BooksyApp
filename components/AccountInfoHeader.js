@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import {Edit} from 'react-native-feather';
 import Colours from '../utils/Colours';
 import EditProfile from '../views/EditProfile';
+import {Dimensions} from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
 
 const AccountInfoHeader = ({navigation, content, toggleIcon, ...props}) => {
   return (
@@ -20,7 +23,12 @@ const AccountInfoHeader = ({navigation, content, toggleIcon, ...props}) => {
             navigation.navigate(EditProfile);
           }}
         >
-          <Edit strokeWidth={1.5} color={Colours.primaryBlue} />
+          <Edit
+            width={32}
+            height={32}
+            strokeWidth={1.5}
+            color={Colours.primaryBlue}
+          />
         </TouchableOpacity>
       )}
       <Divider style={styles.divider} />
@@ -36,12 +44,13 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'ProximaSoftRegular',
-    fontSize: 30,
+    fontSize: 24,
     color: Colours.primaryBlue,
     marginLeft: 20,
     marginTop: 20,
   },
   divider: {
+    width: windowWidth * 0.9,
     backgroundColor: Colours.accentOrange,
     marginHorizontal: 20,
     height: 1.5,
@@ -49,7 +58,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     position: 'absolute',
     right: 20,
-    bottom: 3,
+    bottom: 0,
     padding: 4,
     borderRadius: 50,
   },
