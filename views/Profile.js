@@ -24,7 +24,7 @@ const Profile = ({navigation}) => {
   const {getFilesByTag} = useTag();
   const {checkCurrentUserToken} = useUser();
   const [avatar, setAvatar] = useState('http://placekitten.com/640');
-  const {currentUserPostArray} = useLoadMedia();
+  const {swappedPostsArray} = useLoadMedia();
 
   const logout = async () => {
     setIsLoggedIn(false);
@@ -88,11 +88,7 @@ const Profile = ({navigation}) => {
       <SectionHeader content="Account Statistics" />
       <AccountStatisticCard accountStats={user.full_name} />
       <SectionHeader content="Books Swapped" />
-      <List
-        navigation={navigation}
-        loadData={currentUserPostArray}
-        horizontal
-      />
+      <List navigation={navigation} loadData={swappedPostsArray} horizontal />
       <CustomButton
         extraStyle={styles.logoutBtn}
         title="Logout"

@@ -32,6 +32,7 @@ const windowWidth = Dimensions.get('window').width;
 
 const Details = ({route, navigation}) => {
   const {file} = route.params;
+  const moreData = JSON.parse(file.description);
   const {loaded, update, setUpdate, user} = useContext(MainContext);
   const [videoRef, setVideoRef] = useState(null);
   const [avatar, setAvatar] = useState('http://placekitten.com/100');
@@ -44,6 +45,7 @@ const Details = ({route, navigation}) => {
   const [isUserPost, setIsUserPost] = useState(false);
   const confirmDelete = useConfirm();
   const {deleteFile} = useMedia();
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
     fetchAvatar();
@@ -162,6 +164,7 @@ const Details = ({route, navigation}) => {
         try {
           const userToken = await AsyncStorage.getItem('userToken');
           await deleteFile(file.file_id, userToken);
+          setIsDeleted(true);
           Alert.alert(
             'Upload',
             'File uploaded',
@@ -223,7 +226,7 @@ const Details = ({route, navigation}) => {
                 posterSource={{uri: uploadsUrl + file.screenshot}}
               />
             )}
-            <Actionbar postData={file} />
+            <Actionbar postData={file} isDeleted={isDeleted} />
             <Divider style={styles.divider} />
             <View style={[styles.userStats]}>
               <Avatar
@@ -270,7 +273,7 @@ const Details = ({route, navigation}) => {
             </View>
 
             <Divider style={styles.divider} />
-            <Text style={styles.descriptionText}>{file.description}</Text>
+            <Text style={styles.descriptionText}>{moreData.description}</Text>
 
             <SectionHeader
               content="Comments"

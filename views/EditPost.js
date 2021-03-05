@@ -15,7 +15,7 @@ import TagCheckboxSelector from '../components/TagCheckboxSelector';
 
 const EditPost = ({navigation, route}) => {
   const {file} = route.params;
-
+  const moreData = JSON.parse(file.description);
   const [isUploading, setIsUploading] = useState(false);
   const {updateFile} = useMedia();
   const {postTag} = useTag();
@@ -25,7 +25,7 @@ const EditPost = ({navigation, route}) => {
 
   useEffect(() => {
     handleInputChange('title', file.title);
-    handleInputChange('description', file.description);
+    handleInputChange('description', moreData.description);
   }, []);
 
   const createAddTags = () => {
@@ -49,9 +49,13 @@ const EditPost = ({navigation, route}) => {
   };
 
   const doUpdate = async () => {
+    const newData = {
+      description: inputs.description,
+      swapped: moreData.swapped,
+    };
     const data = {
       title: inputs.title,
-      description: inputs.description,
+      description: JSON.stringify(newData),
     };
 
     try {

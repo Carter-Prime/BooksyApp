@@ -15,12 +15,13 @@ const doFetch = async (url, options = {}) => {
     return json;
   }
 };
-const useLoadMedia = () => {
+const useLoadMedia = (fileId) => {
   const [currentUserPostArray, setcurrentUserPostArray] = useState([]);
   const [
     currentUserFavouritePostArray,
     setcurrentUserFavouritePostArray,
   ] = useState([]);
+  const [swappedPostsArray, setSwappedPostsArray] = useState([]);
   const [latestPostsArray, setLatestPostsArray] = useState([]);
   const {update, user} = useContext(MainContext);
   const {getListOfFilesOfCurrentUser} = useMedia();
@@ -30,6 +31,7 @@ const useLoadMedia = () => {
     currentUserPostMedia();
     currentUserFavouritePosts();
     latestPosts();
+    currentUserSwappedPosts();
   }, [update]);
 
   const currentUserPostMedia = async () => {
@@ -45,7 +47,38 @@ const useLoadMedia = () => {
       const filteredArray = media.filter(
         (item) => !item.title.includes('Avatar_')
       );
-      setcurrentUserPostArray(filteredArray.reverse());
+      const unswappedArray = filteredArray.filter((item) => {
+        const moreData = JSON.parse(item.description);
+        if (!moreData.swapped) {
+          return item;
+        }
+      });
+      setcurrentUserPostArray(unswappedArray.reverse());
+    } catch (error) {
+      console.log('data error: ', error.message);
+    }
+  };
+
+  const currentUserSwappedPosts = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    try {
+      const response = await getListOfFilesOfCurrentUser(userToken);
+      const media = await Promise.all(
+        response.map(async (item) => {
+          const fileJson = await doFetch(baseUrl + 'media/' + item.file_id);
+          return fileJson;
+        })
+      );
+      const filteredArray = media.filter(
+        (item) => !item.title.includes('Avatar_')
+      );
+      const swappedArray = filteredArray.filter((item) => {
+        const moreData = JSON.parse(item.description);
+        if (moreData.swapped) {
+          return item;
+        }
+      });
+      setSwappedPostsArray(swappedArray.reverse());
     } catch (error) {
       console.log('data error: ', error.message);
     }
@@ -82,7 +115,7 @@ const useLoadMedia = () => {
         .filter((item) => !item.title.includes('Avatar_'));
 
       newArray = newArray
-        .slice(Math.max(newArray.length - 10, 0), newArray.length)
+        .slice(Math.max(newArray.length - 30, 0), newArray.length)
         .reverse();
       setLatestPostsArray(newArray);
     } catch (error) {
@@ -94,6 +127,7 @@ const useLoadMedia = () => {
     currentUserPostArray,
     currentUserFavouritePostArray,
     latestPostsArray,
+    swappedPostsArray,
   };
 };
 

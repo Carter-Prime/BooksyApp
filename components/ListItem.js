@@ -7,6 +7,13 @@ import Colours from './../utils/Colours';
 import {LinearGradient} from 'expo-linear-gradient';
 
 const ListItem = ({navigation, singleMedia}) => {
+  const capitaliseWords = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  const title = singleMedia.title;
+  const capsTitle = title.split(' ').map(capitaliseWords).join(' ');
+
   return (
     <RNEListItem
       containerStyle={styles.itemContainer}
@@ -22,13 +29,13 @@ const ListItem = ({navigation, singleMedia}) => {
       />
       <LinearGradient
         // Background Linear Gradient
-        colors={['rgba(0,0,0,0.7)', 'transparent']}
+        colors={['rgba(0,0,0,0.8)', 'transparent']}
         start={[0, 0]}
-        end={[0, 0.4]}
+        end={[0, 0.6]}
         style={styles.background}
       />
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>{singleMedia.title}</Text>
+        <Text style={styles.title}>{capsTitle}</Text>
       </View>
     </RNEListItem>
   );

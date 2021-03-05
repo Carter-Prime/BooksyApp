@@ -1,24 +1,80 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import {AirbnbRating} from 'react-native-elements';
-import {Eye} from 'react-native-feather';
+import {Eye, BookOpen} from 'react-native-feather';
 import Colours from './../utils/Colours';
 import PropTypes from 'prop-types';
-import {useFavourite, useRating} from '../hooks/ApiHooks';
+import {useFavourite, useRating, useMedia} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Actionbar = ({postData}) => {
+const Actionbar = ({postData, isDeleted}) => {
   const {
     postFavourite,
     getListOfFavouritesByCurrentUser,
     deleteFavourite,
   } = useFavourite();
   const {postRating, deleteRating, getListOfRatingsByFileId} = useRating();
+  const {updateFile} = useMedia();
   const [isWatching, setIsWatching] = useState(false);
   const {update, setUpdate, user} = useContext(MainContext);
   const [isRated, setIsRated] = useState(true);
   const [averagePostRating, setAveragePostRating] = useState(0);
+  const [isSwapped, setIsSwapped] = useState(false);
+  const {getFileById} = useMedia();
+  let moreData = {};
+
+  const checkSwapped = async () => {
+    if (isDeleted) {
+      return;
+    }
+    try {
+      const fileData = await getFileById(postData.file_id);
+      moreData = JSON.parse(fileData.description);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      moreData.swapped ? setIsSwapped(true) : setIsSwapped(false);
+    }
+  };
+
+  const addSwapped = async () => {
+    const newData = {
+      description: moreData.description,
+      swapped: true,
+    };
+    const data = {
+      title: postData.title,
+      description: JSON.stringify(newData),
+    };
+
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      await updateFile(postData.file_id, data, userToken);
+      setUpdate(update + 1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const removeSwapped = async () => {
+    const newData = {
+      description: moreData.description,
+      swapped: false,
+    };
+    const data = {
+      title: postData.title,
+      description: JSON.stringify(newData),
+    };
+
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      await updateFile(postData.file_id, data, userToken);
+      setUpdate(update + 1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const addRating = async (rating) => {
     const userToken = await AsyncStorage.getItem('userToken');
@@ -123,44 +179,87 @@ const Actionbar = ({postData}) => {
   useEffect(() => {
     getWatching();
     getRating();
+    checkSwapped();
   }, [update]);
 
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.iconContainerLeft}>
-          <TouchableOpacity
-            style={styles.iconContainerLeft}
-            onPress={() => {
-              if (isWatching) {
-                removeWatching();
-              } else {
-                addWatching();
-              }
-            }}
-          >
-            {isWatching ? (
-              <Eye
-                width={28}
-                height={28}
-                stroke={Colours.primaryBlue}
-                fill={Colours.accentOrange}
+        <View>
+          {isWatching ? (
+            <View style={styles.iconView}>
+              <TouchableOpacity
+                onPress={() => {
+                  removeWatching();
+                }}
+              >
+                <Eye
+                  width={30}
+                  height={30}
+                  strokeWidth={1.5}
+                  color={Colours.primaryBlue}
+                  fill={Colours.accentOrange}
+                />
+              </TouchableOpacity>
+              <Text style={styles.iconText}>Watching</Text>
+            </View>
+          ) : (
+            <View style={styles.iconView}>
+              <TouchableOpacity
+                onPress={() => {
+                  addWatching();
+                }}
+              >
+                <Eye
+                  width={30}
+                  height={30}
+                  strokeWidth={1.5}
+                  color={Colours.primaryBlue}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+        <View>
+          {isSwapped ? (
+            <View style={styles.iconView}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (postData.user_id === user.user_id) {
+                    removeSwapped();
+                  }
+                }}
+              >
+                <BookOpen
+                  width={30}
+                  height={30}
+                  strokeWidth={1.5}
+                  color={Colours.primaryBlue}
+                  fill={Colours.accentOrange}
+                />
+              </TouchableOpacity>
+              <Text style={styles.iconText}>Swapped</Text>
+            </View>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                if (postData.user_id === user.user_id) {
+                  addSwapped();
+                }
+              }}
+            >
+              <BookOpen
+                width={30}
+                height={30}
                 strokeWidth={1.5}
+                color={Colours.primaryBlue}
               />
-            ) : (
-              <Eye
-                width={28}
-                height={28}
-                stroke={Colours.primaryBlue}
-                fill="none"
-                strokeWidth={1.5}
-              />
-            )}
-          </TouchableOpacity>
+            </TouchableOpacity>
+          )}
         </View>
 
         {isRated ? (
-          <>
+          <View style={styles.ratingContainer}>
             <Text style={styles.ratingText}>Rate this post: </Text>
             <AirbnbRating
               count={5}
@@ -172,9 +271,9 @@ const Actionbar = ({postData}) => {
               }}
               style={styles.iconContainerRight}
             />
-          </>
+          </View>
         ) : (
-          <>
+          <View style={styles.ratingContainer}>
             <Text style={styles.ratingText}>Average post rating: </Text>
             <AirbnbRating
               count={5}
@@ -185,7 +284,7 @@ const Actionbar = ({postData}) => {
                 modifyRating(rating);
               }}
             />
-          </>
+          </View>
         )}
       </View>
     </>
@@ -201,12 +300,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: -10,
     marginHorizontal: 15,
+    height: 40,
   },
   iconContainerLeft: {
+    width: 80,
     flexDirection: 'row',
     paddingRight: 10,
   },
   iconContainerRight: {
+    width: 100,
     flexDirection: 'row',
     paddingLeft: 5,
   },
@@ -215,17 +317,31 @@ const styles = StyleSheet.create({
     backgroundColor: Colours.accentOrange,
     marginTop: 20,
   },
+  ratingContainer: {
+    width: 250,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
   ratingText: {
     textAlignVertical: 'center',
     paddingLeft: 10,
     paddingTop: 0,
     fontFamily: 'ProximaSoftRegular',
     fontSize: 16,
-    marginLeft: 35,
     color: Colours.primaryBlue,
+  },
+  iconText: {
+    fontFamily: 'ProximaSoftRegular',
+    fontSize: 10,
+  },
+  iconView: {
+    width: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
 Actionbar.propTypes = {
   postData: PropTypes.object,
+  isDeleted: PropTypes.bool,
 };

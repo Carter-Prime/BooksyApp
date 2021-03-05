@@ -10,12 +10,12 @@ const constraints = {
       minimum: 3,
       maximum: 20,
       tooLong: 'max length is 20 characters',
-      message: 'min length is 3 characters',
+      tooShort: 'min length is 3 characters',
     },
     format: {
-      pattern: '[a-z0-9]+',
+      pattern: '[a-zA-Z0-9,!".\'?@#ÖÄöä ]+',
       flags: 'i',
-      message: 'can only contain a-z and 0-9',
+      message: 'can only contain a-z, (!"\'.?@ÖÄöä), and 0-9',
     },
   },
   description: {
@@ -26,12 +26,12 @@ const constraints = {
       minimum: 5,
       maximum: 255,
       tooLong: 'max length is 255 characters',
-      message: 'min length is 5 characters',
+      tooShort: 'min length is 5 characters',
     },
     format: {
-      pattern: '[a-zA-Z0-9,!".?@#h]+',
+      pattern: '[a-zA-Z0-9,!".\'?@#ÖÄöä ]+',
       flags: 'i',
-      message: 'can only contain a-z and 0-9',
+      message: 'can only contain a-z, (!"\'.?@ÖÄöä), and 0-9',
     },
   },
   tags: {
@@ -40,9 +40,9 @@ const constraints = {
       tooLong: 'max length is 20 characters',
     },
     format: {
-      pattern: '[a-zA-Z0-9]+',
+      pattern: '^$|[a-zA-Z0-9,!".?@#ÖÄöä]+',
       flags: 'i',
-      message: 'can only contain a-z and 0-9',
+      message: 'can only contain a-z, (!".?@ÖÄöä), and 0-9. No spaces.',
     },
   },
 };
@@ -53,7 +53,7 @@ const useUploadForm = (callback) => {
     description: '',
     tags: '',
   });
-  const [uploadErrors, setUploadErrors] = useState({});
+  const [uploadErrors, setUploadErrors] = useState({tags: null});
 
   const handleInputChange = (name, text) => {
     setInputs((inputs) => {
@@ -77,7 +77,7 @@ const useUploadForm = (callback) => {
       description: '',
       tags: '',
     });
-    setUploadErrors({});
+    setUploadErrors({tags: null});
   };
 
   return {

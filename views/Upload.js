@@ -39,7 +39,9 @@ const Upload = ({navigation}) => {
     const tagArray = tagState
       .filter((element) => element.value === true)
       .map((element) => element.tag);
-    tagArray.push(inputs.tags);
+    if (inputs.tags !== '') {
+      tagArray.push(inputs.tags);
+    }
     return tagArray;
   };
 
@@ -59,7 +61,11 @@ const Upload = ({navigation}) => {
     const formData = new FormData();
     // add text to formData
     formData.append('title', inputs.title);
-    formData.append('description', inputs.description);
+    const moreData = {
+      description: inputs.description,
+      swapped: false,
+    };
+    formData.append('description', JSON.stringify(moreData));
     // add image to formData
     const filename = image.split('/').pop();
     const match = /\.(\w+)$/.exec(filename);
@@ -128,7 +134,7 @@ const Upload = ({navigation}) => {
         }
       }
     })();
-  }, []);
+  }, [uploadErrors]);
 
   const pickImage = async (library) => {
     let result = null;
@@ -199,7 +205,10 @@ const Upload = ({navigation}) => {
         onChangeText={(txt) => handleInputChange('description', txt)}
         errorMessage={uploadErrors.description}
       />
-
+      <SectionHeader
+        content="Search Tags (Optional)"
+        containerStyle={{marginBottom: 20}}
+      />
       <InputTextBox
         placeholder="tag"
         value={inputs.tags}
