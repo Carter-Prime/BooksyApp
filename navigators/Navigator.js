@@ -45,13 +45,14 @@ const HeaderOptions = ({route, navigation}) => {
     headerTitle: getFocusedRouteNameFromRoute(route),
     headerStyle: {
       backgroundColor: Colours.primaryBlue,
-      height: 80,
+      height: 75,
     },
     headerTintColor: 'white',
     headerTitleStyle: {
       fontSize: 24,
       fontFamily: 'ProximaSoftRegular',
       alignSelf: 'center',
+      justifyContent: 'center',
     },
     headerTitleContainerStyle: {
       left: 0,
@@ -122,7 +123,7 @@ const TabScreen = () => {
               strokeWidth={1}
             />
           );
-        case 'Upload':
+        case 'Post':
           return focused ? (
             <UploadIcon
               width={28}
@@ -159,6 +160,7 @@ const TabScreen = () => {
           paddingTop: 10,
           paddingBottom: 5,
           marginTop: 0,
+          marginBottom: -1,
         },
         style: {
           height: 55,
@@ -168,7 +170,7 @@ const TabScreen = () => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Profile" component={Profile} />
-      <Tab.Screen name="Upload" component={Upload} />
+      <Tab.Screen name="Post" component={Upload} />
     </Tab.Navigator>
   );
 };
@@ -197,7 +199,7 @@ const StackScreen = () => {
           />
 
           <Stack.Screen
-            name="Edit Post"
+            name="EditPost"
             component={EditPost}
             options={HeaderOptions}
           />

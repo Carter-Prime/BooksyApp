@@ -75,7 +75,6 @@ const Upload = ({navigation}) => {
 
       const userToken = await AsyncStorage.getItem('userToken');
       const resp = await uploadFile(formData, userToken);
-      console.log(resp);
       await postTag(
         {
           file_id: resp.file_id,

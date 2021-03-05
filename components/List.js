@@ -25,7 +25,9 @@ List.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  container: {marginTop: 10},
+  container: {
+    marginTop: 10,
+  },
 });
 
 export default List;

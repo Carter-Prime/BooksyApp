@@ -50,7 +50,7 @@ const AnimatedTabHeader = () => {
               loop={false}
               autoPlay={false}
               progress={0}
-              style={[styles.animation, {marginLeft: 0}]}
+              style={[styles.animation, {marginLeft: -2}]}
               speed={1.5}
             />
           )}
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
   },
   componentContainer: {},
   animationContainer: {
-    width: windowWidth * 0.91,
-    marginLeft: 10,
+    width: windowWidth * 0.88,
+    marginLeft: 22,
     overflow: 'hidden',
   },
   animation: {
@@ -95,9 +95,9 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.7,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginLeft: 40,
+    marginLeft: 50,
     position: 'absolute',
-    top: 10,
+    top: 7,
   },
   text: {
     fontFamily: 'ProximaSoftRegular',

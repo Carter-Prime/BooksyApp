@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/Variable';
 import {Image, ListItem as RNEListItem} from 'react-native-elements';
 import Colours from './../utils/Colours';
-import {BlurView} from 'expo-blur';
+import {LinearGradient} from 'expo-linear-gradient';
 
 const ListItem = ({navigation, singleMedia}) => {
   return (
@@ -19,11 +19,17 @@ const ListItem = ({navigation, singleMedia}) => {
       <Image
         style={styles.image}
         source={{uri: uploadsUrl + singleMedia.thumbnails.w160}}
-      ></Image>
-
-      <BlurView intensity={20} tint="dark" style={styles.titleContainer}>
+      />
+      <LinearGradient
+        // Background Linear Gradient
+        colors={['rgba(0,0,0,0.7)', 'transparent']}
+        start={[0, 0]}
+        end={[0, 0.4]}
+        style={styles.background}
+      />
+      <View style={styles.titleContainer}>
         <Text style={styles.title}>{singleMedia.title}</Text>
-      </BlurView>
+      </View>
     </RNEListItem>
   );
 };
@@ -32,12 +38,12 @@ const styles = StyleSheet.create({
     padding: 0,
     width: 180,
     margin: 2,
-    borderRadius: 3,
+    borderRadius: 5,
   },
   image: {
     width: 180,
     height: 165,
-    borderRadius: 3,
+    borderRadius: 5,
   },
   title: {
     width: '100%',
@@ -53,6 +59,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
+  },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    width: 180,
+    height: 165,
+    borderRadius: 5,
   },
 });
 

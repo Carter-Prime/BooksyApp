@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import AppLoading from 'expo-app-loading';
@@ -9,9 +8,10 @@ import List from '../components/List';
 import {useLoadMedia} from '../hooks/LoadMediaHooks';
 import ListVertical from './../components/ListVertical';
 import AnimatedTabHeader from './../components/animatedTabHeader';
+import {StatusBar} from 'expo-status-bar';
 
 const Home = ({navigation}) => {
-  const {loaded} = useContext(MainContext);
+  const {loaded, update} = useContext(MainContext);
   const {
     currentUserFavouritePostArray,
     latestPostsArray,
@@ -25,13 +25,15 @@ const Home = ({navigation}) => {
 
   return (
     <View contentContainerStyle={styles.container}>
-      <StatusBar backgroundColor="black" style="light" />
+      <StatusBar style="light" />
+
       <View style={{marginBottom: -10, marginTop: 10}}>
         <AnimatedTabHeader />
       </View>
 
       <List
         navigation={navigation}
+        extraData={update}
         loadData={
           isWatchingVisible
             ? currentUserFavouritePostArray
@@ -39,13 +41,14 @@ const Home = ({navigation}) => {
         }
         horizontal
         style={styles.horizontalListContainer}
+        contentContainerStyle={{paddingRight: 40}}
       />
       <SectionHeader content="Latest Posts" />
       <ListVertical
         numColumns={2}
         navigation={navigation}
         loadData={latestPostsArray}
-        style={{height: '70%', marginTop: 10, marginRight: 10}}
+        style={styles.verticalListContainer}
       />
     </View>
   );
@@ -72,9 +75,15 @@ const styles = StyleSheet.create({
   horizontalListContainer: {
     height: 210,
     marginTop: 10,
-    marginLeft: 10,
-    marginRight: 20,
+    marginLeft: 0,
+    marginRight: 0,
     paddingBottom: 10,
+    paddingLeft: 20,
+  },
+  verticalListContainer: {
+    height: '70%',
+    marginTop: 10,
+    marginLeft: 10,
   },
 });
 

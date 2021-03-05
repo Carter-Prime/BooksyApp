@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
-import {Divider} from 'react-native-elements';
-import {Eye, ThumbsUp} from 'react-native-feather';
+import {AirbnbRating} from 'react-native-elements';
+import {Eye} from 'react-native-feather';
 import Colours from './../utils/Colours';
 import PropTypes from 'prop-types';
 import {useFavourite, useRating} from '../hooks/ApiHooks';
@@ -9,7 +9,6 @@ import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Actionbar = ({postData}) => {
-  const [isLiked, setIsLiked] = useState(false);
   const {
     postFavourite,
     getListOfFavouritesByCurrentUser,
@@ -17,7 +16,37 @@ const Actionbar = ({postData}) => {
   } = useFavourite();
   const {postRating, deleteRating, getListOfRatingsByFileId} = useRating();
   const [isWatching, setIsWatching] = useState(false);
-  const {update, setUpdate} = useContext(MainContext);
+  const {update, setUpdate, user} = useContext(MainContext);
+  const [isRated, setIsRated] = useState(true);
+  const [averagePostRating, setAveragePostRating] = useState(0);
+
+  const addRating = async (rating) => {
+    const userToken = await AsyncStorage.getItem('userToken');
+
+    const data = {
+      file_id: postData.file_id,
+      rating: rating,
+    };
+    try {
+      postRating(data, userToken);
+      if (isRated) setIsRated(false);
+      setUpdate(update + 1);
+    } catch (error) {
+      console.log('postRating error: ', error);
+    }
+  };
+
+  const modifyRating = async (rating) => {
+    const userToken = await AsyncStorage.getItem('userToken');
+
+    try {
+      await deleteRating(userToken, postData.file_id);
+
+      await addRating(rating);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const addWatching = async () => {
     if (isWatching) {
@@ -68,9 +97,33 @@ const Actionbar = ({postData}) => {
     }
   };
 
+  const getRating = async () => {
+    let avgRating = 0;
+    try {
+      const listOfRating = await getListOfRatingsByFileId(postData.file_id);
+
+      const totalRatingArray = await listOfRating.map((item) => item.rating);
+      const userRated = listOfRating.filter(
+        (item) => item.user_id === user.user_id
+      );
+      if (userRated.length > 0) {
+        setIsRated(false);
+        totalRatingArray.map((item) => {
+          avgRating = avgRating + item / totalRatingArray.length;
+        });
+      }
+      setAveragePostRating(avgRating);
+
+      // console.log('average rating is ', avgRating);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getWatching();
-  }, []);
+    getRating();
+  }, [update]);
 
   return (
     <>
@@ -105,35 +158,36 @@ const Actionbar = ({postData}) => {
             )}
           </TouchableOpacity>
         </View>
-        <View style={styles.iconContainerRight}>
-          <Text style={styles.likesText}>23</Text>
-          <TouchableOpacity
-            style={styles.iconContainerRight}
-            onPress={() => {
-              setIsLiked(!isLiked);
-            }}
-          >
-            {isLiked ? (
-              <ThumbsUp
-                width={28}
-                height={28}
-                stroke={Colours.primaryBlue}
-                fill="none"
-                strokeWidth={1.5}
-              />
-            ) : (
-              <ThumbsUp
-                width={28}
-                height={28}
-                stroke={Colours.primaryBlue}
-                fill={Colours.accentOrange}
-                strokeWidth={1.5}
-              />
-            )}
-          </TouchableOpacity>
-        </View>
+
+        {isRated ? (
+          <>
+            <Text style={styles.ratingText}>Rate this post: </Text>
+            <AirbnbRating
+              count={5}
+              defaultRating={0}
+              size={16}
+              showRating={false}
+              onFinishRating={(rating) => {
+                addRating(rating);
+              }}
+              style={styles.iconContainerRight}
+            />
+          </>
+        ) : (
+          <>
+            <Text style={styles.ratingText}>Average post rating: </Text>
+            <AirbnbRating
+              count={5}
+              defaultRating={averagePostRating}
+              size={16}
+              showRating={false}
+              onFinishRating={(rating) => {
+                modifyRating(rating);
+              }}
+            />
+          </>
+        )}
       </View>
-      <Divider style={styles.divider} />
     </>
   );
 };
@@ -146,6 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
     marginBottom: -10,
+    marginHorizontal: 15,
   },
   iconContainerLeft: {
     flexDirection: 'row',
@@ -160,12 +215,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colours.accentOrange,
     marginTop: 20,
   },
-  likesText: {
+  ratingText: {
     textAlignVertical: 'center',
     paddingLeft: 10,
-    paddingTop: 5,
+    paddingTop: 0,
     fontFamily: 'ProximaSoftRegular',
-    fontSize: 18,
+    fontSize: 16,
+    marginLeft: 35,
     color: Colours.primaryBlue,
   },
 });

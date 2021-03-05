@@ -1,10 +1,9 @@
 import React, {useContext, useEffect} from 'react';
 import AppLoading from 'expo-app-loading';
-import {StyleSheet, ImageBackground} from 'react-native';
-import {StatusBar} from 'expo-status-bar';
+import {StyleSheet, ImageBackground, View} from 'react-native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {MainContext} from '../contexts/MainContext';
 import TitleSvg from '../assets/svg/TitleSvg';
@@ -37,8 +36,7 @@ const Login = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView style={styles.view}>
-      <StatusBar backgroundColor="black" style="light" />
+    <View style={styles.view}>
       <ImageBackground
         style={styles.container}
         source={require('../assets/images/loginBackgroundDark.png')}
@@ -46,7 +44,7 @@ const Login = ({navigation}) => {
         <TitleSvg width="340" height="120" style={styles.titleContainer} />
         <LoginSelector />
       </ImageBackground>
-    </SafeAreaView>
+    </View>
   );
 };
 

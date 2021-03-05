@@ -32,20 +32,18 @@ export default SectionHeader;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: 20,
   },
   text: {
     fontFamily: 'ProximaSoftRegular',
     fontSize: 24,
     color: Colours.primaryBlue,
-    marginLeft: 10,
+    marginLeft: 22,
   },
   divider: {
-    width: windowWidth * 0.9,
+    width: windowWidth * 0.88,
     backgroundColor: Colours.accentOrange,
-    marginHorizontal: 20,
+    marginHorizontal: 22,
     height: 1.5,
-    marginLeft: 10,
   },
   editIcon: {
     position: 'absolute',

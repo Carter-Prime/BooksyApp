@@ -10,6 +10,7 @@ import {uploadsUrl} from '../utils/Variable';
 import {Dimensions} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import {Trash2} from 'react-native-feather';
+import {useConfirm} from 'react-native-confirm-dialog';
 
 const CommentListItem = ({commentMedia}) => {
   const {getUserById} = useUser();
@@ -20,17 +21,33 @@ const CommentListItem = ({commentMedia}) => {
   const {user} = useContext(MainContext);
   const [showCommands, setShowCommands] = useState(false);
   const {update, setUpdate} = useContext(MainContext);
+  const confirmDelete = useConfirm();
 
   const deleteUserComment = async () => {
-    try {
-      const userToken = await AsyncStorage.getItem('userToken');
-      await deleteComment(commentMedia.comment_id, userToken);
-      setUpdate(update + 1);
-    } catch (error) {
-      console.error(error.message);
-    }
+    confirmDelete({
+      title: 'Do you want to delete this comment?',
+      titleStyle: {fontFamily: 'ProximaSoftRegular'},
+      body: commentMedia.comment,
+      bodyStyle: {fontFamily: 'ProximaSoftRegular'},
+      buttonLabelStyle: {fontFamily: 'ProximaSoftRegular'},
+      buttonStyle: {
+        flex: 0.5,
+        width: 30,
+        height: 30,
+        backgroundColor: Colours.accentOrange,
+        elevation: 1,
+      },
+      onConfirm: async () => {
+        try {
+          const userToken = await AsyncStorage.getItem('userToken');
+          await deleteComment(commentMedia.comment_id, userToken);
+          setUpdate(update + 1);
+        } catch (error) {
+          console.error(error.message);
+        }
+      },
+    });
   };
-
   const ownComment = () => {
     if (commentMedia.user_id === user.user_id) {
       setShowCommands(true);
@@ -105,10 +122,12 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   cardContainer: {
-    width: Dimensions.get('window').width * 0.9,
-    borderColor: Colours.primaryBlue,
+    width: Dimensions.get('window').width * 0.91,
+    elevation: 2,
     borderRadius: 5,
-    backgroundColor: Colours.secondaryNeutral,
+    backgroundColor: 'white',
+    marginLeft: 10,
+    marginTop: 0,
   },
   user: {
     fontSize: 20,

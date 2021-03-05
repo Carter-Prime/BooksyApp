@@ -37,7 +37,6 @@ const Search = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="black" style="light" />
       <View>
         <View style={styles.animationContainer}>
           {isVisible ? (

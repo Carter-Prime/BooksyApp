@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import {View, StyleSheet, Alert, ActivityIndicator} from 'react-native';
 import {Avatar} from 'react-native-elements';
-import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -109,7 +108,6 @@ const EditProfile = ({navigation}) => {
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-      <StatusBar backgroundColor="black" style="light" />
       <Avatar
         size={250}
         source={{

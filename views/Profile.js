@@ -3,7 +3,6 @@ import {MainContext} from '../contexts/MainContext';
 import AppLoading from 'expo-app-loading';
 import {StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
-import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -68,7 +67,6 @@ const Profile = ({navigation}) => {
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-      <StatusBar backgroundColor="black" style="light" />
       <Avatar
         size={250}
         source={{

@@ -35,14 +35,9 @@ const constraints = {
     },
   },
   tags: {
-    presence: {
-      message: 'cannot be empty',
-    },
     length: {
-      minimum: 2,
       maximum: 20,
       tooLong: 'max length is 20 characters',
-      message: 'min length is 2 characters',
     },
     format: {
       pattern: '[a-zA-Z0-9]+',
