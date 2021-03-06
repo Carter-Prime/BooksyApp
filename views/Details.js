@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Text,
   View,
+  ToastAndroid,
 } from 'react-native';
 import {Image, Divider, Avatar} from 'react-native-elements';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -22,7 +23,7 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import {Edit, Plus, Trash2} from 'react-native-feather';
 import CommentListItem from './../components/CommentListItem';
 import RoundButton from '../components/RoundButton';
-import {Dimensions, Alert} from 'react-native';
+import {Dimensions} from 'react-native';
 import ModalAddComment from './../components/ModalAddComment';
 import Actionbar from '../components/Actionbar';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -148,6 +149,14 @@ const Details = ({route, navigation}) => {
     }
   };
 
+  const alertUser = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.CENTER
+    );
+  };
+
   const deletePost = async () => {
     confirmDelete({
       title: 'Do you want to delete this post?',
@@ -165,20 +174,9 @@ const Details = ({route, navigation}) => {
           const userToken = await AsyncStorage.getItem('userToken');
           await deleteFile(file.file_id, userToken);
           setIsDeleted(true);
-          Alert.alert(
-            'Upload',
-            'File uploaded',
-            [
-              {
-                text: 'Ok',
-                onPress: () => {
-                  setUpdate(update + 1);
-                  navigation.navigate('Home');
-                },
-              },
-            ],
-            {cancelable: false}
-          );
+          alertUser(file.title + ' was deleted.');
+          setUpdate(update + 1);
+          navigation.pop();
         } catch (error) {
           console.log(error);
         }

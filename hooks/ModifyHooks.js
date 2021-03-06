@@ -45,9 +45,9 @@ const constraints = {
       tooLong: 'max length is 100 characters',
     },
     format: {
-      pattern: '[a-z0-9]+',
+      pattern: '[a-zA-Z0-9,!".\'?@#ÖÄöä ]+',
       flags: 'i',
-      message: 'can only contain a-z and 0-9',
+      message: 'can only contain a-z, (!"\'.?@ÖÄöä), and 0-9',
     },
   },
   favouriteBook: {
@@ -56,9 +56,9 @@ const constraints = {
       tooLong: 'max length is 100 characters',
     },
     format: {
-      pattern: '[a-zA-Z0-9,!"?@#\\s]+',
+      pattern: '[a-zA-Z0-9,!".\'?@#ÖÄöä ]+',
       flags: 'i',
-      message: 'can only contain a-z and 0-9',
+      message: 'can only contain a-z, (!"\'.?@ÖÄöä), and 0-9',
     },
   },
 };
@@ -105,10 +105,8 @@ const useEditForm = (callback) => {
         },
         constraints
       );
-      // console.log('checking confirm pw', error);
     } else {
       error = validator(name, text, constraints);
-      // console.log('checking something else', error);
     }
 
     setEditErrors((editErrors) => {
@@ -136,7 +134,6 @@ const useEditForm = (callback) => {
   };
 
   const validateOnSend = () => {
-    console.log(editErrors);
     const usernameError = validator('username', inputs.username, constraints);
     const fullNameError = validator('fullName', inputs.fullName, constraints);
     const favouriteBookError = validator(

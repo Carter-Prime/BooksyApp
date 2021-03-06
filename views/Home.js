@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
@@ -18,10 +18,31 @@ const Home = ({navigation}) => {
     currentUserPostArray,
   } = useLoadMedia();
   const {isWatchingVisible} = useContext(MainContext);
+  const [isEmptyList, setIsEmpty] = useState(false);
 
   if (!loaded) {
     return <AppLoading onError={console.warn} />;
   }
+
+  useEffect(() => {
+    isEmpty();
+  }, [isWatchingVisible]);
+
+  const isEmpty = () => {
+    if (isWatchingVisible) {
+      if (currentUserFavouritePostArray.length == 0) {
+        setIsEmpty(true);
+      } else {
+        setIsEmpty(false);
+      }
+    } else {
+      if (currentUserPostArray.length == 0) {
+        setIsEmpty(true);
+      } else {
+        setIsEmpty(false);
+      }
+    }
+  };
 
   return (
     <View contentContainerStyle={styles.container}>
@@ -41,7 +62,11 @@ const Home = ({navigation}) => {
         }
         horizontal
         style={styles.horizontalListContainer}
-        contentContainerStyle={{paddingRight: 40}}
+        contentContainerStyle={
+          isEmptyList
+            ? {paddingRight: 40, paddingBottom: 0}
+            : {paddingRight: 40, paddingBottom: 70}
+        }
       />
       <SectionHeader content="Latest Posts" />
       <ListVertical
@@ -49,6 +74,9 @@ const Home = ({navigation}) => {
         navigation={navigation}
         loadData={latestPostsArray}
         style={styles.verticalListContainer}
+        extraContentContainerStyle={
+          isEmptyList ? {paddingBottom: 100} : {paddingBottom: 335}
+        }
       />
     </View>
   );
@@ -56,7 +84,7 @@ const Home = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
@@ -73,15 +101,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   horizontalListContainer: {
-    height: 210,
     marginTop: 10,
     marginLeft: 0,
     marginRight: 0,
-    paddingBottom: 10,
     paddingLeft: 20,
   },
   verticalListContainer: {
-    height: '70%',
     marginTop: 10,
     marginLeft: 10,
   },

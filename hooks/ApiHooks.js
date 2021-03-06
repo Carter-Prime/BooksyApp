@@ -113,7 +113,6 @@ const useUser = () => {
   };
 
   const modifyUser = async (inputs, token) => {
-    console.log(JSON.stringify(inputs));
     const options = {
       method: 'PUT',
       headers: {

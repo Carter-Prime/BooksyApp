@@ -1,34 +1,92 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Card} from 'react-native-elements';
+import {useMedia, useRating} from '../hooks/ApiHooks';
 import PropTypes from 'prop-types';
+import {MainContext} from '../contexts/MainContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Colours from './../utils/Colours';
 
-const AccountStatisticCard = ({accountStats, ...props}) => {
-  const statsObject = JSON.parse(accountStats);
+const AccountStatisticCard = ({listLength, ...props}) => {
+  const {update} = useContext(MainContext);
+  const {getListOfFilesOfCurrentUser} = useMedia();
+  const {getListOfRatingsByFileId} = useRating();
+  const [rating, setRating] = useState(0);
+  const [numberOfPosts, setNumberOfPosts] = useState(0);
+
+  useEffect(() => {
+    getUserRating();
+    getNumberOfPosts();
+  }, [update]);
+
+  const calculateRatingPercent = (number) => {
+    const value = (number / 5) * 100;
+    return value.toFixed(2);
+  };
+
+  const getNumberOfPosts = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    try {
+      const response = await getListOfFilesOfCurrentUser(userToken);
+      const newArray = await response.filter((item) => {
+        if (!item.title.includes('Avatar_')) {
+          return item;
+        }
+      });
+      setNumberOfPosts(newArray.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const average = (array) => {
+    return array.reduce((a, b) => a + b) / array.length;
+  };
+
+  const getUserRating = async () => {
+    const arrayRatings = [];
+    const userToken = await AsyncStorage.getItem('userToken');
+    try {
+      const response = await getListOfFilesOfCurrentUser(userToken);
+      const fileRatings = await Promise.all(
+        response.map(async (item) => {
+          const fileJson = await getListOfRatingsByFileId(item.file_id);
+          return fileJson;
+        })
+      );
+      if (fileRatings.length > 0) {
+        fileRatings.map((item) => {
+          item.map((element) => {
+            arrayRatings.push(element.rating);
+          });
+        });
+      }
+      setRating(average(arrayRatings));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Card containerStyle={styles.card}>
       <View style={styles.cardSection}>
-        <Text style={[styles.text, styles.labels]}>Rating:</Text>
-        <Text style={[styles.text, styles.info]}>{statsObject.rating}</Text>
+        <Text style={[styles.text, styles.labels]}>User Rating:</Text>
+        <Text style={[styles.text, styles.info]}>
+          {calculateRatingPercent(rating)}%
+        </Text>
       </View>
       <Card.Divider style={styles.divider} />
       <View style={styles.cardSection}>
         <Text style={[styles.text, styles.labels]}>Number of Posts: </Text>
-        <Text style={[styles.text, styles.info]}>
-          {statsObject.numberOfPosts}
-        </Text>
+        <Text style={[styles.text, styles.info]}>{numberOfPosts}</Text>
       </View>
       <Card.Divider style={styles.divider} />
       <View style={styles.cardSection}>
-        <Text style={[styles.text, styles.labels, {flexGrow: 0.5}]}>
-          Swapped:
+        <Text style={[styles.text, styles.labels]}>
+          Number of Swapped Books:
         </Text>
-        <Text style={[styles.text, styles.info]}>
-          {statsObject.booksSwapped}
-        </Text>
+        <Text style={[styles.text, styles.info]}>{listLength}</Text>
       </View>
       <Card.Divider style={styles.divider} />
     </Card>
@@ -63,12 +121,12 @@ const styles = StyleSheet.create({
   },
   labels: {
     textAlign: 'left',
-    flexShrink: 1,
+    flexGrow: 1.5,
     fontFamily: 'ProximaSoftRegular',
     color: Colours.textDark,
   },
   info: {
-    flexGrow: 1.5,
+    flexGrow: 0.5,
     textAlign: 'right',
   },
   divider: {
@@ -79,5 +137,5 @@ const styles = StyleSheet.create({
 });
 
 AccountStatisticCard.propTypes = {
-  accountStats: PropTypes.string,
+  listLength: PropTypes.number,
 };

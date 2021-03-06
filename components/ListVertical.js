@@ -4,11 +4,16 @@ import {FlatList, StyleSheet} from 'react-native';
 import ListItem from './ListItem';
 import PropTypes from 'prop-types';
 
-const ListVertical = ({navigation, loadData, ...props}) => {
+const ListVertical = ({
+  navigation,
+  extraContentContainerStyle,
+  loadData,
+  ...props
+}) => {
   return (
     <FlatList
       {...props}
-      contentContainerStyle={styles.container}
+      contentContainerStyle={[styles.container, extraContentContainerStyle]}
       data={loadData}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) => (
@@ -21,11 +26,11 @@ const ListVertical = ({navigation, loadData, ...props}) => {
 ListVertical.propTypes = {
   navigation: PropTypes.object,
   loadData: PropTypes.array,
+  extraContentContainerStyle: PropTypes.object,
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 105,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     marginLeft: 10,

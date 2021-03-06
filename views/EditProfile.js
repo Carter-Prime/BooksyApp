@@ -42,16 +42,6 @@ const EditProfile = ({navigation}) => {
   } = useEditForm();
 
   useEffect(() => {
-    const fetchAvatar = async () => {
-      try {
-        const avatarList = await getFilesByTag('avatar_' + user.user_id);
-        if (avatarList.length > 0) {
-          setAvatar(uploadsUrl + avatarList.pop().filename);
-        }
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
     fetchAvatar();
     const userData = JSON.parse(user.full_name);
     setInputs({
@@ -60,8 +50,18 @@ const EditProfile = ({navigation}) => {
       fullName: userData.fullName,
       favouriteBook: userData.favouriteBook,
     });
-  }, [update]);
+  }, []);
 
+  const fetchAvatar = async () => {
+    try {
+      const avatarList = await getFilesByTag('avatar_' + user.user_id);
+      if (avatarList.length > 0) {
+        setAvatar(uploadsUrl + avatarList.pop().filename);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
   const doUpdate = async () => {
     if (!validateOnSend()) {
       console.log('validator on send failed');
@@ -85,7 +85,6 @@ const EditProfile = ({navigation}) => {
       setIsUploading(true);
       const userToken = await AsyncStorage.getItem('userToken');
       const resp = await modifyUser(uploadData, userToken);
-      console.log('update response', resp);
       setUpdate(update + 1);
       Alert.alert('Account Updated', resp.message + ' Successfully');
       navigation.pop();

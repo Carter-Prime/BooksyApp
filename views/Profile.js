@@ -36,33 +36,32 @@ const Profile = ({navigation}) => {
     return <AppLoading onError={console.warn} />;
   }
 
-  useEffect(() => {
-    const fetchAvatar = async () => {
+  const getCurrentUserData = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken) {
       try {
-        const avatarList = await getFilesByTag('avatar_' + user.user_id);
-        if (avatarList.length > 0) {
-          setAvatar(uploadsUrl + avatarList.pop().filename);
-        }
+        const userData = await checkCurrentUserToken(userToken);
+        setUser(userData);
       } catch (error) {
         console.error(error.message);
       }
-    };
-    fetchAvatar();
-  }, [update]);
+    }
+  };
+
+  const fetchAvatar = async () => {
+    try {
+      const avatarList = await getFilesByTag('avatar_' + user.user_id);
+      if (avatarList.length > 0) {
+        setAvatar(uploadsUrl + avatarList.pop().filename);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   useEffect(() => {
-    const updateUserData = async () => {
-      const userToken = await AsyncStorage.getItem('userToken');
-      if (userToken) {
-        try {
-          const userData = await checkCurrentUserToken(userToken);
-          setUser(userData);
-        } catch (error) {
-          console.error(error.message);
-        }
-      }
-    };
-    updateUserData();
+    fetchAvatar();
+    getCurrentUserData();
   }, [update]);
 
   return (
@@ -86,9 +85,15 @@ const Profile = ({navigation}) => {
       />
       <AccountInfoCard accountInfo={user} />
       <SectionHeader content="Account Statistics" />
-      <AccountStatisticCard accountStats={user.full_name} />
+      <AccountStatisticCard listLength={swappedPostsArray.length} />
       <SectionHeader content="Books Swapped" />
-      <List navigation={navigation} loadData={swappedPostsArray} horizontal />
+      <List
+        navigation={navigation}
+        loadData={swappedPostsArray}
+        horizontal
+        style={styles.horizontalListContainer}
+        contentContainerStyle={{paddingRight: 40}}
+      />
       <CustomButton
         extraStyle={styles.logoutBtn}
         title="Logout"
@@ -127,6 +132,13 @@ const styles = StyleSheet.create({
   logoutBtn: {
     width: '91%',
     marginRight: 20,
+  },
+  horizontalListContainer: {
+    marginTop: 10,
+    marginLeft: 0,
+    marginRight: 0,
+    paddingBottom: 10,
+    paddingLeft: 20,
   },
 });
 
