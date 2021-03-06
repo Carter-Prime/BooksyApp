@@ -29,7 +29,13 @@ const MainProvider = ({children}) => {
     {tag: 'Biography', value: false},
     {tag: 'Autobiography', value: false},
   ]);
+  const [searchSelection, setSearchSelection] = useState([
+    {tag: 'Title', value: false},
+    {tag: 'Description', value: false},
+    {tag: 'Tags', value: false},
+  ]);
   const [isWatchingVisible, setIsWatchingVisible] = useState(true);
+  const [searchResultArray, setSearchResultArray] = useState([]);
 
   return (
     <MainContext.Provider
@@ -48,6 +54,10 @@ const MainProvider = ({children}) => {
         setTagState,
         isWatchingVisible,
         setIsWatchingVisible,
+        searchSelection,
+        setSearchSelection,
+        searchResultArray,
+        setSearchResultArray,
       }}
     >
       {children}

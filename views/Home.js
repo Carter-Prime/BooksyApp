@@ -48,14 +48,14 @@ const Home = ({navigation}) => {
             }}
           >
             {showList ? (
-              <ChevronDown
+              <ChevronUp
                 strokeWidth={1.5}
                 color={Colours.primaryBlue}
                 width={30}
                 height={30}
               />
             ) : (
-              <ChevronUp
+              <ChevronDown
                 strokeWidth={1.5}
                 color={Colours.primaryBlue}
                 width={30}
@@ -80,13 +80,18 @@ const Home = ({navigation}) => {
         />
       )}
 
-      <SectionHeader content="Latest Posts" containerStyle={{marginTop: 10}} />
+      <SectionHeader
+        content="Latest Posts"
+        containerStyle={showList ? {marginTop: 0} : {marginTop: 10}}
+      />
       <ListVertical
         numColumns={2}
         navigation={navigation}
         loadData={latestPostsArray}
         style={styles.verticalListContainer}
-        extraContentContainerStyle={{paddingBottom: 335}}
+        extraContentContainerStyle={
+          showList ? {paddingBottom: 345} : {paddingBottom: 100}
+        }
       />
     </View>
   );

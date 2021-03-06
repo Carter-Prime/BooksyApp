@@ -216,17 +216,20 @@ const useMedia = () => {
     }
   };
 
-  const searchMediaFiles = async (token, search) => {
+  const searchMediaFiles = async (search, token) => {
     const options = {
       method: 'POST',
-      headers: {'x-access-token': token},
+      headers: {
+        'x-access-token': token,
+        'Content-type': 'application/json',
+      },
       body: JSON.stringify(search),
     };
     try {
-      const searchResult = await doFetch(baseUrl + 'media/search/', options);
+      const searchResult = await doFetch(baseUrl + 'media/search', options);
       return searchResult;
     } catch (error) {
-      throw new Error('searchMediaFiles error: ' + error.message);
+      throw new Error('searchMediaFiles error: ' + error);
     }
   };
 

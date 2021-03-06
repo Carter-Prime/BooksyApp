@@ -15,7 +15,7 @@ const doFetch = async (url, options = {}) => {
     return json;
   }
 };
-const useLoadMedia = (fileId) => {
+const useLoadMedia = () => {
   const [currentUserPostArray, setcurrentUserPostArray] = useState([]);
   const [
     currentUserFavouritePostArray,
@@ -24,8 +24,9 @@ const useLoadMedia = (fileId) => {
   const [swappedPostsArray, setSwappedPostsArray] = useState([]);
   const [latestPostsArray, setLatestPostsArray] = useState([]);
   const {update, user} = useContext(MainContext);
-  const {getListOfFilesOfCurrentUser} = useMedia();
+  const {getListOfFilesOfCurrentUser, searchMediaFiles} = useMedia();
   const {getListOfFavouritesByCurrentUser} = useFavourite();
+  const {setSearchResultArray} = useContext(MainContext);
 
   useEffect(() => {
     currentUserPostMedia();
@@ -33,6 +34,31 @@ const useLoadMedia = (fileId) => {
     latestPosts();
     currentUserSwappedPosts();
   }, [update]);
+
+  const doSearch = async (searchData) => {
+    console.log('dosearch: ', searchData);
+    // console.log(tagSearch);
+    if (Object.keys(searchData).length == 0) {
+      console.log('search empty');
+      return;
+    }
+    const userToken = await AsyncStorage.getItem('userToken');
+
+    try {
+      const response = await searchMediaFiles(searchData, userToken);
+
+      const media = await Promise.all(
+        response.map(async (item) => {
+          const fileJson = await doFetch(baseUrl + 'media/' + item.file_id);
+          return fileJson;
+        })
+      );
+      //console.log(media);
+      setSearchResultArray(media);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const currentUserPostMedia = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
@@ -129,6 +155,7 @@ const useLoadMedia = (fileId) => {
     currentUserFavouritePostArray,
     latestPostsArray,
     swappedPostsArray,
+    doSearch,
   };
 };
 
