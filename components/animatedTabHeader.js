@@ -83,26 +83,26 @@ const styles = StyleSheet.create({
   },
   componentContainer: {},
   animationContainer: {
-    width: windowWidth * 0.88,
-    marginLeft: 22,
+    width: windowWidth * 0.91,
+    marginLeft: 15,
     overflow: 'hidden',
   },
   animation: {
     width: windowWidth * 1.1,
-    marginLeft: -3,
+    marginLeft: 0,
   },
   textContainer: {
     width: windowWidth * 0.7,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginLeft: 50,
+    marginLeft: 45,
     position: 'absolute',
     top: 7,
   },
   text: {
     fontFamily: 'ProximaSoftRegular',
     fontSize: 24,
-    marginRight: 50,
+    marginRight: 40,
     color: Colours.primaryBlue,
   },
 });

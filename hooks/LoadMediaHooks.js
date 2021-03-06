@@ -117,6 +117,7 @@ const useLoadMedia = (fileId) => {
       newArray = newArray
         .slice(Math.max(newArray.length - 30, 0), newArray.length)
         .reverse();
+
       setLatestPostsArray(newArray);
     } catch (error) {
       console.error('latestPosts error', error.message);

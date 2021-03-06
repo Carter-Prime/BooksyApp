@@ -9,6 +9,9 @@ import {useLoadMedia} from '../hooks/LoadMediaHooks';
 import ListVertical from './../components/ListVertical';
 import AnimatedTabHeader from './../components/animatedTabHeader';
 import {StatusBar} from 'expo-status-bar';
+import {ChevronDown, ChevronUp} from 'react-native-feather';
+import Colours from './../utils/Colours';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const Home = ({navigation}) => {
   const {loaded, update} = useContext(MainContext);
@@ -18,65 +21,72 @@ const Home = ({navigation}) => {
     currentUserPostArray,
   } = useLoadMedia();
   const {isWatchingVisible} = useContext(MainContext);
-  const [isEmptyList, setIsEmpty] = useState(false);
+  const [showList, setShowList] = useState(true);
 
   if (!loaded) {
     return <AppLoading onError={console.warn} />;
   }
 
-  useEffect(() => {
-    isEmpty();
-  }, [isWatchingVisible]);
-
-  const isEmpty = () => {
-    if (isWatchingVisible) {
-      if (currentUserFavouritePostArray.length == 0) {
-        setIsEmpty(true);
-      } else {
-        setIsEmpty(false);
-      }
-    } else {
-      if (currentUserPostArray.length == 0) {
-        setIsEmpty(true);
-      } else {
-        setIsEmpty(false);
-      }
-    }
-  };
+  useEffect(() => {}, []);
 
   return (
     <View contentContainerStyle={styles.container}>
       <StatusBar style="light" />
 
-      <View style={{marginBottom: -10, marginTop: 10}}>
+      <View
+        style={{
+          marginBottom: -10,
+          marginTop: 10,
+          flexDirection: 'row',
+        }}
+      >
         <AnimatedTabHeader />
+        <View style={styles.dropDownIconContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              setShowList(!showList);
+            }}
+          >
+            {showList ? (
+              <ChevronDown
+                strokeWidth={1.5}
+                color={Colours.primaryBlue}
+                width={30}
+                height={30}
+              />
+            ) : (
+              <ChevronUp
+                strokeWidth={1.5}
+                color={Colours.primaryBlue}
+                width={30}
+                height={30}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
+      {showList && (
+        <List
+          navigation={navigation}
+          extraData={update}
+          loadData={
+            isWatchingVisible
+              ? currentUserFavouritePostArray
+              : currentUserPostArray
+          }
+          horizontal
+          style={styles.horizontalListContainer}
+          contentContainerStyle={{paddingRight: 40, paddingBottom: 70}}
+        />
+      )}
 
-      <List
-        navigation={navigation}
-        extraData={update}
-        loadData={
-          isWatchingVisible
-            ? currentUserFavouritePostArray
-            : currentUserPostArray
-        }
-        horizontal
-        style={styles.horizontalListContainer}
-        contentContainerStyle={
-          isEmptyList
-            ? {paddingRight: 40, paddingBottom: 0}
-            : {paddingRight: 40, paddingBottom: 70}
-        }
-      />
-      <SectionHeader content="Latest Posts" />
+      <SectionHeader content="Latest Posts" containerStyle={{marginTop: 10}} />
       <ListVertical
         numColumns={2}
         navigation={navigation}
         loadData={latestPostsArray}
         style={styles.verticalListContainer}
-        extraContentContainerStyle={
-          isEmptyList ? {paddingBottom: 100} : {paddingBottom: 335}
-        }
+        extraContentContainerStyle={{paddingBottom: 335}}
       />
     </View>
   );
@@ -104,11 +114,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 0,
     marginRight: 0,
-    paddingLeft: 20,
+    paddingLeft: 17,
   },
   verticalListContainer: {
     marginTop: 10,
-    marginLeft: 10,
+    marginLeft: 3,
+  },
+  dropDownIconContainer: {
+    width: 30,
+    height: 30,
+    position: 'absolute',
+    top: 8,
+    right: 20,
   },
 });
 

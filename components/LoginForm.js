@@ -14,14 +14,12 @@ import {MainContext} from '../contexts/MainContext';
 const LoginForm = ({navigation}) => {
   const {inputs, handleInputChange} = useLoginForm();
   const {postLogin} = useAuthentication();
-  const {user, setUser, setIsLoggedIn, setUserStats} = useContext(MainContext);
+  const {setUser, setIsLoggedIn} = useContext(MainContext);
 
   const doLogin = async () => {
     try {
       const userData = await postLogin(inputs);
       setUser(userData.user);
-      const data = JSON.parse(user.full_name);
-      setUserStats(data);
       await AsyncStorage.setItem('userToken', userData.token);
       await setIsLoggedIn(true);
     } catch (error) {

@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
     fontFamily: 'ProximaSoftRegular',
     fontSize: 24,
     color: Colours.primaryBlue,
-    marginLeft: 22,
+    marginLeft: 15,
   },
   divider: {
-    width: windowWidth * 0.88,
+    width: windowWidth * 0.92,
     backgroundColor: Colours.accentOrange,
-    marginHorizontal: 22,
+    marginHorizontal: 15,
     height: 1.5,
   },
   editIcon: {

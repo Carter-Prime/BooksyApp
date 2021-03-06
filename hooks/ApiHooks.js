@@ -86,19 +86,6 @@ const useUser = () => {
     }
   };
 
-  const getUsersList = async (token) => {
-    try {
-      const options = {
-        method: 'GET',
-        headers: {'x-access-token': token},
-      };
-      const userListData = await doFetch(baseUrl + 'users/', options);
-      return userListData;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  };
-
   const deleteUser = async (id, token) => {
     try {
       const options = {
@@ -134,7 +121,6 @@ const useUser = () => {
     checkCurrentUserToken,
     checkIsUsernameAvailable,
     getUserById,
-    getUsersList,
     deleteUser,
     modifyUser,
   };
@@ -199,21 +185,6 @@ const useMedia = () => {
     }
   };
 
-  const getListOfFilesByUser = async (userId) => {
-    const options = {
-      method: 'GET',
-    };
-    try {
-      const listOfFiles = await doFetch(
-        baseUrl + 'media/user/' + userId,
-        options
-      );
-      return listOfFiles;
-    } catch (error) {
-      throw new Error('getFIleById error: ' + error.message);
-    }
-  };
-
   const getListOfFilesOfCurrentUser = async (token) => {
     const options = {
       method: 'GET',
@@ -264,7 +235,6 @@ const useMedia = () => {
     updateFile,
     deleteFile,
     getFileById,
-    getListOfFilesByUser,
     getListOfFilesOfCurrentUser,
     getListofAllMediaFiles,
     searchMediaFiles,
@@ -322,24 +292,10 @@ const useComment = () => {
     }
   };
 
-  // Request a list of comments posted by authenticated user.
-  const getCommentsOfCurrentUser = async (token) => {
-    const options = {
-      method: 'GET',
-      headers: {'x-access-token': token},
-    };
-    try {
-      const listOfComments = await doFetch(baseUrl + 'comments', options);
-      return listOfComments;
-    } catch (error) {
-      throw new Error('getCommentsByFileId error: ' + error.message);
-    }
-  };
   return {
     postComment,
     deleteComment,
     getCommentsByFileId,
-    getCommentsOfCurrentUser,
   };
 };
 
@@ -520,19 +476,6 @@ const useTag = () => {
     }
   };
 
-  const getListOfTagsByCurrentUser = async (token) => {
-    const options = {
-      method: 'GET',
-      headers: {'x-access-token': token},
-    };
-    try {
-      const listOfTags = await doFetch(baseUrl + 'tags', options);
-      return listOfTags;
-    } catch (error) {
-      throw new Error('getListOfTagsByCurrentUser error: ' + error.message);
-    }
-  };
-
   const getListOfTagsByFileId = async (fileId) => {
     const options = {
       method: 'GET',
@@ -549,7 +492,6 @@ const useTag = () => {
     getFilesByTag,
     postTag,
     deleteTag,
-    getListOfTagsByCurrentUser,
     getListOfTagsByFileId,
   };
 };

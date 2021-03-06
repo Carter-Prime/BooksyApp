@@ -10,7 +10,6 @@ const MainProvider = ({children}) => {
   const [update, setUpdate] = useState(0);
   const [signInScreen, setSignInScreen] = useState(true);
   const [loaded, setLoaded] = useFonts({
-    McLarenRegular: require('../assets/fonts/McLaren-Regular.ttf'),
     ProximaSoftMedium: require('../assets/fonts/ProximaSoft-Medium.ttf'),
     ProximaSoftRegular: require('../assets/fonts/ProximaSoft-Regular.ttf'),
   });
