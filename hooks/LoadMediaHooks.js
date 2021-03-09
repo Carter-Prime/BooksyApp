@@ -3,6 +3,7 @@ import {MainContext} from '../contexts/MainContext';
 import {useMedia, useFavourite} from './ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {baseUrl, appIdentifier} from '../utils/Variable';
+import {ToastAndroid} from 'react-native';
 
 const doFetch = async (url, options = {}) => {
   const response = await fetch(url, options);
@@ -23,10 +24,12 @@ const useLoadMedia = () => {
   ] = useState([]);
   const [swappedPostsArray, setSwappedPostsArray] = useState([]);
   const [latestPostsArray, setLatestPostsArray] = useState([]);
-  const {update, user} = useContext(MainContext);
-  const {getListOfFilesOfCurrentUser, searchMediaFiles} = useMedia();
+  const {update, user, setSearchResultArray, setSearchIsEmpty} = useContext(
+    MainContext
+  );
+  const {getListOfFilesOfCurrentUser} = useMedia();
   const {getListOfFavouritesByCurrentUser} = useFavourite();
-  const {setSearchResultArray} = useContext(MainContext);
+  const [searchIsLoading, setSearchIsLoading] = useState(false);
 
   useEffect(() => {
     currentUserPostMedia();
@@ -35,28 +38,79 @@ const useLoadMedia = () => {
     currentUserSwappedPosts();
   }, [update]);
 
-  const doSearch = async (searchData) => {
-    console.log('dosearch: ', searchData);
-    // console.log(tagSearch);
-    if (Object.keys(searchData).length == 0) {
-      console.log('search empty');
+  const doSearch = async (searchData, tagSearch, searchInput) => {
+    let titleSearch = [];
+    let descriptionSearch = [];
+    let tagMediaSearch = [];
+
+    if (searchInput === '') {
+      ToastAndroid.showWithGravity(
+        'Search is empty. Please try again.',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER
+      );
       return;
     }
-    const userToken = await AsyncStorage.getItem('userToken');
 
     try {
-      const response = await searchMediaFiles(searchData, userToken);
+      setSearchResultArray([]);
+      setSearchIsEmpty(false);
+      setSearchIsLoading(true);
+      if (Object.keys(searchData).length != 0) {
+        const listJson = await doFetch(baseUrl + 'tags/' + appIdentifier);
+        const media = await Promise.all(
+          listJson.map(async (item) => {
+            const fileJson = await doFetch(baseUrl + 'media/' + item.file_id);
+            return fileJson;
+          })
+        );
+        const newArray = media.filter(
+          (item) => !item.title.includes('Avatar_')
+        );
 
-      const media = await Promise.all(
-        response.map(async (item) => {
-          const fileJson = await doFetch(baseUrl + 'media/' + item.file_id);
-          return fileJson;
-        })
-      );
-      //console.log(media);
-      setSearchResultArray(media);
+        if ('title' in searchData) {
+          const data = searchData.title.toLowerCase();
+          titleSearch = newArray.filter((item) => {
+            if (item.title.toLowerCase().includes(data)) {
+              return item;
+            }
+          });
+        }
+
+        if ('description' in searchData) {
+          const data = searchData.description.toLowerCase();
+          descriptionSearch = newArray.filter((item) => {
+            if (item.description.toLowerCase().includes(data)) {
+              return item;
+            }
+          });
+        }
+      }
+      if (tagSearch) {
+        const tagResponse = await doFetch(baseUrl + 'tags/' + searchInput);
+        tagMediaSearch = await Promise.all(
+          tagResponse.map(async (item) => {
+            const fileJson = await doFetch(baseUrl + 'media/' + item.file_id);
+            return fileJson;
+          })
+        );
+      }
+      let finalSearchArray = titleSearch
+        .concat(descriptionSearch)
+        .concat(tagMediaSearch);
+
+      finalSearchArray = [
+        ...new Set([...titleSearch, ...descriptionSearch, ...tagMediaSearch]),
+      ];
+      if (finalSearchArray.length == 0) {
+        setSearchIsEmpty(true);
+      } else {
+        setSearchResultArray(finalSearchArray);
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setSearchIsLoading(false);
     }
   };
 
@@ -81,7 +135,7 @@ const useLoadMedia = () => {
       });
       setcurrentUserPostArray(unswappedArray.reverse());
     } catch (error) {
-      console.log('data error: ', error.message);
+      console.error('currentUserPostMedia error: ', error.message);
     }
   };
 
@@ -106,7 +160,7 @@ const useLoadMedia = () => {
       });
       setSwappedPostsArray(swappedArray.reverse());
     } catch (error) {
-      console.log('data error: ', error.message);
+      console.error('currentUserSwappedPosts error: ', error.message);
     }
   };
 
@@ -123,7 +177,7 @@ const useLoadMedia = () => {
       media = media.reverse();
       setcurrentUserFavouritePostArray(media);
     } catch (error) {
-      console.log('data error: ', error.message);
+      console.error('currentUserFavouritePosts error: ', error.message);
     }
   };
 
@@ -156,6 +210,7 @@ const useLoadMedia = () => {
     latestPostsArray,
     swappedPostsArray,
     doSearch,
+    searchIsLoading,
   };
 };
 

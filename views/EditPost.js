@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {ActivityIndicator, Alert, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, View, ToastAndroid} from 'react-native';
 import PropTypes from 'prop-types';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import useUploadForm from '../hooks/UploadHooks';
@@ -12,6 +12,7 @@ import InputTextBox from './../components/InputTextBox';
 import Colours from './../utils/Colours';
 import SectionHeader from '../components/SectionHeader';
 import TagCheckboxSelector from '../components/TagCheckboxSelector';
+import {useConfirm} from 'react-native-confirm-dialog';
 
 const EditPost = ({navigation, route}) => {
   const {file} = route.params;
@@ -20,6 +21,7 @@ const EditPost = ({navigation, route}) => {
   const {updateFile} = useMedia();
   const {postTag} = useTag();
   const {update, setUpdate, tagState, setTagState} = useContext(MainContext);
+  const confirmUpdatePost = useConfirm();
 
   const {handleInputChange, inputs, uploadErrors, reset} = useUploadForm();
 
@@ -27,6 +29,14 @@ const EditPost = ({navigation, route}) => {
     handleInputChange('title', file.title);
     handleInputChange('description', moreData.description);
   }, []);
+
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
+  };
 
   const createAddTags = () => {
     const tagArray = tagState
@@ -77,23 +87,31 @@ const EditPost = ({navigation, route}) => {
         }
       }
 
-      Alert.alert(
-        'Update',
-        'File updated',
-        [
-          {
-            text: 'Ok',
-            onPress: async () => {
-              await setUpdate(update + 1);
-              doReset();
-              navigation.navigate('Home');
-            },
-          },
-        ],
-        {cancelable: false}
-      );
+      confirmUpdatePost({
+        title: 'Post was updated!',
+        titleStyle: {fontFamily: 'ProximaSoftRegular'},
+        buttonLabelStyle: {
+          fontFamily: 'ProximaSoftRegular',
+          color: Colours.primaryBlue,
+        },
+        buttonStyle: {
+          backgroundColor: Colours.accentOrange,
+          elevation: 1,
+          color: Colours.primaryBlue,
+        },
+        confirmButtonStyle: {
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        showCancel: false,
+        onConfirm: () => {
+          setUpdate(update + 1);
+          doReset();
+          navigation.navigate('Home');
+        },
+      });
     } catch (error) {
-      Alert.alert('Upload', 'Failed');
+      announceToast('Update failed!');
       console.error(error);
     } finally {
       setIsUploading(false);

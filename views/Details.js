@@ -48,6 +48,14 @@ const Details = ({route, navigation}) => {
   const {deleteFile} = useMedia();
   const [isDeleted, setIsDeleted] = useState(false);
 
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
+  };
+
   useEffect(() => {
     fetchAvatar();
     fetchOwner();
@@ -75,7 +83,8 @@ const Details = ({route, navigation}) => {
         setAvatar(uploadsUrl + avatarList.pop().filename);
       }
     } catch (error) {
-      console.error(error.message);
+      announceToast('Fetch Avatar Failed');
+      console.error(error);
     }
   };
   const fetchOwner = async () => {
@@ -84,7 +93,8 @@ const Details = ({route, navigation}) => {
       const userData = await getUserById(file.user_id, userToken);
       setOwner(userData);
     } catch (error) {
-      console.error(error.message);
+      announceToast('Fetch Owner Failed');
+      console.error(error);
     }
   };
 
@@ -93,7 +103,8 @@ const Details = ({route, navigation}) => {
       const commentList = await getCommentsByFileId(file.file_id);
       setComments(commentList.reverse());
     } catch (error) {
-      console.error(error.message);
+      announceToast('Fetch Comments Failed');
+      console.error(error);
     }
   };
 
@@ -101,6 +112,7 @@ const Details = ({route, navigation}) => {
     try {
       await ScreenOrientation.unlockAsync();
     } catch (error) {
+      announceToast('Unlock Failed');
       console.error('unlock', error.message);
     }
   };
@@ -111,6 +123,7 @@ const Details = ({route, navigation}) => {
         ScreenOrientation.OrientationLock.PORTRAIT_UP
       );
     } catch (error) {
+      announceToast('Lock Failed');
       console.error('lock', error.message);
     }
   };
@@ -127,6 +140,7 @@ const Details = ({route, navigation}) => {
         dismissVideoFullscreen();
       }
     } catch (error) {
+      announceToast('Show Fullscreen Failed');
       console.error('fullscreen', error.message);
     }
   };
@@ -135,6 +149,7 @@ const Details = ({route, navigation}) => {
     try {
       if (videoRef) await videoRef.dismissFullscreenPlayer();
     } catch (error) {
+      announceToast('Hide Fullscreen Failed');
       console.error('fullscreen error', error);
     }
   };
@@ -149,19 +164,14 @@ const Details = ({route, navigation}) => {
     }
   };
 
-  const alertUser = (message) => {
-    ToastAndroid.showWithGravity(
-      message,
-      ToastAndroid.LONG,
-      ToastAndroid.CENTER
-    );
-  };
-
   const deletePost = async () => {
     confirmDelete({
       title: 'Do you want to delete this post?',
       titleStyle: {fontFamily: 'ProximaSoftRegular'},
-      buttonLabelStyle: {fontFamily: 'ProximaSoftRegular'},
+      buttonLabelStyle: {
+        fontFamily: 'ProximaSoftRegular',
+        color: Colours.primaryBlue,
+      },
       buttonStyle: {
         flex: 0.5,
         width: 30,
@@ -174,10 +184,11 @@ const Details = ({route, navigation}) => {
           const userToken = await AsyncStorage.getItem('userToken');
           await deleteFile(file.file_id, userToken);
           setIsDeleted(true);
-          alertUser(file.title + ' was deleted.');
+          announceToast(file.title + ' was deleted.');
           setUpdate(update + 1);
           navigation.pop();
         } catch (error) {
+          announceToast('Delete Post Failed');
           console.log(error);
         }
       },

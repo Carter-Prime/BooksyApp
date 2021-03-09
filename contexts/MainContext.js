@@ -36,6 +36,9 @@ const MainProvider = ({children}) => {
   ]);
   const [isWatchingVisible, setIsWatchingVisible] = useState(true);
   const [searchResultArray, setSearchResultArray] = useState([]);
+  const [showSearchBox, setShowSearchBox] = useState(true);
+  const [showTagBox, setShowTagBox] = useState(true);
+  const [searchIsEmpty, setSearchIsEmpty] = useState(false);
 
   return (
     <MainContext.Provider
@@ -58,6 +61,12 @@ const MainProvider = ({children}) => {
         setSearchSelection,
         searchResultArray,
         setSearchResultArray,
+        showSearchBox,
+        setShowSearchBox,
+        showTagBox,
+        setShowTagBox,
+        searchIsEmpty,
+        setSearchIsEmpty,
       }}
     >
       {children}

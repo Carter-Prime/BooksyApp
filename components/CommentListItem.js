@@ -1,5 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 import {Card, ListItem as RNEListItem, Avatar} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
@@ -23,6 +29,14 @@ const CommentListItem = ({commentMedia}) => {
   const {update, setUpdate} = useContext(MainContext);
   const confirmDelete = useConfirm();
 
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
+  };
+
   const deleteUserComment = async () => {
     confirmDelete({
       title: 'Do you want to delete this comment?',
@@ -43,6 +57,7 @@ const CommentListItem = ({commentMedia}) => {
           await deleteComment(commentMedia.comment_id, userToken);
           setUpdate(update + 1);
         } catch (error) {
+          announceToast('Deleting Comment Failed');
           console.error(error.message);
         }
       },
@@ -61,6 +76,7 @@ const CommentListItem = ({commentMedia}) => {
         setAvatar(uploadsUrl + avatarList.pop().filename);
       }
     } catch (error) {
+      announceToast('Fetch Avatar Failed');
       console.error(error.message);
     }
   };
@@ -71,6 +87,7 @@ const CommentListItem = ({commentMedia}) => {
       const userData = await getUserById(commentMedia.user_id, userToken);
       setOwner(userData.username);
     } catch (error) {
+      announceToast('Fetch Owner Failed');
       console.error(error.message);
     }
   };

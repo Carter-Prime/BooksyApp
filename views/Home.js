@@ -27,8 +27,6 @@ const Home = ({navigation}) => {
     return <AppLoading onError={console.warn} />;
   }
 
-  useEffect(() => {}, []);
-
   return (
     <View contentContainerStyle={styles.container}>
       <StatusBar style="light" />

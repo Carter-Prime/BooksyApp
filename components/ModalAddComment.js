@@ -1,11 +1,10 @@
 import React, {useContext} from 'react';
-import {Modal, StyleSheet, View} from 'react-native';
+import {Modal, StyleSheet, View, ToastAndroid} from 'react-native';
 import useCommentForm from '../hooks/AddCommentHooks';
 import PropTypes from 'prop-types';
 import InputTextBox from './InputTextBox';
 import Colours from './../utils/Colours';
 import RoundButton from './RoundButton';
-import {Feather} from 'react-native-vector-icons';
 import {Send} from 'react-native-feather';
 import {MainContext} from '../contexts/MainContext';
 import {useComment} from '../hooks/ApiHooks';
@@ -15,6 +14,14 @@ const ModalAddComment = ({isVisible, modalVisible, fileId}) => {
   const {handleInputChange, inputs, uploadErrors, reset} = useCommentForm();
   const {postComment} = useComment();
   const {update, setUpdate} = useContext(MainContext);
+
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
+  };
 
   const addComment = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
@@ -28,7 +35,8 @@ const ModalAddComment = ({isVisible, modalVisible, fileId}) => {
         setUpdate(update + 1);
       }
     } catch (error) {
-      console.log('add comment error: ', error.message);
+      announceToast('Add Comment Failed');
+      console.error('add comment error: ', error.message);
     }
   };
 

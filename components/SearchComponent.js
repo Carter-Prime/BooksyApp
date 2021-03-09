@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useRef, useContext, useEffect, useState} from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
@@ -11,18 +11,21 @@ import CustomButton from './../components/CustomButton';
 import SearchCheckBoxSelector from '../components/SearchCheckBoxSelector';
 import {ChevronDown, ChevronUp} from 'react-native-feather';
 import {useLoadMedia} from '../hooks/LoadMediaHooks';
+import LottieView from 'lottie-react-native';
 
 const windowWidth = Dimensions.get('window').width;
 
 const SearchComponent = ({navigation}) => {
+  const loadingSpinAnimation = require('../assets/lottie/Loading.json');
+  const loadAnimation = useRef();
   const {loaded, searchSelection} = useContext(MainContext);
   const [inputs, setInputs] = useState({
     search: '',
   });
   const [searchData, setSearchData] = useState({});
   const [tagSearch, setTagSearch] = useState(false);
-  const [showSearchBox, setShowSearchBox] = useState(true);
-  const {doSearch} = useLoadMedia();
+  const {showSearchBox, setShowSearchBox} = useContext(MainContext);
+  const {doSearch, searchIsLoading} = useLoadMedia();
   const {setSearchResultArray} = useContext(MainContext);
 
   const handleInputChange = (name, text) => {
@@ -134,11 +137,22 @@ const SearchComponent = ({navigation}) => {
           <View>
             <SearchCheckBoxSelector />
           </View>
+          {searchIsLoading && (
+            <LottieView
+              ref={loadAnimation}
+              source={loadingSpinAnimation}
+              loop={true}
+              autoPlay={true}
+              progress={0}
+              style={styles.animation}
+            />
+          )}
+
           <CustomButton
             title="Search"
             extraStyle={{marginLeft: 0}}
             onPress={() => {
-              doSearch(searchData);
+              doSearch(searchData, tagSearch, inputs.search);
             }}
           />
         </>
@@ -178,6 +192,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 15,
     right: 20,
+  },
+  animation: {
+    width: windowWidth * 0.1,
+    marginLeft: 0,
   },
 });
 

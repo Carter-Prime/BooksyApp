@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  Alert,
   Platform,
   StyleSheet,
   View,
+  ToastAndroid,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -23,8 +23,10 @@ import Colours from './../utils/Colours';
 import SectionHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
 import TagCheckboxSelector from '../components/TagCheckboxSelector';
+import {useConfirm} from 'react-native-confirm-dialog';
 
 const Upload = ({navigation}) => {
+  const confirmUpload = useConfirm();
   const [image, setImage] = useState(null);
   const [filetype, setFiletype] = useState('');
   const [isUploading, setIsUploading] = useState(false);
@@ -100,27 +102,43 @@ const Upload = ({navigation}) => {
         );
       }
 
-      Alert.alert(
-        'Upload',
-        'File uploaded',
-        [
-          {
-            text: 'Ok',
-            onPress: () => {
-              setUpdate(update + 1);
-              doReset();
-              navigation.navigate('Home');
-            },
-          },
-        ],
-        {cancelable: false}
-      );
+      confirmUpload({
+        title: 'Post was uploaded successfully!',
+        titleStyle: {fontFamily: 'ProximaSoftRegular'},
+        buttonLabelStyle: {
+          fontFamily: 'ProximaSoftRegular',
+          color: Colours.primaryBlue,
+        },
+        buttonStyle: {
+          backgroundColor: Colours.accentOrange,
+          elevation: 1,
+          color: Colours.primaryBlue,
+        },
+        confirmButtonStyle: {
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        showCancel: false,
+        onConfirm: () => {
+          setUpdate(update + 1);
+          doReset();
+          navigation.navigate('Home');
+        },
+      });
     } catch (error) {
-      Alert.alert('Upload', 'Failed');
+      announceToast('Post Upload Failed!');
       console.error(error);
     } finally {
       setIsUploading(false);
     }
+  };
+
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
   };
 
   useEffect(() => {

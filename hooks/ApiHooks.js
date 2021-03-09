@@ -53,7 +53,6 @@ const useUser = () => {
     };
     try {
       const userData = await doFetch(baseUrl + 'users', options);
-      console.log('register resp', userData);
       return userData;
     } catch (e) {
       throw new Error(e.message);

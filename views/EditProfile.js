@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {View, StyleSheet, Alert, ActivityIndicator} from 'react-native';
+import {View, StyleSheet, ToastAndroid, ActivityIndicator} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
@@ -23,6 +23,7 @@ import {
 import EditHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
 import UploadAvatar from '../views/UploadAvatar';
+import {useConfirm} from 'react-native-confirm-dialog';
 
 const EditProfile = ({navigation}) => {
   const {update, setUpdate, user} = useContext(MainContext);
@@ -40,6 +41,15 @@ const EditProfile = ({navigation}) => {
     validateOnSend,
     checkUserAvailable,
   } = useEditForm();
+  const confirmUpdateProfile = useConfirm();
+
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
+  };
 
   useEffect(() => {
     fetchAvatar();
@@ -59,6 +69,7 @@ const EditProfile = ({navigation}) => {
         setAvatar(uploadsUrl + avatarList.pop().filename);
       }
     } catch (error) {
+      announceToast('Fetch Avatar Failed!');
       console.error(error.message);
     }
   };
@@ -84,12 +95,32 @@ const EditProfile = ({navigation}) => {
     try {
       setIsUploading(true);
       const userToken = await AsyncStorage.getItem('userToken');
-      const resp = await modifyUser(uploadData, userToken);
-      setUpdate(update + 1);
-      Alert.alert('Account Updated', resp.message + ' Successfully');
-      navigation.pop();
+      await modifyUser(uploadData, userToken);
+
+      confirmUpdateProfile({
+        title: 'Post was updated!',
+        titleStyle: {fontFamily: 'ProximaSoftRegular'},
+        buttonLabelStyle: {
+          fontFamily: 'ProximaSoftRegular',
+          color: Colours.primaryBlue,
+        },
+        buttonStyle: {
+          backgroundColor: Colours.accentOrange,
+          elevation: 1,
+          color: Colours.primaryBlue,
+        },
+        confirmButtonStyle: {
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        showCancel: false,
+        onConfirm: () => {
+          setUpdate(update + 1);
+          navigation.navigate('Profile');
+        },
+      });
     } catch (error) {
-      Alert.alert('Update', 'Failed');
+      announceToast('Profile Update Failed!');
       console.error(error);
     } finally {
       setIsUploading(false);

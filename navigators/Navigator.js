@@ -22,7 +22,6 @@ import {
   Login,
   Profile,
   Search,
-  SearchResult,
   Upload,
   UploadAvatar,
 } from '../views/index';
@@ -210,11 +209,6 @@ const StackScreen = () => {
             options={HeaderOptions}
           />
 
-          <Stack.Screen
-            name="SearchResult"
-            component={SearchResult}
-            options={HeaderOptions}
-          />
           <Stack.Screen
             name="UploadAvatar"
             component={UploadAvatar}

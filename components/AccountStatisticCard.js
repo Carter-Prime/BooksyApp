@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ToastAndroid} from 'react-native';
 import {Card} from 'react-native-elements';
 import {useMedia, useRating} from '../hooks/ApiHooks';
 import PropTypes from 'prop-types';
@@ -8,12 +8,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Colours from './../utils/Colours';
 
-const AccountStatisticCard = ({listLength, ...props}) => {
+const AccountStatisticCard = ({listLength}) => {
   const {update} = useContext(MainContext);
   const {getListOfFilesOfCurrentUser} = useMedia();
   const {getListOfRatingsByFileId} = useRating();
   const [rating, setRating] = useState(0);
   const [numberOfPosts, setNumberOfPosts] = useState(0);
+
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
+  };
 
   useEffect(() => {
     getUserRating();
@@ -36,12 +44,17 @@ const AccountStatisticCard = ({listLength, ...props}) => {
       });
       setNumberOfPosts(newArray.length);
     } catch (error) {
-      console.log(error);
+      announceToast('Get Number of Posts Failed');
+      console.error(error);
     }
   };
 
   const average = (array) => {
-    return array.reduce((a, b) => a + b) / array.length;
+    if (array.length == 0) {
+      return 0;
+    } else {
+      return array.reduce((a, b) => a + b) / array.length;
+    }
   };
 
   const getUserRating = async () => {
@@ -62,9 +75,14 @@ const AccountStatisticCard = ({listLength, ...props}) => {
           });
         });
       }
-      setRating(average(arrayRatings));
+      if (arrayRatings.length == 0) {
+        setRating([0]);
+      } else {
+        setRating(average(arrayRatings));
+      }
     } catch (error) {
-      console.log(error);
+      announceToast('Get User Rating Failed');
+      console.error(error);
     }
   };
 

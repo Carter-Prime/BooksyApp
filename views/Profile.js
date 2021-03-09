@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AppLoading from 'expo-app-loading';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, ToastAndroid} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
@@ -36,6 +36,14 @@ const Profile = ({navigation}) => {
     return <AppLoading onError={console.warn} />;
   }
 
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
+  };
+
   const getCurrentUserData = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     if (userToken) {
@@ -43,7 +51,7 @@ const Profile = ({navigation}) => {
         const userData = await checkCurrentUserToken(userToken);
         setUser(userData);
       } catch (error) {
-        console.error(error.message);
+        announceToast('Get User Data Failed!');
       }
     }
   };
@@ -55,7 +63,7 @@ const Profile = ({navigation}) => {
         setAvatar(uploadsUrl + avatarList.pop().filename);
       }
     } catch (error) {
-      console.error(error.message);
+      announceToast('Fetch Avatar Failed!');
     }
   };
 

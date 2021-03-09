@@ -1,14 +1,199 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useContext} from 'react';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {Button} from 'react-native-elements';
+import {ChevronDown, ChevronUp} from 'react-native-feather';
+import {MainContext} from '../contexts/MainContext';
+import {Dimensions} from 'react-native';
+import Colours from './../utils/Colours';
+import SectionHeader from './SectionHeader';
+
+const windowWidth = Dimensions.get('window').width;
 
 const SearchBrowserComponent = () => {
+  const {tagState, showTagBox, setShowTagBox} = useContext(MainContext);
+
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <>
+      <View
+        style={{
+          flexDirection: 'row',
+        }}
+      >
+        <SectionHeader
+          content="Browse By Tag"
+          containerStyle={{marginTop: 10}}
+        />
+        <View style={styles.dropDownIconContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              setShowTagBox(!showTagBox);
+            }}
+          >
+            {showTagBox ? (
+              <ChevronUp
+                strokeWidth={1.5}
+                color={Colours.primaryBlue}
+                width={30}
+                height={30}
+              />
+            ) : (
+              <ChevronDown
+                strokeWidth={1.5}
+                color={Colours.primaryBlue}
+                width={30}
+                height={30}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
+      </View>
+      {showTagBox && (
+        <View style={styles.btnContainer}>
+          <View style={styles.btnRow}>
+            <Button
+              title={tagState[0].tag}
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+            <Button
+              title={tagState[1].tag}
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+            <Button
+              title={tagState[2].tag}
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+          </View>
+          <View style={styles.btnRow}>
+            <Button
+              title={tagState[3].tag}
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+            <Button
+              title={tagState[4].tag}
+              raised
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+
+            <Button
+              title={tagState[5].tag}
+              raised
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+          </View>
+          <View style={styles.btnRow}>
+            <Button
+              title={tagState[6].tag}
+              raised
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+            <Button
+              title={tagState[7].tag}
+              raised
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+            <Button
+              title={tagState[8].tag}
+              raised
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+          </View>
+          <View style={styles.btnRow}>
+            <Button
+              title={tagState[9].tag}
+              raised
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+
+            <Button
+              title={tagState[10].tag}
+              raised
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+            <Button
+              title={tagState[11].tag}
+              raised
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+          </View>
+          <View style={styles.btnRow}>
+            <Button
+              title={tagState[12].tag}
+              raised
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+            <Button
+              title={tagState[13].tag}
+              raised
+              titleStyle={styles.title}
+              containerStyle={styles.container}
+              buttonStyle={styles.button}
+            />
+          </View>
+        </View>
+      )}
+    </>
   );
 };
 
 export default SearchBrowserComponent;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  btnContainer: {
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginLeft: 20,
+    marginTop: 10,
+    width: windowWidth * 0.8,
+  },
+  title: {
+    fontFamily: 'ProximaSoftMedium',
+    fontSize: 10,
+    color: Colours.primaryBlue,
+  },
+  container: {},
+  button: {
+    width: 100,
+    height: 20,
+    backgroundColor: Colours.accentOrange,
+  },
+  btnRow: {
+    width: windowWidth * 0.9,
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    justifyContent: 'space-between',
+    padding: 3,
+  },
+  dropDownIconContainer: {
+    width: 30,
+    height: 30,
+    position: 'absolute',
+    top: 15,
+    right: 20,
+  },
+});

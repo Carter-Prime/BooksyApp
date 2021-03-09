@@ -7,4 +7,3 @@ export {default as Profile} from './Profile';
 export {default as Search} from './Search';
 export {default as Upload} from './Upload';
 export {default as UploadAvatar} from './UploadAvatar';
-export {default as SearchResult} from './SearchResult';

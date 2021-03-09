@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  Alert,
+  ToastAndroid,
   Platform,
   StyleSheet,
   View,
@@ -20,8 +20,10 @@ import Colours from './../utils/Colours';
 import SectionHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
 import {Folder as FolderIcon, Camera as CameraIcon} from 'react-native-feather';
+import {useConfirm} from 'react-native-confirm-dialog';
 
 const UploadAvatar = ({navigation}) => {
+  const confirmUploadAvatar = useConfirm();
   const [image, setImage] = useState(null);
   const [filetype, setFiletype] = useState('');
   const [isUploading, setIsUploading] = useState(false);
@@ -67,23 +69,31 @@ const UploadAvatar = ({navigation}) => {
         userToken
       );
 
-      Alert.alert(
-        'Upload',
-        'File uploaded',
-        [
-          {
-            text: 'Ok',
-            onPress: () => {
-              setUpdate(update + 1);
-              doReset();
-              navigation.navigate('EditProfile');
-            },
-          },
-        ],
-        {cancelable: false}
-      );
+      confirmUploadAvatar({
+        title: 'Profile Picture was uploaded successfully!',
+        titleStyle: {fontFamily: 'ProximaSoftRegular'},
+        buttonLabelStyle: {
+          fontFamily: 'ProximaSoftRegular',
+          color: Colours.primaryBlue,
+        },
+        buttonStyle: {
+          backgroundColor: Colours.accentOrange,
+          elevation: 1,
+          color: Colours.primaryBlue,
+        },
+        confirmButtonStyle: {
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        showCancel: false,
+        onConfirm: () => {
+          setUpdate(update + 1);
+          doReset();
+          navigation.navigate('EditProfile');
+        },
+      });
     } catch (error) {
-      Alert.alert('Upload', 'Failed');
+      announceToast('Upload Profile Picture Failed!');
       console.error(error);
     } finally {
       setIsUploading(false);
@@ -102,6 +112,14 @@ const UploadAvatar = ({navigation}) => {
       }
     })();
   }, []);
+
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
+  };
 
   const pickImage = async (library) => {
     let result = null;

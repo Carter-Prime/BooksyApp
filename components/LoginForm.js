@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View, Alert, StyleSheet} from 'react-native';
+import {View, StyleSheet, ToastAndroid} from 'react-native';
 import PropTypes from 'prop-types';
 import {Mail as MailIcon, Lock as LockIcon} from 'react-native-feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,6 +16,14 @@ const LoginForm = ({navigation}) => {
   const {postLogin} = useAuthentication();
   const {setUser, setIsLoggedIn} = useContext(MainContext);
 
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
+  };
+
   const doLogin = async () => {
     try {
       const userData = await postLogin(inputs);
@@ -23,8 +31,8 @@ const LoginForm = ({navigation}) => {
       await AsyncStorage.setItem('userToken', userData.token);
       await setIsLoggedIn(true);
     } catch (error) {
-      console.log(error.message);
-      Alert.alert('Invalid username or password');
+      console.error(error);
+      announceToast('Invalid username or password');
     }
   };
 

@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {StyleSheet, Alert, View} from 'react-native';
+import {StyleSheet, View, ToastAndroid} from 'react-native';
 import PropTypes from 'prop-types';
 import {
   User as UserIcon,
@@ -15,8 +15,10 @@ import CustomButton from '../components/CustomButton';
 import Colours from './../utils/Colours';
 import {useAuthentication, useUser} from '../hooks/ApiHooks';
 import useSignUpForm from '../hooks/RegisterHooks';
+import {useConfirm} from 'react-native-confirm-dialog';
 
 const RegisterForm = ({navigation}) => {
+  const confirmRegister = useConfirm();
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {
     inputs,
@@ -33,9 +35,17 @@ const RegisterForm = ({navigation}) => {
   const {registerNewUser} = useUser();
   const {postLogin} = useAuthentication();
 
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
+  };
+
   const doRegister = async () => {
     if (!validateOnSend()) {
-      console.log('validator on send failed');
+      announceToast('Validation On Send Failed');
       return;
     }
 
@@ -57,16 +67,29 @@ const RegisterForm = ({navigation}) => {
     };
 
     try {
-      const result = await registerNewUser(registerData);
-      console.log('doRegister ok', result.message);
-      Alert.alert(result.message);
-      const userData = await postLogin(inputs);
-      await AsyncStorage.setItem('userToken', userData.token);
-      setUser(userData.user);
-      setIsLoggedIn(true);
+      await registerNewUser(registerData);
+      confirmRegister({
+        titleStyle: {fontFamily: 'ProximaSoftRegular'},
+        buttonLabelStyle: {fontFamily: 'ProximaSoftRegular'},
+        buttonStyle: {
+          backgroundColor: Colours.accentOrange,
+          elevation: 1,
+        },
+        confirmButtonStyle: {
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        showCancel: false,
+        onConfirm: async () => {
+          const userData = await postLogin(inputs);
+          await AsyncStorage.setItem('userToken', userData.token);
+          setUser(userData.user);
+          setIsLoggedIn(true);
+        },
+      });
     } catch (error) {
-      console.log('registration error', error);
-      Alert.alert(error.message);
+      console.error('registration error', error);
+      announceToast('Registeration Failed');
     }
   };
 

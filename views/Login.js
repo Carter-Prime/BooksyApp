@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import AppLoading from 'expo-app-loading';
-import {StyleSheet, ImageBackground, View} from 'react-native';
+import {StyleSheet, ImageBackground, View, ToastAndroid} from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
@@ -14,6 +14,14 @@ const Login = ({navigation}) => {
   const {loaded, setIsLoggedIn, setUser} = useContext(MainContext);
   const {checkCurrentUserToken} = useUser();
 
+  const announceToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM
+    );
+  };
+
   const getToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     if (userToken) {
@@ -23,7 +31,7 @@ const Login = ({navigation}) => {
         setIsLoggedIn(true);
         navigation.navigate('Home');
       } catch (error) {
-        console.log('token check failed', error.message);
+        announceToast('Token Check Failed!');
       }
     }
   };
