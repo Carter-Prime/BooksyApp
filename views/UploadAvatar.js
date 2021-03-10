@@ -1,12 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  ToastAndroid,
-  Platform,
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+import React, {useContext, useEffect, useState, useRef} from 'react';
+import {ToastAndroid, Platform, StyleSheet, View, Text} from 'react-native';
 import PropTypes from 'prop-types';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Image} from 'react-native-elements';
@@ -21,6 +14,9 @@ import SectionHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
 import {Folder as FolderIcon, Camera as CameraIcon} from 'react-native-feather';
 import {useConfirm} from 'react-native-confirm-dialog';
+import LottieView from 'lottie-react-native';
+import {Dimensions} from 'react-native';
+const windowWidth = Dimensions.get('window').width;
 
 const UploadAvatar = ({navigation}) => {
   const confirmUploadAvatar = useConfirm();
@@ -31,6 +27,8 @@ const UploadAvatar = ({navigation}) => {
   const {postTag} = useTag();
   const {update, setUpdate, user} = useContext(MainContext);
   const placeholderImage = require('../assets/images/imagePlaceholder2.jpg');
+  const loadingSpinAnimation = require('../assets/lottie/Loading.json');
+  const loadAnimation = useRef();
 
   const doUpload = async () => {
     const formData = new FormData();
@@ -167,7 +165,16 @@ const UploadAvatar = ({navigation}) => {
         <Text style={styles.errorText}>Error upload must be an image file</Text>
       )}
 
-      {isUploading && <ActivityIndicator size="large" color="#0000ff" />}
+      {isUploading && (
+        <LottieView
+          ref={loadAnimation}
+          source={loadingSpinAnimation}
+          loop={true}
+          autoPlay={true}
+          progress={0}
+          style={styles.animation}
+        />
+      )}
       <View style={styles.submitBtnContainer}>
         <CustomButton title="Reset" onPress={doReset} extraStyle={styles.btn} />
         <CustomButton
@@ -234,6 +241,10 @@ const styles = StyleSheet.create({
     color: 'red',
     marginBottom: 20,
     fontSize: 18,
+  },
+  animation: {
+    width: windowWidth * 0.1,
+    marginLeft: 0,
   },
 });
 

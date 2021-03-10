@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
@@ -24,6 +24,9 @@ import EditHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
 import UploadAvatar from '../views/UploadAvatar';
 import {useConfirm} from 'react-native-confirm-dialog';
+import LottieView from 'lottie-react-native';
+import {Dimensions} from 'react-native';
+const windowWidth = Dimensions.get('window').width;
 
 const EditProfile = ({navigation}) => {
   const {update, setUpdate, user} = useContext(MainContext);
@@ -42,6 +45,8 @@ const EditProfile = ({navigation}) => {
     checkUserAvailable,
   } = useEditForm();
   const confirmUpdateProfile = useConfirm();
+  const loadingSpinAnimation = require('../assets/lottie/Loading.json');
+  const loadAnimation = useRef();
 
   useEffect(() => {
     fetchAvatar();
@@ -107,7 +112,7 @@ const EditProfile = ({navigation}) => {
         showCancel: false,
         onConfirm: () => {
           setUpdate(update + 1);
-          navigation.navigate('Profile');
+          navigation.pop();
         },
       });
     } catch (error) {
@@ -209,7 +214,16 @@ const EditProfile = ({navigation}) => {
         />
       </View>
 
-      {isUploading && <ActivityIndicator size="large" color="#0000ff" />}
+      {isUploading && (
+        <LottieView
+          ref={loadAnimation}
+          source={loadingSpinAnimation}
+          loop={true}
+          autoPlay={true}
+          progress={0}
+          style={styles.animation}
+        />
+      )}
       <CustomButton title="Update" onPress={doUpdate} extraStyle={styles.btn} />
       <CustomButton title="Reset" onPress={doReset} extraStyle={styles.btn} />
     </KeyboardAwareScrollView>
@@ -242,6 +256,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 60,
     top: 240,
+  },
+  animation: {
+    width: windowWidth * 0.1,
+    marginLeft: 0,
   },
 });
 
