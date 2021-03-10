@@ -1,11 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  Platform,
-  StyleSheet,
-  View,
-  ToastAndroid,
-} from 'react-native';
+import React, {useContext, useEffect, useState, useRef} from 'react';
+import {Platform, StyleSheet, View, ToastAndroid} from 'react-native';
 import PropTypes from 'prop-types';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Image} from 'react-native-elements';
@@ -24,6 +18,9 @@ import SectionHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
 import TagCheckboxSelector from '../components/TagCheckboxSelector';
 import {useConfirm} from 'react-native-confirm-dialog';
+import LottieView from 'lottie-react-native';
+import {Dimensions} from 'react-native';
+const windowWidth = Dimensions.get('window').width;
 
 const Upload = ({navigation}) => {
   const confirmUpload = useConfirm();
@@ -34,6 +31,8 @@ const Upload = ({navigation}) => {
   const {postTag} = useTag();
   const {update, setUpdate, tagState, setTagState} = useContext(MainContext);
   const placeholderImage = require('../assets/images/imagePlaceholder2.jpg');
+  const loadingSpinAnimation = require('../assets/lottie/Loading.json');
+  const loadAnimation = useRef();
 
   const {handleInputChange, inputs, uploadErrors, reset} = useUploadForm();
 
@@ -234,7 +233,16 @@ const Upload = ({navigation}) => {
         errorMessage={uploadErrors.tags}
       />
       <TagCheckboxSelector />
-      {isUploading && <ActivityIndicator size="large" color="#0000ff" />}
+      {isUploading && (
+        <LottieView
+          ref={loadAnimation}
+          source={loadingSpinAnimation}
+          loop={true}
+          autoPlay={true}
+          progress={0}
+          style={styles.animation}
+        />
+      )}
       <View style={styles.submitBtnContainer}>
         <CustomButton title="Reset" onPress={doReset} extraStyle={styles.btn} />
         <CustomButton
@@ -298,6 +306,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 30,
     right: 30,
+  },
+  animation: {
+    width: windowWidth * 0.1,
+    marginLeft: 0,
   },
 });
 

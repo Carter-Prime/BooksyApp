@@ -1,16 +1,23 @@
-import React, {useContext, useEffect} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import React, {useContext, useEffect, useRef} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import SearchComponent from '../components/SearchComponent';
 import {MainContext} from '../contexts/MainContext';
 import PropTypes from 'prop-types';
 import SectionHeader from '../components/SectionHeader';
 import ListVertical from '../components/ListVertical';
 import SearchBrowserComponent from '../components/SearchBrowserComponent';
+import LottieView from 'lottie-react-native';
+import {Dimensions} from 'react-native';
+import Colours from './../utils/Colours';
+
+const windowWidth = Dimensions.get('window').width;
 
 const Search = ({navigation}) => {
   const {searchResultArray, searchIsEmpty, setSearchIsEmpty} = useContext(
     MainContext
   );
+  const loadingSpinAnimation = require('../assets/lottie/data.json');
+  const loadAnimation = useRef();
 
   useEffect(() => {
     setSearchIsEmpty(false);
@@ -26,7 +33,25 @@ const Search = ({navigation}) => {
             content="Search Result"
             containerStyle={{marginTop: 10, marginBottom: 10}}
           />
-          {searchIsEmpty && <Text>The search result is empty...</Text>}
+          {searchIsEmpty && (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: -30,
+              }}
+            >
+              <LottieView
+                ref={loadAnimation}
+                source={loadingSpinAnimation}
+                loop={true}
+                autoPlay={true}
+                progress={0}
+                style={styles.animation}
+              />
+              <Text style={styles.text}>...Search was empty!</Text>
+            </View>
+          )}
         </>
       }
       numColumns={2}
@@ -49,5 +74,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 3,
     backgroundColor: 'white',
+  },
+  animation: {
+    width: windowWidth * 0.5,
+    marginLeft: 0,
+  },
+  text: {
+    fontFamily: 'ProximaSoftMedium',
+    fontSize: 18,
+    color: Colours.primaryBlue,
   },
 });
