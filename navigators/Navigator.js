@@ -5,7 +5,11 @@ import {
   getFocusedRouteNameFromRoute,
   NavigationContainer,
 } from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  HeaderStyleInterpolators,
+  TransitionSpecs,
+} from '@react-navigation/stack';
 import PropTypes from 'prop-types';
 import {
   Home as HomeIcon,
@@ -39,6 +43,49 @@ const backImage = () => (
   />
 );
 
+const MyTransitions = {
+  gestureDirection: 'horizontal',
+  transitionSpec: {
+    open: TransitionSpecs.TransitionIOSSpec,
+    close: TransitionSpecs.TransitionIOSSpec,
+  },
+  headerStyleInterpolator: HeaderStyleInterpolators.forFade,
+  cardStyleInterpolator: ({current, next, layouts}) => {
+    return {
+      cardStyle: {
+        transform: [
+          {
+            translateX: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [layouts.screen.width + 300, 0],
+            }),
+          },
+          {
+            rotate: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: ['45deg', '0deg'],
+            }),
+          },
+          {
+            scale: next
+              ? next.progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 0.9],
+                })
+              : 1,
+          },
+        ],
+      },
+      overlayStyle: {
+        opacity: current.progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.5],
+        }),
+      },
+    };
+  },
+};
+
 const HeaderOptions = ({route, navigation}) => {
   return {
     headerTitle: getFocusedRouteNameFromRoute(route),
@@ -60,6 +107,7 @@ const HeaderOptions = ({route, navigation}) => {
       right: 10,
     },
     headerBackImage: backImage,
+    ...MyTransitions,
   };
 };
 

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {View, StyleSheet, ToastAndroid, ActivityIndicator} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import Colours from './../utils/Colours';
@@ -43,14 +43,6 @@ const EditProfile = ({navigation}) => {
   } = useEditForm();
   const confirmUpdateProfile = useConfirm();
 
-  const announceToast = (message) => {
-    ToastAndroid.showWithGravity(
-      message,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM
-    );
-  };
-
   useEffect(() => {
     fetchAvatar();
     const userData = JSON.parse(user.full_name);
@@ -69,7 +61,6 @@ const EditProfile = ({navigation}) => {
         setAvatar(uploadsUrl + avatarList.pop().filename);
       }
     } catch (error) {
-      announceToast('Fetch Avatar Failed!');
       console.error(error.message);
     }
   };
@@ -98,7 +89,7 @@ const EditProfile = ({navigation}) => {
       await modifyUser(uploadData, userToken);
 
       confirmUpdateProfile({
-        title: 'Post was updated!',
+        title: 'Profile was updated!',
         titleStyle: {fontFamily: 'ProximaSoftRegular'},
         buttonLabelStyle: {
           fontFamily: 'ProximaSoftRegular',
@@ -120,7 +111,6 @@ const EditProfile = ({navigation}) => {
         },
       });
     } catch (error) {
-      announceToast('Profile Update Failed!');
       console.error(error);
     } finally {
       setIsUploading(false);

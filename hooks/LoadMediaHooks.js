@@ -38,6 +38,26 @@ const useLoadMedia = () => {
     currentUserSwappedPosts();
   }, [update]);
 
+  const doTagSearch = async (tag) => {
+    try {
+      setSearchResultArray([]);
+      setSearchIsEmpty(false);
+      setSearchIsLoading(true);
+      const tagResponse = await doFetch(baseUrl + 'tags/' + tag);
+      const tagMediaSearch = await Promise.all(
+        tagResponse.map(async (item) => {
+          const fileJson = await doFetch(baseUrl + 'media/' + item.file_id);
+          return fileJson;
+        })
+      );
+      setSearchResultArray(tagMediaSearch);
+    } catch (error) {
+      console.error('Tag search Failed');
+    } finally {
+      setSearchIsLoading(false);
+    }
+  };
+
   const doSearch = async (searchData, tagSearch, searchInput) => {
     let titleSearch = [];
     let descriptionSearch = [];
@@ -211,6 +231,7 @@ const useLoadMedia = () => {
     swappedPostsArray,
     doSearch,
     searchIsLoading,
+    doTagSearch,
   };
 };
 

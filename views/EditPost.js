@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {ActivityIndicator, StyleSheet, View, ToastAndroid} from 'react-native';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import useUploadForm from '../hooks/UploadHooks';
@@ -29,14 +29,6 @@ const EditPost = ({navigation, route}) => {
     handleInputChange('title', file.title);
     handleInputChange('description', moreData.description);
   }, []);
-
-  const announceToast = (message) => {
-    ToastAndroid.showWithGravity(
-      message,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM
-    );
-  };
 
   const createAddTags = () => {
     const tagArray = tagState
@@ -111,7 +103,6 @@ const EditPost = ({navigation, route}) => {
         },
       });
     } catch (error) {
-      announceToast('Update failed!');
       console.error(error);
     } finally {
       setIsUploading(false);

@@ -30,14 +30,6 @@ const Actionbar = ({postData, isDeleted}) => {
   const {getFileById} = useMedia();
   let moreData = {};
 
-  const announceToast = (message) => {
-    ToastAndroid.showWithGravity(
-      message,
-      ToastAndroid.LONG,
-      ToastAndroid.Bottom
-    );
-  };
-
   const checkSwapped = async () => {
     if (isDeleted) {
       return;
@@ -66,9 +58,7 @@ const Actionbar = ({postData, isDeleted}) => {
       const userToken = await AsyncStorage.getItem('userToken');
       await updateFile(postData.file_id, data, userToken);
       setUpdate(update + 1);
-      announceToast('Post has been moved to swapped list.');
     } catch (error) {
-      announceToast('Add Swapped Failed');
       console.error(error);
     }
   };
@@ -87,9 +77,7 @@ const Actionbar = ({postData, isDeleted}) => {
       const userToken = await AsyncStorage.getItem('userToken');
       await updateFile(postData.file_id, data, userToken);
       setUpdate(update + 1);
-      announceToast('Post has been removed from swapped list.');
     } catch (error) {
-      announceToast('Removed Swapped Failed');
       console.error(error);
     }
   };
@@ -105,9 +93,7 @@ const Actionbar = ({postData, isDeleted}) => {
       postRating(data, userToken);
       if (isRated) setIsRated(false);
       setUpdate(update + 1);
-      announceToast('Rating Posted!');
     } catch (error) {
-      announceToast('Post Rating Failed');
       console.log('postRating error: ', error);
     }
   };
@@ -120,7 +106,6 @@ const Actionbar = ({postData, isDeleted}) => {
 
       await addRating(rating);
     } catch (error) {
-      announceToast('Modified Rating Failed');
       console.log(error);
     }
   };
@@ -138,9 +123,7 @@ const Actionbar = ({postData, isDeleted}) => {
       postFavourite(data, userToken);
       setIsWatching(true);
       setUpdate(update + 1);
-      announceToast('Post added to Watching list');
     } catch (error) {
-      announceToast('Add Post Watching Failed');
       console.log(error);
     }
   };
@@ -152,9 +135,7 @@ const Actionbar = ({postData, isDeleted}) => {
       deleteFavourite(postData.file_id, userToken);
       setIsWatching(false);
       setUpdate(update + 1);
-      announceToast('Post removed from Watching list');
     } catch (error) {
-      announceToast('Remove From Watching List Failed');
       console.log(error);
     }
   };
@@ -174,7 +155,6 @@ const Actionbar = ({postData, isDeleted}) => {
         setIsWatching(true);
       }
     } catch (error) {
-      announceToast('GetWatching Failed');
       console.log(error);
     }
   };
@@ -196,7 +176,6 @@ const Actionbar = ({postData, isDeleted}) => {
       }
       setAveragePostRating(avgRating);
     } catch (error) {
-      announceToast('GetRating Failed');
       console.log(error);
     }
   };
@@ -270,6 +249,12 @@ const Actionbar = ({postData, isDeleted}) => {
               onPress={() => {
                 if (postData.user_id === user.user_id) {
                   addSwapped();
+                } else {
+                  ToastAndroid.showWithGravity(
+                    'This is not your post. You cannot swap it!',
+                    ToastAndroid.CENTER,
+                    ToastAndroid.LONG
+                  );
                 }
               }}
             >
@@ -293,6 +278,11 @@ const Actionbar = ({postData, isDeleted}) => {
               showRating={false}
               onFinishRating={(rating) => {
                 addRating(rating);
+                ToastAndroid.showWithGravity(
+                  'Rating has been updated!',
+                  ToastAndroid.CENTER,
+                  ToastAndroid.LONG
+                );
               }}
               style={styles.iconContainerRight}
             />
@@ -307,6 +297,11 @@ const Actionbar = ({postData, isDeleted}) => {
               showRating={false}
               onFinishRating={(rating) => {
                 modifyRating(rating);
+                ToastAndroid.showWithGravity(
+                  'Rating has been updated!',
+                  ToastAndroid.CENTER,
+                  ToastAndroid.LONG
+                );
               }}
             />
           </View>

@@ -6,11 +6,13 @@ import {MainContext} from '../contexts/MainContext';
 import {Dimensions} from 'react-native';
 import Colours from './../utils/Colours';
 import SectionHeader from './SectionHeader';
+import {useLoadMedia} from '../hooks/LoadMediaHooks';
 
 const windowWidth = Dimensions.get('window').width;
 
 const SearchBrowserComponent = () => {
   const {tagState, showTagBox, setShowTagBox} = useContext(MainContext);
+  const {doTagSearch} = useLoadMedia();
 
   return (
     <>
@@ -55,18 +57,27 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[0].tag);
+              }}
             />
             <Button
               title={tagState[1].tag}
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[1].tag);
+              }}
             />
             <Button
               title={tagState[2].tag}
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[2].tag);
+              }}
             />
           </View>
           <View style={styles.btnRow}>
@@ -75,6 +86,9 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[3].tag);
+              }}
             />
             <Button
               title={tagState[4].tag}
@@ -82,6 +96,9 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[4].tag);
+              }}
             />
 
             <Button
@@ -90,6 +107,9 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[5].tag);
+              }}
             />
           </View>
           <View style={styles.btnRow}>
@@ -99,6 +119,9 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[6].tag);
+              }}
             />
             <Button
               title={tagState[7].tag}
@@ -106,6 +129,9 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[7].tag);
+              }}
             />
             <Button
               title={tagState[8].tag}
@@ -113,6 +139,9 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[8].tag);
+              }}
             />
           </View>
           <View style={styles.btnRow}>
@@ -122,6 +151,9 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[9].tag);
+              }}
             />
 
             <Button
@@ -130,6 +162,9 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[10].tag);
+              }}
             />
             <Button
               title={tagState[11].tag}
@@ -137,6 +172,9 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[11].tag);
+              }}
             />
           </View>
           <View style={styles.btnRow}>
@@ -146,6 +184,9 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[12].tag);
+              }}
             />
             <Button
               title={tagState[13].tag}
@@ -153,6 +194,9 @@ const SearchBrowserComponent = () => {
               titleStyle={styles.title}
               containerStyle={styles.container}
               buttonStyle={styles.button}
+              onPress={() => {
+                doTagSearch(tagState[13].tag);
+              }}
             />
           </View>
         </View>
@@ -173,13 +217,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'ProximaSoftMedium',
-    fontSize: 10,
+    fontSize: 12,
     color: Colours.primaryBlue,
   },
   container: {},
   button: {
     width: 100,
-    height: 20,
+    height: 30,
     backgroundColor: Colours.accentOrange,
   },
   btnRow: {

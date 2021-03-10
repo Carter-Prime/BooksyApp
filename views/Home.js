@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
@@ -83,6 +83,7 @@ const Home = ({navigation}) => {
         containerStyle={showList ? {marginTop: 0} : {marginTop: 10}}
       />
       <ListVertical
+        ListHeaderComponent={<></>}
         numColumns={2}
         navigation={navigation}
         loadData={latestPostsArray}

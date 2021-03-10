@@ -1,7 +1,11 @@
-import React, {useContext} from 'react';
-import {View, StyleSheet, ToastAndroid} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {View, StyleSheet, ToastAndroid, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
-import {Mail as MailIcon, Lock as LockIcon} from 'react-native-feather';
+import {
+  Mail as MailIcon,
+  Lock as LockIcon,
+  Eye as EyeIcon,
+} from 'react-native-feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useAuthentication} from '../hooks/ApiHooks';
@@ -15,12 +19,15 @@ const LoginForm = ({navigation}) => {
   const {inputs, handleInputChange} = useLoginForm();
   const {postLogin} = useAuthentication();
   const {setUser, setIsLoggedIn} = useContext(MainContext);
+  const [isShown, setIsShown] = useState(true);
 
   const announceToast = (message) => {
-    ToastAndroid.showWithGravity(
+    ToastAndroid.showWithGravityAndOffset(
       message,
       ToastAndroid.LONG,
-      ToastAndroid.BOTTOM
+      ToastAndroid.CENTER,
+      0,
+      -180
     );
   };
 
@@ -31,7 +38,6 @@ const LoginForm = ({navigation}) => {
       await AsyncStorage.setItem('userToken', userData.token);
       await setIsLoggedIn(true);
     } catch (error) {
-      console.error(error);
       announceToast('Invalid username or password');
     }
   };
@@ -44,14 +50,27 @@ const LoginForm = ({navigation}) => {
         leftIcon={<MailIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
       />
       <InputTextBox
-        secureTextEntry={true}
+        secureTextEntry={isShown}
         placeholder="password"
         onChangeText={(txt) => {
           handleInputChange('password', txt);
         }}
         leftIcon={<LockIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
+        rightIcon={
+          <TouchableOpacity
+            onPress={() => {
+              setIsShown(!isShown);
+            }}
+          >
+            <EyeIcon strokeWidth={1.5} color={Colours.primaryBlue} />
+          </TouchableOpacity>
+        }
       />
-      <CustomButton title="Login" onPress={doLogin} />
+      <CustomButton
+        title="Login"
+        onPress={doLogin}
+        extraStyle={{marginTop: 30}}
+      />
     </View>
   );
 };

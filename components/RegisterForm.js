@@ -1,11 +1,12 @@
-import React, {useContext} from 'react';
-import {StyleSheet, View, ToastAndroid} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {StyleSheet, View, ToastAndroid, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import {
   User as UserIcon,
   Mail as MailIcon,
   Lock as LockIcon,
   Check as CheckIcon,
+  Eye as EyeIcon,
 } from 'react-native-feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -30,22 +31,23 @@ const RegisterForm = ({navigation}) => {
     isUsernameAvailable,
     isEmailAvailable,
     isPasswordAvailable,
-    doPasswordMatch,
   } = useSignUpForm();
   const {registerNewUser} = useUser();
   const {postLogin} = useAuthentication();
+  const [isShown, setIsShown] = useState(true);
 
   const announceToast = (message) => {
-    ToastAndroid.showWithGravity(
+    ToastAndroid.showWithGravityAndOffset(
       message,
       ToastAndroid.LONG,
-      ToastAndroid.BOTTOM
+      ToastAndroid.CENTER,
+      0,
+      -180
     );
   };
 
   const doRegister = async () => {
     if (!validateOnSend()) {
-      announceToast('Validation On Send Failed');
       return;
     }
 
@@ -69,6 +71,7 @@ const RegisterForm = ({navigation}) => {
     try {
       await registerNewUser(registerData);
       confirmRegister({
+        title: 'Registration was Successful!',
         titleStyle: {fontFamily: 'ProximaSoftRegular'},
         buttonLabelStyle: {fontFamily: 'ProximaSoftRegular'},
         buttonStyle: {
@@ -110,11 +113,6 @@ const RegisterForm = ({navigation}) => {
       return <CheckIcon strokeWidth={1.5} size={24} color="green" />;
     }
   };
-  const checkIconConfirmPassword = () => {
-    if (doPasswordMatch) {
-      return <CheckIcon strokeWidth={1.5} size={24} color="green" />;
-    }
-  };
 
   return (
     <View style={styles.view}>
@@ -149,7 +147,7 @@ const RegisterForm = ({navigation}) => {
         onEndEditing={(event) =>
           handleInputEnd('password', event.nativeEvent.text)
         }
-        secureTextEntry={true}
+        secureTextEntry={isShown}
         errorMessage={registerErrors.password}
         leftIcon={
           <LockIcon strokeWidth={1.5} size={24} color={Colours.textDark} />
@@ -162,14 +160,32 @@ const RegisterForm = ({navigation}) => {
         onEndEditing={(event) =>
           handleInputEnd('confirmPassword', event.nativeEvent.text)
         }
-        secureTextEntry={true}
+        secureTextEntry={isShown}
         errorMessage={registerErrors.confirmPassword}
         leftIcon={
           <LockIcon strokeWidth={1.5} size={24} color={Colours.textDark} />
         }
-        rightIcon={checkIconConfirmPassword}
+        rightIcon={
+          <TouchableOpacity
+            onPress={() => {
+              setIsShown(!isShown);
+            }}
+          >
+            <EyeIcon strokeWidth={1.5} color={Colours.primaryBlue} />
+          </TouchableOpacity>
+        }
       />
-      <CustomButton title="Register" onPress={doRegister} />
+      <CustomButton
+        title="Register"
+        onPress={doRegister}
+        disable={
+          registerErrors.username != null ||
+          registerErrors.email != null ||
+          registerErrors.password != null ||
+          registerErrors.confirmPassword != null
+        }
+        extraStyle={{marginTop: 30}}
+      />
     </View>
   );
 };
