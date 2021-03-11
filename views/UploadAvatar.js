@@ -58,7 +58,6 @@ const UploadAvatar = ({navigation}) => {
 
       const userToken = await AsyncStorage.getItem('userToken');
       const resp = await uploadFile(formData, userToken);
-      console.log('upload response', resp);
       await postTag(
         {
           file_id: resp.file_id,
@@ -95,7 +94,7 @@ const UploadAvatar = ({navigation}) => {
         onConfirm: () => {
           setUpdate(update + 1);
           doReset();
-          navigation.navigate('EditProfile');
+          navigation.navigate('Profile');
         },
       });
     } catch (error) {
