@@ -5,7 +5,6 @@ import {Divider} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import {Edit} from 'react-native-feather';
 import Colours from '../utils/Colours';
-import EditProfile from '../views/EditProfile';
 import {Dimensions} from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
@@ -20,7 +19,7 @@ const AccountInfoHeader = ({navigation, content, toggleIcon, ...props}) => {
         <TouchableOpacity
           style={styles.iconContainer}
           onPress={() => {
-            navigation.navigate(EditProfile);
+            navigation.navigate('EditProfile');
           }}
         >
           <Edit
