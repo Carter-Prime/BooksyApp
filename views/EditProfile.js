@@ -57,7 +57,7 @@ const EditProfile = ({navigation}) => {
       fullName: userData.fullName,
       favouriteBook: userData.favouriteBook,
     });
-  }, []);
+  }, [update]);
 
   const fetchAvatar = async () => {
     try {

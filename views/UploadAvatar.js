@@ -94,7 +94,7 @@ const UploadAvatar = ({navigation}) => {
         onConfirm: () => {
           setUpdate(update + 1);
           doReset();
-          navigation.navigate('Profile');
+          navigation.pop();
         },
       });
     } catch (error) {
