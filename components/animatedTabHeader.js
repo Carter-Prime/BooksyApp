@@ -1,9 +1,14 @@
 import React, {useRef, useEffect, useContext} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
-import {StatusBar} from 'expo-status-bar';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import LottieView from 'lottie-react-native';
+
 import {MainContext} from '../contexts/MainContext';
-import {Dimensions} from 'react-native';
 import Colours from './../utils/Colours';
 
 const windowWidth = Dimensions.get('window').width;
@@ -11,7 +16,6 @@ const windowWidth = Dimensions.get('window').width;
 const AnimatedTabHeader = () => {
   const tabAnimation1 = require('../assets/lottie/WatchingNoText.json');
   const tabAnimation2 = require('../assets/lottie/MyPostNoText.json');
-
   const watchingAnimation = useRef();
   const myPostAnimation = useRef();
   const {isWatchingVisible, setIsWatchingVisible} = useContext(MainContext);
@@ -30,7 +34,6 @@ const AnimatedTabHeader = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="black" style="light" />
       <View style={styles.componentContainer}>
         <View style={styles.animationContainer}>
           {isWatchingVisible ? (

@@ -1,14 +1,15 @@
 import React, {useContext} from 'react';
 import {Modal, StyleSheet, View, ToastAndroid} from 'react-native';
-import useCommentForm from '../hooks/AddCommentHooks';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
+import {Send} from 'react-native-feather';
+
+import useCommentForm from '../hooks/AddCommentHooks';
 import InputTextBox from './InputTextBox';
 import Colours from './../utils/Colours';
 import RoundButton from './RoundButton';
-import {Send} from 'react-native-feather';
 import {MainContext} from '../contexts/MainContext';
 import {useComment} from '../hooks/ApiHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ModalAddComment = ({isVisible, modalVisible, fileId}) => {
   const {handleInputChange, inputs, uploadErrors, reset} = useCommentForm();

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Colours from './../utils/Colours';
 
-const AccountInfoCard = ({accountInfo, ...props}) => {
+const AccountInfoCard = ({accountInfo}) => {
   const additionalUserData = JSON.parse(accountInfo.full_name);
   return (
     <Card containerStyle={styles.card}>

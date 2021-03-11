@@ -1,10 +1,9 @@
 import React from 'react';
-
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, Dimensions} from 'react-native';
 import {Divider} from 'react-native-elements';
 import PropTypes from 'prop-types';
+
 import Colours from '../utils/Colours';
-import {Dimensions} from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
 

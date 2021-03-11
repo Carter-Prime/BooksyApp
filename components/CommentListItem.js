@@ -5,18 +5,19 @@ import {
   View,
   TouchableOpacity,
   ToastAndroid,
+  Dimensions,
 } from 'react-native';
 import {Card, ListItem as RNEListItem, Avatar} from 'react-native-elements';
 import PropTypes from 'prop-types';
-import Colours from './../utils/Colours';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useUser, useTag, useComment} from '../hooks/ApiHooks';
-import moment from 'moment';
-import {uploadsUrl} from '../utils/Variable';
-import {Dimensions} from 'react-native';
-import {MainContext} from '../contexts/MainContext';
 import {Trash2} from 'react-native-feather';
 import {useConfirm} from 'react-native-confirm-dialog';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
+
+import {uploadsUrl} from '../utils/Variable';
+import {MainContext} from '../contexts/MainContext';
+import {useUser, useTag, useComment} from '../hooks/ApiHooks';
+import Colours from './../utils/Colours';
 
 const CommentListItem = ({commentMedia}) => {
   const {getUserById} = useUser();

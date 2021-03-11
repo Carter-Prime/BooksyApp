@@ -1,10 +1,11 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import PropTypes from 'prop-types';
-import {uploadsUrl} from '../utils/Variable';
 import {Image, ListItem as RNEListItem} from 'react-native-elements';
-import Colours from './../utils/Colours';
 import {LinearGradient} from 'expo-linear-gradient';
+
+import {uploadsUrl} from '../utils/Variable';
+import Colours from './../utils/Colours';
 
 const ListItem = ({navigation, singleMedia}) => {
   const capitaliseWords = (str) => {

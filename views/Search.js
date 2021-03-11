@@ -1,13 +1,13 @@
 import React, {useContext, useEffect, useRef} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Dimensions} from 'react-native';
+import PropTypes from 'prop-types';
+import LottieView from 'lottie-react-native';
+
 import SearchComponent from '../components/SearchComponent';
 import {MainContext} from '../contexts/MainContext';
-import PropTypes from 'prop-types';
 import SectionHeader from '../components/SectionHeader';
 import ListVertical from '../components/ListVertical';
 import SearchBrowserComponent from '../components/SearchBrowserComponent';
-import LottieView from 'lottie-react-native';
-import {Dimensions} from 'react-native';
 import Colours from './../utils/Colours';
 
 const windowWidth = Dimensions.get('window').width;

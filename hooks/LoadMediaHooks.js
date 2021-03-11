@@ -1,9 +1,10 @@
 import {useContext, useEffect, useState} from 'react';
-import {MainContext} from '../contexts/MainContext';
-import {useMedia, useFavourite, useTag} from './ApiHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {baseUrl, appIdentifier} from '../utils/Variable';
 import {ToastAndroid} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import {useMedia, useFavourite, useTag} from './ApiHooks';
+import {MainContext} from '../contexts/MainContext';
+import {baseUrl, appIdentifier} from '../utils/Variable';
 
 const doFetch = async (url, options = {}) => {
   const response = await fetch(url, options);
@@ -39,6 +40,8 @@ const useLoadMedia = () => {
     currentUserSwappedPosts();
   }, [update]);
 
+  // Tag search function - takes a tag string and returns an array of results
+  // that filters duplicates based on file_id.
   const doTagSearch = async (tag) => {
     try {
       setSearchResultArray([]);
@@ -66,6 +69,9 @@ const useLoadMedia = () => {
     }
   };
 
+  // Search function that will return an array of results based on if it is
+  // looking at the title, description or tags of a post. It will filter
+  // duplicates based on file_id.
   const doSearch = async (searchData, tagSearch, searchInput) => {
     let titleSearch = [];
     let descriptionSearch = [];
@@ -149,6 +155,9 @@ const useLoadMedia = () => {
     }
   };
 
+  // Returns array of posts of the currently logged in user. It will filter out
+  // avatar posts (profile pictures) and those posts that are signaled to be
+  // swapped.
   const currentUserPostMedia = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     try {
@@ -174,6 +183,9 @@ const useLoadMedia = () => {
     }
   };
 
+  // Returns array of posts of the currently logged in user has signaled as
+  // swapped.It will filter out avatar posts (profile pictures) and those posts
+  // that are signaled NOT to be swapped.
   const currentUserSwappedPosts = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     try {
@@ -199,6 +211,7 @@ const useLoadMedia = () => {
     }
   };
 
+  // Returns an array of posts flagged as watching from the user.
   const currentUserFavouritePosts = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     try {
@@ -216,6 +229,7 @@ const useLoadMedia = () => {
     }
   };
 
+  // Returns an array of the latest 30 posts onto the application.
   const latestPosts = async () => {
     try {
       const listJson = await doFetch(baseUrl + 'tags/' + appIdentifier);

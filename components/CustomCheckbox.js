@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {CheckBox} from 'react-native-elements';
 import PropTypes from 'prop-types';
+
 import Colours from './../utils/Colours';
 
 export const CustomCheckbox = ({label, state, updateState}) => {

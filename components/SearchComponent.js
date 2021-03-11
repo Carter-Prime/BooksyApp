@@ -1,21 +1,20 @@
 import React, {useRef, useContext, useEffect, useState} from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Dimensions} from 'react-native';
 import {SearchBar} from 'react-native-elements';
-import {MainContext} from '../contexts/MainContext';
+import {ChevronDown, ChevronUp} from 'react-native-feather';
 import AppLoading from 'expo-app-loading';
-import PropTypes from 'prop-types';
+import LottieView from 'lottie-react-native';
+
+import {MainContext} from '../contexts/MainContext';
 import Colours from './../utils/Colours';
 import SectionHeader from './../components/SectionHeader';
-import {Dimensions} from 'react-native';
 import CustomButton from './../components/CustomButton';
 import SearchCheckBoxSelector from '../components/SearchCheckBoxSelector';
-import {ChevronDown, ChevronUp} from 'react-native-feather';
 import {useLoadMedia} from '../hooks/LoadMediaHooks';
-import LottieView from 'lottie-react-native';
 
 const windowWidth = Dimensions.get('window').width;
 
-const SearchComponent = ({navigation}) => {
+const SearchComponent = () => {
   const loadingSpinAnimation = require('../assets/lottie/Loading.json');
   const loadAnimation = useRef();
   const {loaded, searchSelection} = useContext(MainContext);
@@ -198,10 +197,5 @@ const styles = StyleSheet.create({
     marginLeft: 0,
   },
 });
-
-SearchComponent.propTypes = {
-  navigation: PropTypes.object,
-  SearchResult: PropTypes.func,
-};
 
 export default SearchComponent;

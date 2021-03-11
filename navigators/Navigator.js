@@ -1,5 +1,4 @@
 import React, {useContext} from 'react';
-import {MainContext} from '../contexts/MainContext';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   getFocusedRouteNameFromRoute,
@@ -30,10 +29,12 @@ import {
   UploadAvatar,
 } from '../views/index';
 import Colours from './../utils/Colours';
+import {MainContext} from '../contexts/MainContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+// Custom back arrow icon for top navbar
 const backImage = () => (
   <ArrowLeft
     strokeWidth={1.5}
@@ -43,6 +44,7 @@ const backImage = () => (
   />
 );
 
+// Navigation animation transitions parameters
 const MyTransitions = {
   gestureDirection: 'horizontal',
   transitionSpec: {
@@ -86,7 +88,7 @@ const MyTransitions = {
   },
 };
 
-const HeaderOptions = ({route, navigation}) => {
+const HeaderOptions = ({route}) => {
   return {
     headerTitle: getFocusedRouteNameFromRoute(route),
     headerStyle: {
@@ -221,6 +223,7 @@ const TabScreen = () => {
     </Tab.Navigator>
   );
 };
+
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
   return (

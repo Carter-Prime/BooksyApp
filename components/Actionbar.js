@@ -8,11 +8,12 @@ import {
 } from 'react-native';
 import {AirbnbRating} from 'react-native-elements';
 import {Eye, BookOpen} from 'react-native-feather';
-import Colours from './../utils/Colours';
-import PropTypes from 'prop-types';
-import {useFavourite, useRating, useMedia} from '../hooks/ApiHooks';
-import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PropTypes from 'prop-types';
+
+import {MainContext} from '../contexts/MainContext';
+import Colours from './../utils/Colours';
+import {useFavourite, useRating, useMedia} from '../hooks/ApiHooks';
 
 const Actionbar = ({postData, isDeleted}) => {
   const {

@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {MainContext} from '../contexts/MainContext';
+
 import AppLoading from 'expo-app-loading';
 import {
   StyleSheet,
@@ -7,26 +7,28 @@ import {
   ActivityIndicator,
   Text,
   View,
+  Dimensions,
 } from 'react-native';
 import {Image, Divider, Avatar} from 'react-native-elements';
 import {LinearGradient} from 'expo-linear-gradient';
 import PropTypes from 'prop-types';
-import Colours from './../utils/Colours';
-import {uploadsUrl} from '../utils/Variable';
-import SectionHeader from '../components/SectionHeader';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useConfirm} from 'react-native-confirm-dialog';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useUser, useTag, useComment, useMedia} from '../hooks/ApiHooks';
+import {Edit, Plus, Trash2} from 'react-native-feather';
 import moment from 'moment';
 import {Video} from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import {Edit, Plus, Trash2} from 'react-native-feather';
+
 import CommentListItem from './../components/CommentListItem';
 import RoundButton from '../components/RoundButton';
-import {Dimensions} from 'react-native';
 import ModalAddComment from './../components/ModalAddComment';
 import Actionbar from '../components/Actionbar';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useConfirm} from 'react-native-confirm-dialog';
+import Colours from './../utils/Colours';
+import {uploadsUrl} from '../utils/Variable';
+import SectionHeader from '../components/SectionHeader';
+import {useUser, useTag, useComment, useMedia} from '../hooks/ApiHooks';
+import {MainContext} from '../contexts/MainContext';
 
 const windowWidth = Dimensions.get('window').width;
 

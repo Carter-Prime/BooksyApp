@@ -1,8 +1,9 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements';
-import Colours from './../utils/Colours';
 import PropTypes from 'prop-types';
+
+import Colours from './../utils/Colours';
 
 const CustomButton = ({extraStyle, ...otherProps}) => {
   return (

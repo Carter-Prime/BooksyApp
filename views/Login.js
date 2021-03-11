@@ -1,7 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import AppLoading from 'expo-app-loading';
 import {StyleSheet, ImageBackground, View, ToastAndroid} from 'react-native';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
 

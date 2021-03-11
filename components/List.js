@@ -1,8 +1,8 @@
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
+import PropTypes from 'prop-types';
 
 import ListItem from './ListItem';
-import PropTypes from 'prop-types';
 
 const List = ({navigation, loadData, largeTile, ...props}) => {
   return (

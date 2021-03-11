@@ -1,17 +1,18 @@
 import React, {useContext, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
-import {MainContext} from '../contexts/MainContext';
 import AppLoading from 'expo-app-loading';
+import {StatusBar} from 'expo-status-bar';
+import {ChevronDown, ChevronUp} from 'react-native-feather';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+
+import {MainContext} from '../contexts/MainContext';
 import SectionHeader from '../components/SectionHeader';
 import List from '../components/List';
 import {useLoadMedia} from '../hooks/LoadMediaHooks';
 import ListVertical from './../components/ListVertical';
 import AnimatedTabHeader from './../components/animatedTabHeader';
-import {StatusBar} from 'expo-status-bar';
-import {ChevronDown, ChevronUp} from 'react-native-feather';
 import Colours from './../utils/Colours';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const Home = ({navigation}) => {
   const {loaded, update} = useContext(MainContext);

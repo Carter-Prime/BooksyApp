@@ -1,8 +1,9 @@
 import React, {useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {CustomCheckbox} from './CustomCheckbox';
 import PropTypes from 'prop-types';
+
 import {MainContext} from '../contexts/MainContext';
+import {CustomCheckbox} from './CustomCheckbox';
 
 const SearchCheckBoxSelector = () => {
   const {searchSelection, setSearchSelection} = useContext(MainContext);

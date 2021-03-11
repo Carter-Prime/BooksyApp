@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Dimensions} from 'react-native';
 import {Button} from 'react-native-elements';
 import {ChevronDown, ChevronUp} from 'react-native-feather';
+
 import {MainContext} from '../contexts/MainContext';
-import {Dimensions} from 'react-native';
 import Colours from './../utils/Colours';
 import SectionHeader from './SectionHeader';
 import {useLoadMedia} from '../hooks/LoadMediaHooks';

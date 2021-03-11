@@ -1,20 +1,20 @@
 import React, {useContext, useEffect, useState, useRef} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Dimensions} from 'react-native';
 import PropTypes from 'prop-types';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import useUploadForm from '../hooks/UploadHooks';
+import {useConfirm} from 'react-native-confirm-dialog';
+import LottieView from 'lottie-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import useUploadForm from '../hooks/UploadHooks';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
-
 import CustomButton from './../components/CustomButton';
 import InputTextBox from './../components/InputTextBox';
 import Colours from './../utils/Colours';
 import SectionHeader from '../components/SectionHeader';
 import TagCheckboxSelector from '../components/TagCheckboxSelector';
-import {useConfirm} from 'react-native-confirm-dialog';
-import LottieView from 'lottie-react-native';
-import {Dimensions} from 'react-native';
+
 const windowWidth = Dimensions.get('window').width;
 
 const EditPost = ({navigation, route}) => {
@@ -35,6 +35,7 @@ const EditPost = ({navigation, route}) => {
     handleInputChange('description', moreData.description);
   }, []);
 
+  // Creates an array of tags to be added to post.
   const createAddTags = () => {
     const tagArray = tagState
       .filter((element) => element.value === true)

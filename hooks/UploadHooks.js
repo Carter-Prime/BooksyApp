@@ -1,4 +1,5 @@
 import {useState} from 'react';
+
 import {validator} from '../utils/validator';
 
 const constraints = {
@@ -8,8 +9,8 @@ const constraints = {
     },
     length: {
       minimum: 3,
-      maximum: 20,
-      tooLong: 'max length is 20 characters',
+      maximum: 30,
+      tooLong: 'max length is 30 characters',
       tooShort: 'min length is 3 characters',
     },
     format: {

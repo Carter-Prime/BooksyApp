@@ -85,19 +85,6 @@ const useUser = () => {
     }
   };
 
-  const deleteUser = async (id, token) => {
-    try {
-      const options = {
-        method: 'DELETE',
-        headers: {'x-access-token': token},
-      };
-      const response = await doFetch(baseUrl + 'users/' + id, options);
-      return response;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  };
-
   const modifyUser = async (inputs, token) => {
     const options = {
       method: 'PUT',
@@ -120,7 +107,6 @@ const useUser = () => {
     checkCurrentUserToken,
     checkIsUsernameAvailable,
     getUserById,
-    deleteUser,
     modifyUser,
   };
 };

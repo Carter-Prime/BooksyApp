@@ -1,25 +1,32 @@
 import React, {useContext, useEffect, useState, useRef} from 'react';
-import {Platform, StyleSheet, View, ToastAndroid} from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  View,
+  ToastAndroid,
+  Dimensions,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Image} from 'react-native-elements';
-import useUploadForm from '../hooks/UploadHooks';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Folder as FolderIcon, Camera as CameraIcon} from 'react-native-feather';
+import {Video} from 'expo-av';
+import {useConfirm} from 'react-native-confirm-dialog';
+import LottieView from 'lottie-react-native';
+
+import useUploadForm from '../hooks/UploadHooks';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import {appIdentifier} from '../utils/Variable';
-import {Video} from 'expo-av';
 import CustomButton from './../components/CustomButton';
 import InputTextBox from './../components/InputTextBox';
 import Colours from './../utils/Colours';
 import SectionHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
 import TagCheckboxSelector from '../components/TagCheckboxSelector';
-import {useConfirm} from 'react-native-confirm-dialog';
-import LottieView from 'lottie-react-native';
-import {Dimensions} from 'react-native';
+
 const windowWidth = Dimensions.get('window').width;
 
 const Upload = ({navigation}) => {

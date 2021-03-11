@@ -1,17 +1,11 @@
 import React, {useContext, useEffect, useState, useRef} from 'react';
-import {MainContext} from '../contexts/MainContext';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import PropTypes from 'prop-types';
-import Colours from './../utils/Colours';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import CustomButton from '../components/CustomButton';
-import {uploadsUrl} from '../utils/Variable';
-import {useTag} from '../hooks/ApiHooks';
-import InputTextBox from '../components/InputTextBox';
-import useEditForm from '../hooks/ModifyHooks';
-import {useUser} from '../hooks/ApiHooks';
+import {useConfirm} from 'react-native-confirm-dialog';
+import LottieView from 'lottie-react-native';
 import {
   Edit as EditIcon,
   User as UserIcon,
@@ -20,11 +14,18 @@ import {
   Users as UsersIcon,
   Book as BookIcon,
 } from 'react-native-feather';
+
+import {MainContext} from '../contexts/MainContext';
+import Colours from './../utils/Colours';
+import CustomButton from '../components/CustomButton';
+import {uploadsUrl} from '../utils/Variable';
+import {useTag} from '../hooks/ApiHooks';
+import InputTextBox from '../components/InputTextBox';
+import useEditForm from '../hooks/ModifyHooks';
+import {useUser} from '../hooks/ApiHooks';
 import EditHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
-import {useConfirm} from 'react-native-confirm-dialog';
-import LottieView from 'lottie-react-native';
-import {Dimensions} from 'react-native';
+
 const windowWidth = Dimensions.get('window').width;
 
 const EditProfile = ({navigation}) => {

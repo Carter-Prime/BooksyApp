@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {MainContext} from '../contexts/MainContext';
 import AppLoading from 'expo-app-loading';
 import {StyleSheet, ToastAndroid} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import PropTypes from 'prop-types';
-import Colours from './../utils/Colours';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
+import {MainContext} from '../contexts/MainContext';
+import Colours from './../utils/Colours';
 import AccountInfoHeader from '../components/AccountInfoHeader';
 import AccountInfoCard from '../components/AccountInfoCard';
 import CustomButton from '../components/CustomButton';

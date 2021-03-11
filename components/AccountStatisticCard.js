@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View, ToastAndroid} from 'react-native';
 import {Card} from 'react-native-elements';
-import {useMedia, useRating} from '../hooks/ApiHooks';
 import PropTypes from 'prop-types';
-import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Colours from './../utils/Colours';
+import {useMedia, useRating} from '../hooks/ApiHooks';
+import {MainContext} from '../contexts/MainContext';
 
 const AccountStatisticCard = ({listLength}) => {
   const {update} = useContext(MainContext);
@@ -49,7 +49,7 @@ const AccountStatisticCard = ({listLength}) => {
     }
   };
 
-  const average = (array) => {
+  const arrayAverage = (array) => {
     if (array.length == 0) {
       return 0;
     } else {
@@ -78,7 +78,7 @@ const AccountStatisticCard = ({listLength}) => {
       if (arrayRatings.length == 0) {
         setRating([0]);
       } else {
-        setRating(average(arrayRatings));
+        setRating(arrayAverage(arrayRatings));
       }
     } catch (error) {
       announceToast('Get User Rating Failed');

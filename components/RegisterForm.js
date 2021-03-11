@@ -9,6 +9,7 @@ import {
   Eye as EyeIcon,
 } from 'react-native-feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useConfirm} from 'react-native-confirm-dialog';
 
 import {MainContext} from '../contexts/MainContext';
 import InputTextBox from '../components/InputTextBox';
@@ -16,7 +17,6 @@ import CustomButton from '../components/CustomButton';
 import Colours from './../utils/Colours';
 import {useAuthentication, useUser} from '../hooks/ApiHooks';
 import useSignUpForm from '../hooks/RegisterHooks';
-import {useConfirm} from 'react-native-confirm-dialog';
 
 const RegisterForm = ({navigation}) => {
   const confirmRegister = useConfirm();
