@@ -18,7 +18,6 @@ const Search = ({navigation}) => {
   );
   const loadingSpinAnimation = require('../assets/lottie/data.json');
   const loadAnimation = useRef();
-
   useEffect(() => {
     setSearchIsEmpty(false);
   }, []);

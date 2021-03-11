@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {useMedia, useFavourite} from './ApiHooks';
+import {useMedia, useFavourite, useTag} from './ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {baseUrl, appIdentifier} from '../utils/Variable';
 import {ToastAndroid} from 'react-native';
@@ -29,6 +29,7 @@ const useLoadMedia = () => {
   );
   const {getListOfFilesOfCurrentUser} = useMedia();
   const {getListOfFavouritesByCurrentUser} = useFavourite();
+  const {getFilesByTag} = useTag();
   const [searchIsLoading, setSearchIsLoading] = useState(false);
 
   useEffect(() => {
@@ -43,14 +44,21 @@ const useLoadMedia = () => {
       setSearchResultArray([]);
       setSearchIsEmpty(false);
       setSearchIsLoading(true);
-      const tagResponse = await doFetch(baseUrl + 'tags/' + tag);
+      const tagResponse = await getFilesByTag(tag);
       const tagMediaSearch = await Promise.all(
         tagResponse.map(async (item) => {
           const fileJson = await doFetch(baseUrl + 'media/' + item.file_id);
           return fileJson;
         })
       );
-      setSearchResultArray(tagMediaSearch);
+      const filtedTagMediaSearch = tagMediaSearch.filter(
+        (value, index, self) => {
+          return (
+            self.findIndex((item) => item.file_id === value.file_id) === index
+          );
+        }
+      );
+      setSearchResultArray(filtedTagMediaSearch);
     } catch (error) {
       console.error('Tag search Failed');
     } finally {
@@ -107,7 +115,7 @@ const useLoadMedia = () => {
         }
       }
       if (tagSearch) {
-        const tagResponse = await doFetch(baseUrl + 'tags/' + searchInput);
+        const tagResponse = await getFilesByTag(searchInput);
         tagMediaSearch = await Promise.all(
           tagResponse.map(async (item) => {
             const fileJson = await doFetch(baseUrl + 'media/' + item.file_id);
@@ -122,10 +130,17 @@ const useLoadMedia = () => {
       finalSearchArray = [
         ...new Set([...titleSearch, ...descriptionSearch, ...tagMediaSearch]),
       ];
+      const filtedfinalSearchArray = finalSearchArray.filter(
+        (value, index, self) => {
+          return (
+            self.findIndex((item) => item.file_id === value.file_id) === index
+          );
+        }
+      );
       if (finalSearchArray.length == 0) {
         setSearchIsEmpty(true);
       } else {
-        setSearchResultArray(finalSearchArray);
+        setSearchResultArray(filtedfinalSearchArray);
       }
     } catch (error) {
       console.log(error);

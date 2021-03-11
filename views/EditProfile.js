@@ -22,7 +22,6 @@ import {
 } from 'react-native-feather';
 import EditHeader from '../components/SectionHeader';
 import RoundButton from './../components/RoundButton';
-import UploadAvatar from '../views/UploadAvatar';
 import {useConfirm} from 'react-native-confirm-dialog';
 import LottieView from 'lottie-react-native';
 import {Dimensions} from 'react-native';
@@ -146,7 +145,7 @@ const EditProfile = ({navigation}) => {
       ></Avatar>
       <RoundButton
         icon={<EditIcon strokeWidth={1.5} color={Colours.primaryBlue} />}
-        onPress={() => navigation.navigate(UploadAvatar)}
+        onPress={() => navigation.navigate('UploadAvatar')}
         extraStyle={styles.editAvatarBtn}
       />
 
